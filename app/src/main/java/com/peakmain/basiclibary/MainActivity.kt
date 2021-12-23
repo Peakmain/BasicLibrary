@@ -8,6 +8,7 @@ import com.peakmain.basiclibary.network.ProjectTree
 import com.peakmain.basiclibary.network.WanAndroidApi
 import com.peakmain.basiclibrary.network.RetrofitManager
 import com.peakmain.basiclibrary.network.status.ApiStatus
+import com.peakmain.basiclibrary.utils.PreferencesUtils
 
 class MainActivity : AppCompatActivity() {
     private lateinit var  api:WanAndroidApi
@@ -18,10 +19,11 @@ class MainActivity : AppCompatActivity() {
         api=RetrofitManager.createService(WanAndroidApi::class.java,REQUEST_BASE_URL)
         RetrofitManager.createData(api.projectTree,object :ApiStatus<DataResponse<ProjectTree>>(){
             override fun baseData(entity: DataResponse<ProjectTree>) {
-               Log.e("TAG",entity.toString())
+
             }
 
             override fun success(t: DataResponse<ProjectTree>) {
+                Log.e("TAG",t.toString())
             }
 
             override fun error(exception: Exception) {
@@ -29,5 +31,6 @@ class MainActivity : AppCompatActivity() {
 
 
         })
+        PreferencesUtils.getInstance(this).saveParams("key",1)
     }
 }

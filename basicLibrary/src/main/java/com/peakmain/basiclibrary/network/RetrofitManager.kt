@@ -81,7 +81,7 @@ class RetrofitManager {
             apiStatus.before()
             return observable.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread()).subscribe({ t ->
-                    apiStatus.baseData(t)
+                    apiStatus.success(t)
                 }, { exception ->
                     exception.printStackTrace()
                     apiStatus.error(Exception(exception))
