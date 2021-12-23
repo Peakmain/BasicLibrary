@@ -1,4 +1,4 @@
-package com.peakmain.basiclibrary.utils
+package com.peakmain.basiclibrary.utils.mmkv
 
 import android.content.Context
 
@@ -16,7 +16,10 @@ class PreferencesUtils private constructor(val context: Context) {
             if (instance == null) {
                 synchronized(context) {
                     if (instance == null) {
-                        instance = PreferencesUtils(context)
+                        instance =
+                            PreferencesUtils(
+                                context
+                            )
                     }
                 }
             }
@@ -37,7 +40,10 @@ class PreferencesUtils private constructor(val context: Context) {
     }
 
     private fun init(context: Context): DefaultSharedPreferencesFactory {
-        mSharedPreferences = DefaultSharedPreferencesFactory(context)
+        mSharedPreferences =
+            DefaultSharedPreferencesFactory(
+                context
+            )
         return mSharedPreferences
     }
 

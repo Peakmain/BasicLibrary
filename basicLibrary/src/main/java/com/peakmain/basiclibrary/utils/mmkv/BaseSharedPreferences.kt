@@ -1,4 +1,4 @@
-package com.peakmain.basiclibrary.utils
+package com.peakmain.basiclibrary.utils.mmkv
 
 import android.content.Context
 import android.content.SharedPreferences
