@@ -70,6 +70,10 @@ class RetrofitManager {
             return sslContext.socketFactory
         }
 
+        fun <T> createService(service: Class<T>, block: (service: Class<T>) -> T): T {
+            return block(service)
+        }
+
         fun <T> createService(service: Class<T>, baseUrl: String): T {
             val retrofit = retrofit2.Retrofit.Builder().baseUrl(baseUrl).client(buildOkHttpClient())
                 .addConverterFactory(GsonConverterFactory.create())
