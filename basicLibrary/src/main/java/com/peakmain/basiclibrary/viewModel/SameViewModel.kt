@@ -8,7 +8,7 @@ import com.peakmain.basiclibrary.base.viewmodel.BaseViewModel
  * mail:2726449200@qq.com
  * describe：
  */
-class SameViewModel:BaseViewModel(){
+abstract class SameViewModel:BaseViewModel(){
     val content ="test"
 
 }

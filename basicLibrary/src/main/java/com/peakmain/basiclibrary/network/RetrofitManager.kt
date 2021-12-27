@@ -1,7 +1,6 @@
 package com.peakmain.basiclibrary.network
 
 import android.os.Build
-import androidx.annotation.RequiresApi
 import com.peakmain.basiclibrary.extend.ktxRunOnUiThread
 import com.peakmain.basiclibrary.network.entity.BaseEntity
 import com.peakmain.basiclibrary.network.error.ErrorEnum
@@ -15,13 +14,8 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
-import java.lang.Exception
 import java.util.concurrent.TimeUnit
-import javax.net.ssl.HostnameVerifier
-import javax.net.ssl.SSLContext
-import javax.net.ssl.SSLSocketFactory
-import javax.net.ssl.TrustManager
-import javax.net.ssl.X509ExtendedTrustManager
+import javax.net.ssl.*
 
 /**
  * author ：Peakmain
