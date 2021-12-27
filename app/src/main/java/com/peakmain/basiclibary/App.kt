@@ -1,6 +1,10 @@
 package com.peakmain.basiclibary
 
 import android.app.Application
+import android.util.Log
+import androidx.lifecycle.ViewModelStore
+import com.peakmain.basiclibrary.base.IApp
+import com.peakmain.basiclibrary.config.BasicLibraryConfig
 import com.tencent.mmkv.MMKV
 
 /**
@@ -10,8 +14,11 @@ import com.tencent.mmkv.MMKV
  * describe：
  */
 class App : Application() {
+
     override fun onCreate() {
         super.onCreate()
         MMKV.initialize(this)
     }
+
+
 }
