@@ -58,4 +58,5 @@ dependencies {
     api 'com.tencent:mmkv:1.2.11'
 
     kapt  "com.android.databinding:compiler:3.11.0"
+
 }
