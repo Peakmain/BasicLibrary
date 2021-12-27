@@ -9,6 +9,5 @@ import androidx.lifecycle.ViewModel
  * describe：
  */
 abstract class BaseViewModel: ViewModel() {
-
-
+    abstract fun initModel()
 }

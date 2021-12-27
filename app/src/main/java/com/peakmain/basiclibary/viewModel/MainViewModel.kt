@@ -9,5 +9,8 @@ import com.peakmain.basiclibrary.base.viewmodel.BaseViewModel
  * describe：
  */
 class MainViewModel :BaseViewModel(){
+    override fun initModel() {
+
+    }
 
 }

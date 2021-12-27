@@ -26,6 +26,7 @@ abstract class BaseActivity<T : ViewDataBinding, E : BaseViewModel>(private var 
         initBefore()
         mBinding = DataBindingUtil.setContentView(this, layoutId)
         mViewModel = getViewModel(modelClass)
+        mViewModel.initModel()
         mBinding.setVariable(BR.vm, mViewModel)
         initView()
     }
