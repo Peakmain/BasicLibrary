@@ -11,7 +11,7 @@ import com.peakmain.basiclibrary.network.RetrofitManager
 import com.peakmain.basiclibrary.network.status.ApiStatus
 
 class MainActivity(override val layoutId: Int = R.layout.activity_main) :
-    BaseActivity<ActivityMainBinding, MainViewModel>(MainViewModel::class.java) {
+    BaseActivity<ActivityMainBinding, MainViewModel>() {
     private lateinit var api: WanAndroidApi
     val REQUEST_BASE_URL = "https://wanandroid.com/"
     override fun initView() {

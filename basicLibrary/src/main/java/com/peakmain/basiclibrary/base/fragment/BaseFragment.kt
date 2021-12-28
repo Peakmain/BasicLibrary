@@ -1,6 +1,7 @@
 package com.peakmain.basiclibrary.base.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +13,7 @@ import com.peakmain.basiclibrary.BR
 import com.peakmain.basiclibrary.base.IApp
 import com.peakmain.basiclibrary.base.viewmodel.BaseViewModel
 import com.peakmain.basiclibrary.config.BasicLibraryConfig
+import java.lang.reflect.ParameterizedType
 
 /**
  * author ：Peakmain
@@ -19,8 +21,12 @@ import com.peakmain.basiclibrary.config.BasicLibraryConfig
  * mail:2726449200@qq.com
  * describe：
  */
-abstract class BaseFragment<T : ViewDataBinding, E : BaseViewModel>(var modelClass: Class<E>?) :
+abstract class BaseFragment<T : ViewDataBinding, E : BaseViewModel>() :
     Fragment() {
+    companion object {
+        private val TAG =
+            BaseFragment::class.java.superclass?.simpleName ?: BaseFragment::class.java.simpleName
+    }
 
     protected lateinit var mViewModel: E
     protected lateinit var mBinding: T
@@ -31,18 +37,31 @@ abstract class BaseFragment<T : ViewDataBinding, E : BaseViewModel>(var modelCla
         savedInstanceState: Bundle?
     ): View? {
         val fragmentView = inflater.inflate(layoutId, container, false)
-        if(modelClass!=null){
-            mViewModel=getViewModel(modelClass!!)
-            mBinding = DataBindingUtil.bind(fragmentView)!!
-            mBinding.setVariable(BR.vm, mViewModel)
-            mViewModel.initModel()
-        }
+        initViewModel(fragmentView)
+
         initView(fragmentView)
         return fragmentView
     }
 
+    private fun initViewModel(fragmentView: View) {
+        val genericSuperclass = javaClass.genericSuperclass
+        var modelClass: Class<E>? = null
+        if (genericSuperclass is ParameterizedType) {
+            val type = genericSuperclass.actualTypeArguments[1]
+            modelClass = type as Class<E>
+        } else {
+            Log.e(TAG, "initViewModel init error!!")
+        }
+        if (modelClass != null) {
+            mViewModel = getViewModel(modelClass)
+            mBinding = DataBindingUtil.bind(fragmentView)!!
+            mBinding.setVariable(BR.vm, mViewModel)
+            mViewModel.initModel()
+        }
+    }
+
     protected fun <T : ViewModel> getViewModel(modelClass: Class<T>): T {
-        if(app==null){
+        if (app == null) {
             throw NullPointerException("app must not be null")
         }
         return app!!.getViewModelProvider().get(modelClass)
