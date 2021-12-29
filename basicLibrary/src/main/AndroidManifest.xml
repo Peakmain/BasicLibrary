@@ -4,7 +4,7 @@
     <application>
         <provider
             android:name="com.peakmain.basiclibrary.BasicLibraryProvider"
-            android:authorities="${applicationId}.provider"
+            android:authorities="${applicationId}.peakmain.basiclibary.provider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
