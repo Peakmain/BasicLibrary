@@ -7,7 +7,6 @@ package com.peakmain.basiclibrary.network.status
  * describe：
  */
 abstract class ApiStatus<T>:BaseApiStatus<T>{
-    abstract fun baseData(entity: T)
     override fun before() {
     }
     override fun isEmpty() {
