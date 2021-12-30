@@ -18,9 +18,6 @@ class MainActivity(override val layoutId: Int = R.layout.activity_main) :
         api = RetrofitManager.createService(WanAndroidApi::class.java, REQUEST_BASE_URL)
         RetrofitManager.createData(api.projectTree,
             object : ApiStatus<DataResponse<ProjectTree>>() {
-                override fun baseData(entity: DataResponse<ProjectTree>) {
-
-                }
 
                 override fun success(t: DataResponse<ProjectTree>) {
                     Log.e("TAG", t.toString())

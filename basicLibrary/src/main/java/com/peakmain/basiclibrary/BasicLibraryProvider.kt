@@ -5,6 +5,9 @@ import androidx.core.content.FileProvider
 import androidx.lifecycle.ViewModelStore
 import com.peakmain.basiclibrary.base.IApp
 import com.peakmain.basiclibrary.config.BasicLibraryConfig
+import com.peakmain.basiclibrary.task.MMKVTask
+import com.peakmain.ui.utils.launcher.dispatcher.TaskDispatcher
+
 
 /**
  * author ：Peakmain
@@ -17,6 +20,10 @@ class BasicLibraryProvider : FileProvider(), IApp {
     override fun onCreate(): Boolean {
         BasicLibraryConfig.getInstance().setApp(this)
         viewModelStore = ViewModelStore()
+        TaskDispatcher.init(getApplication())
+        val dispatcher = TaskDispatcher.createInstance()
+        dispatcher.addTask(MMKVTask())
+            .start()
         return true
     }
 
