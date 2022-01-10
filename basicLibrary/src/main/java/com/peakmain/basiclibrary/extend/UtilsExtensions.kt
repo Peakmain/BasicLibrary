@@ -1,5 +1,7 @@
 package com.peakmain.basiclibrary.extend
 
+import android.content.res.Resources
+import android.util.TypedValue
 import com.google.gson.Gson
 
 /**
@@ -11,6 +13,20 @@ import com.google.gson.Gson
 inline fun <reified T> Gson.fromJson(json: String): T {
     return fromJson(json, T::class.java)
 }
+
+/**
+ * 根据手机的分辨率从 px(像素) 的单位 转成为 dp
+ */
+val Number.dp: Float
+    get() = toFloat() / Resources.getSystem().displayMetrics.density + 0.5f
+
+val Number.px: Float
+    get() = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,toFloat(),Resources.getSystem().displayMetrics)
+
+val Number.sp: Float
+    get() = toFloat() * Resources.getSystem().displayMetrics.scaledDensity + 0.5f
+
+
 
 /**
  * number转成中文
@@ -54,6 +70,7 @@ fun Int.numberToChina(): String? {
     }
     return sd
 }
+
 private fun getChina(input: Int): String? {
     var sd = ""
     sd = when (input) {
@@ -72,3 +89,4 @@ private fun getChina(input: Int): String? {
     }
     return sd
 }
+
