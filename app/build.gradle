@@ -3,6 +3,20 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
 android {
+    signingConfigs {
+        release {
+            storeFile file('/Users/zhouchengdong/peakmain/androidStudio/github/BasicLibrary/app/jks/basicLibrary.jks')
+            storePassword '123456'
+            keyAlias 'peakmain'
+            keyPassword '123456'
+        }
+        debug{
+            storeFile file('/Users/zhouchengdong/peakmain/androidStudio/github/BasicLibrary/app/jks/basicLibrary.jks')
+            storePassword '123456'
+            keyAlias 'peakmain'
+            keyPassword '123456'
+        }
+    }
     compileSdkVersion 30
 
     defaultConfig {
@@ -19,6 +33,9 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug{
+
         }
     }
     dataBinding {
@@ -37,5 +54,6 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+
 
 }
