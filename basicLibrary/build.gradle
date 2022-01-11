@@ -62,7 +62,7 @@ dependencies {
     implementation 'androidx.cardview:cardview:1.0.0'
 
     kapt  "com.android.databinding:compiler:3.1.4"
-    api ('com.github.Peakmain:BasicUI:1.1.6'){
+    api ('com.github.Peakmain:BasicUI:1.1.7'){
         transitive false
     }
 }
