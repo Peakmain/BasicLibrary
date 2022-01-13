@@ -3,6 +3,7 @@ package com.peakmain.basiclibary
 import android.app.Application
 import android.util.Log
 import androidx.lifecycle.ViewModelStore
+import com.peakmain.basiclibrary.BasicLibraryProvider
 import com.peakmain.basiclibrary.base.IApp
 import com.peakmain.basiclibrary.config.BasicLibraryConfig
 import com.tencent.mmkv.MMKV
@@ -17,7 +18,6 @@ class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
-
     }
 
 

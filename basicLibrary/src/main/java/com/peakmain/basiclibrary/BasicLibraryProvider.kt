@@ -17,13 +17,13 @@ import com.peakmain.ui.utils.launcher.dispatcher.TaskDispatcher
  */
 class BasicLibraryProvider : FileProvider(), IApp {
     private lateinit var viewModelStore: ViewModelStore
+    protected lateinit var mDispatcher: TaskDispatcher
     override fun onCreate(): Boolean {
         BasicLibraryConfig.getInstance().setApp(this)
         viewModelStore = ViewModelStore()
         TaskDispatcher.init(getApplication())
-        val dispatcher = TaskDispatcher.createInstance()
-        dispatcher.addTask(MMKVTask())
-            .start()
+        mDispatcher = TaskDispatcher.createInstance()
+        mDispatcher.addTask(MMKVTask())
         return true
     }
 
@@ -34,4 +34,10 @@ class BasicLibraryProvider : FileProvider(), IApp {
     override fun getViewModelStore(): ViewModelStore {
         return viewModelStore
     }
+
+    override fun getDispatcher(): TaskDispatcher {
+        return mDispatcher
+    }
+
+
 }
