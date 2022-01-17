@@ -30,9 +30,9 @@ fun <T> T.ktxRunOnUiThread(block: T.() -> Unit) {
 }
 
 /**
- * 延迟delayMills切换到主线程
+ * 延迟delayMills切换到主线程,默认是600ms
  */
-fun <T> T.ktxRunOnUiThreadDelay(delayMills: Long, block: T.() -> Unit) {
+fun <T> T.ktxRunOnUiThreadDelay(delayMills: Long=600, block: T.() -> Unit) {
     mHandler.postDelayed({
         block()
     }, delayMills)
