@@ -65,23 +65,22 @@ fun <T : View> T.clickViewDelay(time: Long = 750, block: (T) -> Unit) {
  * TextView点击事件拆分
  */
 fun <T : TextView> T.clickClipListener(
-    view: T,
     leftClick: (View) -> Unit = {},
     rightClick: (View) -> Unit = {}
 ) {
-    view.run {
+    this.run {
         setOnTouchListener(object : View.OnTouchListener {
             override fun onTouch(v: View, event: MotionEvent): Boolean {
                 when (event.action) {
                     MotionEvent.ACTION_DOWN -> {
                         val drawableLeft = compoundDrawables[0]
                         if (drawableLeft != null && event.rawX <= left + drawableLeft.bounds.width()) {
-                            leftClick(view)
+                            leftClick(this@run)
                             return true
                         }
                         val drawableRight = compoundDrawables[2]
                         return if (drawableRight != null && event.rawX >= right + drawableRight.bounds.width() * 2) { // 增加了宽度，该方向+当前icon宽度
-                            rightClick(view)
+                            rightClick(this@run)
                             true
                         } else {
                             false
