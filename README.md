@@ -1,5 +1,10 @@
 # BasicLibrary
-BasicLibrary是基于kotlin+jetpack+mvvm封装的一套框架，提高Android开发效率
+- BasicLibrary是基于kotlin+jetpack+mvvm封装的一套框架,提高Android开发效率
+- 还包括MMKV的封装，防止多次事件的处理
+- Retrofit封装实现网络解耦
+- 线程的切换
+- View的抖动效果
+- LiveData实现事件分发总线
 
 ### How to
 
@@ -67,7 +72,7 @@ class XXFragment(override val layoutId: Int = 自定义布局) :
             e.printStackTrace();
         }
 ```
-- 关于启动优化——启动器TaskDispatcher大家可以看我之前关于BasicUI的wiki：(有向无环图实现启动器优化)[https://github.com/Peakmain/BasicUI/wiki/有向无环图实现启动器优化]
+- 关于启动优化——启动器TaskDispatcher大家可以看我之前关于BasicUI的wiki：[有向无环图实现启动器优化](https://github.com/Peakmain/BasicUI/wiki/有向无环图实现启动器优化)
 
 #### 4、防止多次点击事件的处理
 立即处理
@@ -185,7 +190,7 @@ private var api: WanAndroidApi = RetrofitManager.createService(WanAndroidApi::cl
         })
 ```
 
-6、LiveData实现事件分发总线
+#### 7、LiveData实现事件分发总线
 - 注册或获取实例
 ```
 val rxBus = RxBus.instance.register<Int>("test")
