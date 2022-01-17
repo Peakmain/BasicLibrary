@@ -1,15 +1,14 @@
 # BasicLibrary
 - BasicLibrary是基于kotlin+jetpack+mvvm封装的一套框架,提高Android开发效率
-- 还包括MMKV的封装，防止多次事件的处理
+- 集成了自己封装的BasicUI库，关于BasicUI大家可以看我之前写的文章[BasicUI常用UI组件和实用工具类封装，提高Android开发的效率](https://www.jianshu.com/p/78bcc6c3bbca)
+还包括:
+- MMKV的封装
+- 防止多次事件的处理
 - Retrofit封装实现网络解耦
-- 线程的切换
-- View的抖动效果
+- 线程的切换，View的抖动效果
 - LiveData实现事件分发总线
-
-### How to
-
-To get a Git project into your build:
-
+- 项目地址：https://github.com/Peakmain/BasicLibrary
+### 怎样使用
 #### Step 1. Add the JitPack repository to your build file
 
 Add it in your root build.gradle at the end of repositories:
@@ -28,7 +27,7 @@ Add it in your root build.gradle at the end of repositories:
 	}
 ```
 
-### wiki
+### 功能列表
 #### 1、集成BaseActivity
 ```
 class XXActivity(override val layoutId: Int = 自定义布局) :
@@ -50,6 +49,10 @@ class MainViewModel : BaseViewModel() {
 - initModel在initView之前，setContentView之后实现的方法
 - 之后可在activity中直接使用mViewModel来获取E的实例，无需初始化
 - 也可通过getViewModel(modelClass: Class<E>)获取ViewModel，并多次获取是同一个ViewModel实例
+```
+ Log.e("TAG","测试${getViewModel(MainViewModel::class.java)}")
+ Log.e("TAG","测试${getViewModel(MainViewModel::class.java)}")
+```
 
 #### 2、集成BaseFragment
 ```
@@ -63,7 +66,8 @@ class XXFragment(override val layoutId: Int = 自定义布局) :
 - 其他性质和BaseActivity一样，不再阐述
 
 #### 3、MMKV的使用
-- 在Application中添加如下代码即可
+- 初始化
+在Application中添加如下代码即可
 ```
         try {
             TaskDispatcher dispatcher = BasicLibraryConfig.Companion.getInstance().getApp().getDispatcher();
@@ -71,6 +75,15 @@ class XXFragment(override val layoutId: Int = 自定义布局) :
         } catch (Exception e) {
             e.printStackTrace();
         }
+```
+- 使用
+保存数据
+```
+ PreferencesUtils.getInstance(this).saveParams(key,value)//👈🏻key: String, objects: Any
+```
+获取数据
+```
+ PreferencesUtils.getInstance(this).getParam(key,defalutParams)//👈🏻key: String, defaultObject: Any?
 ```
 - 关于启动优化——启动器TaskDispatcher大家可以看我之前关于BasicUI的wiki：[有向无环图实现启动器优化](https://github.com/Peakmain/BasicUI/wiki/有向无环图实现启动器优化)
 
@@ -203,6 +216,8 @@ val rxBus = RxBus.instance.register<Int>("test")
 ```
 val value=rxBus.value
 ```
+
 #### 关于我
 - 简书([https://www.jianshu.com/u/3ff32f5aea98](https://www.jianshu.com/u/3ff32f5aea98))
 - 我的GitHub地址([https://github.com/Peakmain](https://links.jianshu.com/go?to=https%3A%2F%2Fgithub.com%2FPeakmain))
+
