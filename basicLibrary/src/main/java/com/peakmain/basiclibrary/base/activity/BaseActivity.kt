@@ -32,6 +32,7 @@ abstract class BaseActivity<T : ViewDataBinding, E : BaseViewModel>() :
         initViewModel()
         mViewModel.initModel()
         mBinding.setVariable(BR.vm, mViewModel)
+        mBinding.lifecycleOwner = this
         initView()
     }
 

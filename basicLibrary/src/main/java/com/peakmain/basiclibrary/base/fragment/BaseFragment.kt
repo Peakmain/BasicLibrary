@@ -56,6 +56,7 @@ abstract class BaseFragment<T : ViewDataBinding, E : BaseViewModel>() :
             mViewModel = getViewModel(modelClass)
             mBinding = DataBindingUtil.bind(fragmentView)!!
             mBinding.setVariable(BR.vm, mViewModel)
+            mBinding.lifecycleOwner=this
             mViewModel.initModel()
         }
     }
