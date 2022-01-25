@@ -1,7 +1,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
-apply plugin:  'kotlin-kapt'
+apply plugin: 'kotlin-kapt'
 android {
     compileSdkVersion 30
 
@@ -61,8 +61,6 @@ dependencies {
     api 'com.tencent:mmkv:1.2.11'
     implementation 'androidx.cardview:cardview:1.0.0'
 
-    kapt  "com.android.databinding:compiler:3.1.4"
-    api ('com.github.Peakmain:BasicUI:1.1.10'){
-        transitive false
-    }
+    kapt "com.android.databinding:compiler:3.1.4"
+    api 'com.github.Peakmain:BasicUI:1.1.10'
 }
