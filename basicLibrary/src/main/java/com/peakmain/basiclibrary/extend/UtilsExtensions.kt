@@ -1,6 +1,10 @@
 package com.peakmain.basiclibrary.extend
 
 import android.content.res.Resources
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
 import android.util.TypedValue
 import com.google.gson.Gson
 
@@ -26,7 +30,20 @@ val Number.px: Float
 val Number.sp: Float
     get() = toFloat() * Resources.getSystem().displayMetrics.scaledDensity + 0.5f
 
-
+fun Drawable.toBitmap(config:Bitmap.Config=Bitmap.Config.ARGB_8888):Bitmap{
+    if(this is BitmapDrawable&& this.bitmap!=null){
+        return this.bitmap
+    }
+    val bitmap=if(intrinsicWidth<=0||intrinsicHeight<=0){
+        Bitmap.createBitmap(1,1,config)
+    }else {
+        Bitmap.createBitmap(intrinsicWidth, intrinsicHeight, config)
+    }
+    val canvas = Canvas(bitmap)
+    setBounds(0, 0, canvas.width, canvas.height)
+    draw(canvas)
+    return bitmap
+}
 
 /**
  * number转成中文
