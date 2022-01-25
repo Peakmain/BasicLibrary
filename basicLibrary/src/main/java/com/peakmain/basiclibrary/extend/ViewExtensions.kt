@@ -37,3 +37,19 @@ fun <T : View> T.shakeAnimation(
         startAnimation(it)
     }
 }
+
+fun View.visible() {
+    visibility = View.VISIBLE
+}
+
+fun View.gone() {
+    visibility = View.GONE
+}
+
+fun View.inVisible() {
+    visibility = View.INVISIBLE
+}
+
+fun View.setPadding(left: Int, top: Int, right: Int, bottom: Int) {
+    setPadding(left, top, right, bottom)
+}
