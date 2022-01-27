@@ -1,6 +1,7 @@
 package com.peakmain.basiclibrary.task
 
 import com.peakmain.basiclibrary.config.BasicLibraryConfig
+import com.peakmain.ui.utils.launcher.task.MainTask
 import com.peakmain.ui.utils.launcher.task.Task
 import com.tencent.mmkv.MMKV
 
@@ -10,7 +11,7 @@ import com.tencent.mmkv.MMKV
  * mail:2726449200@qq.com
  * describe：
  */
-class MMKVTask : Task() {
+class MMKVTask : MainTask() {
     override fun run() {
         MMKV.initialize(BasicLibraryConfig.getInstance().getApp().getApplication())
     }
