@@ -31,6 +31,7 @@ class DepthPageTransformer : ViewPager.PageTransformer {
                     scaleY = 1f
                 }
                 position <= 1 -> { // (0,1]
+                    visibility=View.VISIBLE
                     // Fade the page out.
                     alpha = 1 - position
 
@@ -41,6 +42,9 @@ class DepthPageTransformer : ViewPager.PageTransformer {
                     val scaleFactor = (MIN_SCALE + (1 - MIN_SCALE) * (1 - Math.abs(position)))
                     scaleX = scaleFactor
                     scaleY = scaleFactor
+                    if(position==1f){
+                        visibility=View.INVISIBLE
+                    }
                 }
                 else -> { // (1,+Infinity]
                     // This page is way off-screen to the right.
