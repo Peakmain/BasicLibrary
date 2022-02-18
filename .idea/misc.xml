@@ -8,9 +8,14 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="../../../../../../layout/custom_preview.xml" value="0.271875" />
+        <entry key="../../../../Library/Android/sdk/gradle-5.4/caches/transforms-2/files-2.1/0ef1945c1fb776824bdfe1d11bc701b9/jetified-BasicUI-1.1.10/res/layout/layout_loading_view.xml" value="0.37604166666666666" />
+        <entry key="../../../../Library/Android/sdk/gradle-5.4/caches/transforms-2/files-2.1/0ef1945c1fb776824bdfe1d11bc701b9/jetified-BasicUI-1.1.10/res/layout/ui_crumb_item_header.xml" value="0.37604166666666666" />
+        <entry key="../../../../Library/Android/sdk/gradle-5.4/caches/transforms-2/files-2.1/0ef1945c1fb776824bdfe1d11bc701b9/jetified-BasicUI-1.1.10/res/layout/ui_default_refresh_view.xml" value="0.37604166666666666" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.15806159420289856" />
+        <entry key="app/src/main/res/layout/adpter_test.xml" value="0.37604166666666666" />
         <entry key="basicLibrary/src/main/res/drawable/library_card_left_in.xml" value="0.27291666666666664" />
         <entry key="basicLibrary/src/main/res/drawable/library_clear_black_24dp.xml" value="0.12962962962962962" />
+        <entry key="basicLibrary/src/main/res/layout/libarary_recycler_foot_layout.xml" value="0.37604166666666666" />
       </map>
     </option>
   </component>

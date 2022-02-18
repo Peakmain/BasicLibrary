@@ -1,39 +1,51 @@
 package com.peakmain.basiclibary
 
-import android.view.View
+import android.widget.AdapterView
 import android.widget.ProgressBar
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.peakmain.basiclibary.adapter.TestAdapter
 import com.peakmain.basiclibary.databinding.ActivityMainBinding
 import com.peakmain.basiclibary.viewModel.MainViewModel
+import com.peakmain.basiclibrary.adapter.CommonRecyclerDataBindingAdapter
 import com.peakmain.basiclibrary.base.activity.BaseActivity
-import com.peakmain.basiclibrary.extend.ktxRunOnUiThreadDelay
-import com.peakmain.basiclibrary.manager.AnimationManager
-import com.peakmain.basiclibrary.utils.GlobalCoroutineExceptionHandler
-import com.peakmain.basiclibrary.utils.bus.RxBus
-import com.peakmain.ui.utils.LogUtils
+import com.peakmain.basiclibrary.extend.wait
+import com.peakmain.ui.recyclerview.listener.OnItemClickListener
 
 class MainActivity(override val layoutId: Int = R.layout.activity_main) :
     BaseActivity<ActivityMainBinding, MainViewModel>() {
 
     private lateinit var progressDialog: ProgressBar
     override fun initView() {
+        val testAdapter = TestAdapter(getData(), LinearLayoutManager(this))
+        testAdapter.bindToRecyclerView(mBinding.recyclerview)
+        mBinding.recyclerview.layoutManager=LinearLayoutManager(this)
+        testAdapter.setOnLoadMoreListener(object :CommonRecyclerDataBindingAdapter.OnLoadMoreListener{
+            override fun onLoadMoreListener() {
+              wait(2000) {
+                  testAdapter.loadNoMore()
+              }
+            }
 
-
-        mViewModel.test()
-        mViewModel.getProjectTree()
-        val rxBus = RxBus.instance.register<Int>("test")
-        rxBus.setData(100)
-        val value = rxBus.value
-        progressDialog = findViewById(R.id.progressBar)
-        findViewById<View>(R.id.tv_title).visibility = View.GONE
-        ktxRunOnUiThreadDelay(3000) {
-            AnimationManager.hideCrossFadeLoadingView(
-                findViewById<View>(R.id.tv_title),
-                progressDialog
-            )
-        }
-        GlobalCoroutineExceptionHandler().coroutineExceptionCallback = { context, exception ->
-            LogUtils.e("$context,异常是:$exception")
-        }
+        })
     }
 
+    private fun getData(): MutableList<String> {
+        val data = ArrayList<String>()
+       for (i in 1..10){
+           data.add("test$i")
+       }
+        return data
+    }
+
+    private fun updateData(): MutableList<String> {
+        val data = ArrayList<String>()
+        data.add("peakmain")
+        data.add("peakmain1")
+        data.add("peakmain2")
+        data.add("peakmain3")
+        data.add("peakmain4")
+        data.add("peakmain5")
+        data.add("peakmain6")
+        return data
+    }
 }
