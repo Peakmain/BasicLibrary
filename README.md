@@ -76,6 +76,10 @@ class XXFragment(override val layoutId: Int = 自定义布局) :
             e.printStackTrace();
         }
 ```
+或者直接使用MMKV的初始化
+```
+	MMKV.initialize(BasicLibraryConfig.getInstance().getApp().getApplication())//参数是Context
+```
 - 使用
 保存数据
 ```
