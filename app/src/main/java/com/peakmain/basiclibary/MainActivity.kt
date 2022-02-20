@@ -21,24 +21,25 @@ class MainActivity(override val layoutId: Int = R.layout.activity_main) :
         mBinding.recyclerview.layoutManager=LinearLayoutManager(this)
         testAdapter.setOnLoadMoreListener(object :CommonRecyclerDataBindingAdapter.OnLoadMoreListener{
             override fun onLoadMoreListener() {
-              wait(2000) {
+              if(data.size<60){
+                  updateData()
+                  testAdapter.loadMore()
+              }else{
                   testAdapter.loadNoMore()
               }
             }
 
         })
     }
-
+    val data = ArrayList<String>()
     private fun getData(): MutableList<String> {
-        val data = ArrayList<String>()
-       for (i in 1..10){
+       for (i in 1..40){
            data.add("test$i")
        }
         return data
     }
 
     private fun updateData(): MutableList<String> {
-        val data = ArrayList<String>()
         data.add("peakmain")
         data.add("peakmain1")
         data.add("peakmain2")
