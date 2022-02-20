@@ -30,7 +30,6 @@ android {
         exclude 'AndroidManifest.xml'
     }
 }
-def room_version = "2.3.0"
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
@@ -64,6 +63,4 @@ dependencies {
     kapt "com.android.databinding:compiler:3.1.4"
     api 'com.github.Peakmain:BasicUI:1.1.10'
     api 'androidx.recyclerview:recyclerview:1.2.0'
-    kapt "android.arch.persistence.room:compiler:$room_version"
-    api "androidx.room:room-ktx:$room_version"
 }
