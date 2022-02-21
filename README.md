@@ -239,14 +239,14 @@ class TestAdapter(data: MutableList<String>, layoutManager: LinearLayoutManager)
 
 }
 ```
-- 9、获取协程的全局异常
+#### 9、获取协程的全局异常
 ```
        GlobalCoroutineExceptionHandler().coroutineExceptionCallback={ context, exception->
             //context:CoroutineContext
 	    //exception:Throwable
         }
 ```
-- 10、BindingAdapter的使用
+#### 10、BindingAdapter的使用
 	
 ①、文本添加*前缀
 ```
