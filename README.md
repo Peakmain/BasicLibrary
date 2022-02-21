@@ -23,7 +23,7 @@ Add it in your root build.gradle at the end of repositories:
 #### Step 2. Add the dependency
 ```
 	dependencies {
-	        implementation 'com.github.Peakmain:BasicLibrary:0.1.6'
+	        implementation 'com.github.Peakmain:BasicLibrary:1.0.0'
 	}
 ```
 
@@ -248,16 +248,34 @@ class TestAdapter(data: MutableList<String>, layoutManager: LinearLayoutManager)
 ```
 #### 10、BindingAdapter的使用
 	
-①、文本添加*前缀
+- ①、文本添加*前缀
 ```
 	app:asteriskPrevText=""//文本的名字
 	app:asteriskColor=""//星号的颜色
 ```
-②、设置image的url图片
+- ②、设置image的url图片
 ```
 	app:loadUrl=""//参数url
 ```
-	
+- ③、设置view的visibility是View.VISIBLE还是View.Gone
+```
+	app:visibilityOrGone="@{!vm.isShow}"//true表示View.Visible,false则表示View.Gone
+```
+- ④、设置view的visibility是View.VISIBLE还是View.InVisibile
+```
+	app:visibilityOrInVisible="@{vm.isShow}"//true表示View.Visible,false则表示View.InVisbile
+
+```
+- ⑤、防止多次重复点击
+```
+	app:clickDelayTime="@{vm.delayTime}"//设置点击事件的延迟时间,参数为long类型
+	app:click="@{vm.clickListener}"//设置点击事件的事件处理
+```
+- ⑥、textView的drawableLeft和drawableRight的点击事件
+```
+	app:drawableLeftClick=""//drawableLeft的点击事件
+	app:drawableRightClick=""//drawableRight的点击事件
+```
 #### 关于我
 - 简书([https://www.jianshu.com/u/3ff32f5aea98](https://www.jianshu.com/u/3ff32f5aea98))
 - 我的GitHub地址([https://github.com/Peakmain](https://links.jianshu.com/go?to=https%3A%2F%2Fgithub.com%2FPeakmain))
