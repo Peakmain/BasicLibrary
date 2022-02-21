@@ -1,6 +1,7 @@
 package com.peakmain.basiclibrary.view
 
 import android.opengl.Visibility
+import android.view.MotionEvent
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -42,25 +43,31 @@ object BindingView {
     /**
      * 设置view的visibility
      */
-    @BindingAdapter(value = ["app:visibility"])
+    @BindingAdapter(value = ["app:visibilityOrGone"])
     @JvmStatic
-    fun setViewVisible(view: View, visibility: Int = View.VISIBLE) {
-        view.visibility = visibility
+    fun setViewVisibleOrGone(view: View, showVisibility: Boolean) {
+        view.visibility = if (showVisibility) View.VISIBLE else View.GONE
+    }
+
+    @BindingAdapter(value = ["app:visibilityOrInVisible"])
+    @JvmStatic
+    fun setViewVisibleOrInvisible(view: View, showVisibility: Boolean) {
+        view.visibility = if (showVisibility) View.VISIBLE else View.INVISIBLE
     }
 
     /**
      * 防止多次重复点击
      */
-    @BindingAdapter(value = [ "app:clickDelayTime","app:click"],requireAll = false)
+    @BindingAdapter(value = ["app:clickDelayTime", "app:click"], requireAll = false)
     @JvmStatic
-    fun setViewClick(view: View, delayTime: Long = 0, block: (View) -> Unit) {
+    fun setViewClick(view: View, delayTime: Long = 0, block: View.OnClickListener? = null) {
         if (delayTime == 0L) {
-            view.click {
-                block(it)
-            }
+            view.setOnClickListener(block)
         } else {
-            view.clickViewDelay(delayTime) {
-                block(it)
+            view.clickViewDelay(delayTime) {v->
+                block?.let {
+                    block.onClick(v)
+                }
             }
         }
     }
@@ -68,10 +75,39 @@ object BindingView {
     /**
      * textView的drawableLeft和drawableRight的点击事件
      */
-   @BindingAdapter(value = ["app:drawableLeftClick","app:drawableRightClick"],requireAll = false)
-   @JvmStatic
-   fun setTextViewDrawableClick(view:TextView,  drawableLeftClick: (View) -> Unit = {},drawableRightClick: (View) -> Unit = {}){
-       view.clickClipListener(drawableLeftClick,drawableRightClick)
-   }
-
+    @BindingAdapter(value = ["app:drawableLeftClick", "app:drawableRightClick"], requireAll = false)
+    @JvmStatic
+    fun setTextViewDrawableClick(
+        view: TextView,
+        drawableLeftClick: View.OnClickListener? = null,
+        drawableRightClick: View.OnClickListener? = null
+    ) {
+        view.run {
+            setOnTouchListener(object : View.OnTouchListener {
+                override fun onTouch(v: View, event: MotionEvent): Boolean {
+                    when (event.action) {
+                        MotionEvent.ACTION_DOWN -> {
+                            val drawableLeft = compoundDrawables[0]
+                            if (drawableLeft != null && event.rawX <= left + drawableLeft.bounds.width()) {
+                                drawableLeftClick?.let {
+                                    drawableLeftClick.onClick(view)
+                                }
+                                return true
+                            }
+                            val drawableRight = compoundDrawables[2]
+                            return if (drawableRight != null && event.rawX >= width-paddingRight-drawableRight.intrinsicWidth) { // 增加了宽度，该方向+当前icon宽度
+                                drawableRightClick?.let {
+                                    drawableRightClick.onClick(view)
+                                }
+                                true
+                            } else {
+                                false
+                            }
+                        }
+                        else -> return false
+                    }
+                }
+            })
+        }
+    }
 }

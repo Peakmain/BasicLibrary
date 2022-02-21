@@ -1,5 +1,7 @@
 package com.peakmain.basiclibary
 
+import android.os.Bundle
+import android.view.View
 import android.widget.AdapterView
 import android.widget.ProgressBar
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -9,7 +11,10 @@ import com.peakmain.basiclibary.viewModel.MainViewModel
 import com.peakmain.basiclibrary.adapter.CommonRecyclerDataBindingAdapter
 import com.peakmain.basiclibrary.base.activity.BaseActivity
 import com.peakmain.basiclibrary.extend.wait
+import com.peakmain.basiclibrary.utils.GlobalCoroutineExceptionHandler
 import com.peakmain.ui.recyclerview.listener.OnItemClickListener
+import com.peakmain.ui.utils.ToastUtils
+import kotlin.coroutines.CoroutineContext
 
 class MainActivity(override val layoutId: Int = R.layout.activity_main) :
     BaseActivity<ActivityMainBinding, MainViewModel>() {
@@ -30,6 +35,12 @@ class MainActivity(override val layoutId: Int = R.layout.activity_main) :
             }
 
         })
+        GlobalCoroutineExceptionHandler().coroutineExceptionCallback={ context, exception->
+
+        }
+    }
+    fun setClickView(view:View){
+        ToastUtils.showLong("测试")
     }
     val data = ArrayList<String>()
     private fun getData(): MutableList<String> {

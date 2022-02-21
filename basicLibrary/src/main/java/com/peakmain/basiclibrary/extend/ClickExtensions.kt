@@ -79,7 +79,7 @@ fun <T : TextView> T.clickClipListener(
                             return true
                         }
                         val drawableRight = compoundDrawables[2]
-                        return if (drawableRight != null && event.rawX >= right + drawableRight.bounds.width() * 2) { // 增加了宽度，该方向+当前icon宽度
+                        return if (drawableRight != null && event.rawX >= width-paddingRight-drawableRight.intrinsicWidth) { // 增加了宽度，该方向+当前icon宽度
                             rightClick(this@run)
                             true
                         } else {
