@@ -23,7 +23,7 @@ Add it in your root build.gradle at the end of repositories:
 #### Step 2. Add the dependency
 ```
 	dependencies {
-	        implementation 'com.github.Peakmain:BasicLibrary:0.1.3'
+	        implementation 'com.github.Peakmain:BasicLibrary:0.1.6'
 	}
 ```
 
@@ -220,7 +220,44 @@ val rxBus = RxBus.instance.register<Int>("test")
 ```
 val value=rxBus.value
 ```
+#### 8、CommonRecyclerDataBindingAdapter RecycleView在Binding的使用
+```
+class TestAdapter(data: MutableList<String>, layoutManager: LinearLayoutManager) :
+    CommonRecyclerDataBindingAdapter<String, RecyclerAdpterTestBinding>(
+        data,//👈🏻数据源
+        R.layout.recycler_adpter_test,//👈自定义布局
+        DefaultAdapterFooterConfig<String,RecyclerAdpterTestBinding>(layoutManager).item//👈是否显示加载更多,如果为null，则不显示加载更多，可自定义，可参考DefaultAdapterFooterConfig的源码
+    ) {
+    override fun convert(
+        holder: BaseLibraryViewHolder<RecyclerAdpterTestBinding>,
+        itemData: String,
+        position: Int
+    ) {
+        val binding = holder.itemDataBinding
+        binding.vm = itemData
+    }
 
+}
+```
+- 9、获取协程的全局异常
+```
+       GlobalCoroutineExceptionHandler().coroutineExceptionCallback={ context, exception->
+            //context:CoroutineContext
+	    //exception:Throwable
+        }
+```
+- 10、BindingAdapter的使用
+	
+①、文本添加*前缀
+```
+	app:asteriskPrevText=""//文本的名字
+	app:asteriskColor=""//星号的颜色
+```
+②、设置image的url图片
+```
+	app:loadUrl=""//参数url
+```
+	
 #### 关于我
 - 简书([https://www.jianshu.com/u/3ff32f5aea98](https://www.jianshu.com/u/3ff32f5aea98))
 - 我的GitHub地址([https://github.com/Peakmain](https://links.jianshu.com/go?to=https%3A%2F%2Fgithub.com%2FPeakmain))
