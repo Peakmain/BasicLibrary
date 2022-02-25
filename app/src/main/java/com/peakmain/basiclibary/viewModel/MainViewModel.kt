@@ -24,6 +24,7 @@ class MainViewModel : BaseViewModel() {
         api = RetrofitManager.createService(WanAndroidApi::class.java, REQUEST_BASE_URL)
     }
 
+     val isShow = false
     fun getProjectTree() {
         RetrofitManager.createData(api.projectTree,
             object : ApiStatus<DataResponse<ProjectTree>>() {

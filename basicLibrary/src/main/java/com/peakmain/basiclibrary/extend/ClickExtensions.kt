@@ -38,15 +38,6 @@ fun <T : View> T.click(block: (T) -> Unit) = setOnClickListener {
     }
 }
 
-private var lastTime = -1L
-fun <T : View> T.clickDelay(time: Long = 750, block: (T) -> Unit) = setOnClickListener {
-    val currentTime = System.currentTimeMillis()
-    val diff = currentTime - lastTime
-    if (diff > time) {
-        lastTime = currentTime
-        block(this)
-    }
-}
 
 /**
  * @param time:延迟时间，默认750
