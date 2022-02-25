@@ -100,9 +100,6 @@ class XXFragment(override val layoutId: Int = 自定义布局) :
 ```
 延时处理
 ```
-        mBinding.tvTitle.clickDelay{
-            //todo 事件处理
-        }
         //或者
         mBinding.tvTitle.clickViewDelay{
             //todo 事件处理
