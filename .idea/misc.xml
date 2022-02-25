@@ -15,6 +15,8 @@
         <entry key="app/src/main/res/layout/adpter_test.xml" value="0.37604166666666666" />
         <entry key="basicLibrary/src/main/res/drawable/library_card_left_in.xml" value="0.27291666666666664" />
         <entry key="basicLibrary/src/main/res/drawable/library_clear_black_24dp.xml" value="0.12962962962962962" />
+        <entry key="basicLibrary/src/main/res/layout/layout_activity_webview.xml" value="0.2557291666666667" />
+        <entry key="basicLibrary/src/main/res/layout/layout_fragment_webview.xml" value="0.2557291666666667" />
         <entry key="basicLibrary/src/main/res/layout/libarary_recycler_foot_layout.xml" value="0.37604166666666666" />
         <entry key="basicLibrary/src/main/res/layout/same_layout.xml" value="0.2557291666666667" />
       </map>

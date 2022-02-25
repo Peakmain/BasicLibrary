@@ -7,7 +7,6 @@
         <variable
             name="vm"
             type="com.peakmain.basiclibary.viewModel.MainViewModel" />
-
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -28,10 +27,21 @@
             android:id="@+id/tv_refresh_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            app:visibilityOrGone="@{vm.isShow}"
             android:drawableRight="@drawable/abc_vector_test"
             android:drawablePadding="@dimen/dimen_10"
             android:text="测试"
             app:drawableRightClick="@{vm.clickListener}"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/recyclerview" />
+        <TextView
+            android:id="@+id/tv_test"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:visibilityOrGone="@{!vm.isShow}"
+            android:drawableRight="@drawable/abc_vector_test"
+            android:drawablePadding="@dimen/dimen_10"
+            android:text="测试11"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/recyclerview" />
     </androidx.constraintlayout.widget.ConstraintLayout>
