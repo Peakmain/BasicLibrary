@@ -3,8 +3,14 @@ package com.peakmain.basiclibrary.utils
 import android.app.Activity
 import android.graphics.Color
 import android.os.Build
+import android.util.Log
 import android.view.View
+import android.view.ViewGroup
+import android.view.Window
 import android.view.WindowManager
+import androidx.annotation.RequiresApi
+import java.lang.Exception
+import java.lang.reflect.InvocationTargetException
 
 /**
  * author ：Peakmain
@@ -13,6 +19,8 @@ import android.view.WindowManager
  * describe：
  */
 object StatusBarUtils {
+    /*刘海屏全屏显示FLAG*/
+    private const val FLAG_NOTCH_SUPPORT = 0x00010000
     /**
      * @param isDark true 白底黑字 false 黑底白字
      * @param statusColor 状态栏的颜色
@@ -51,4 +59,47 @@ object StatusBarUtils {
         }
         decorView.systemUiVisibility = visibility
     }
+
+    /**
+     * 设置应用窗口在华为刘海屏手机使用刘海区
+     *
+     * @param window 应用页面window对象
+     */
+    fun setFullScreenWindowLayoutInDisplayCutout(window: Window?) {
+        if (window == null) {
+            return
+        }
+        val layoutParams = window.attributes
+        try {
+            val layoutParamsExCls = Class.forName("com.huawei.android.view.LayoutParamsEx")
+            val con = layoutParamsExCls.getConstructor(ViewGroup.LayoutParams::class.java)
+            val layoutParamsExObj = con.newInstance(layoutParams)
+            val method = layoutParamsExCls.getMethod("addHwFlags", Int::class.javaPrimitiveType)
+            method.invoke(layoutParamsExObj, FLAG_NOTCH_SUPPORT)
+        } catch (e: Exception) {
+            Log.e("test", "other Exception")
+        }
+    }
+
+    /**
+     * 不设置应用窗口在华为刘海屏手机使用刘海区
+     *
+     * @param window 应用页面window对象
+     */
+    fun setNotFullScreenWindowLayoutInDisplayCutout(window: Window?) {
+        if (window == null) {
+            return
+        }
+        val layoutParams = window.attributes
+        try {
+            val layoutParamsExCls = Class.forName("com.huawei.android.view.LayoutParamsEx")
+            val con = layoutParamsExCls.getConstructor(ViewGroup.LayoutParams::class.java)
+            val layoutParamsExObj = con.newInstance(layoutParams)
+            val method = layoutParamsExCls.getMethod("clearHwFlags", Int::class.javaPrimitiveType)
+            method.invoke(layoutParamsExObj, FLAG_NOTCH_SUPPORT)
+        } catch (e: Exception) {
+            Log.e("test", "other Exception")
+        }
+    }
+
 }
