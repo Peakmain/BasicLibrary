@@ -1,10 +1,13 @@
 package com.peakmain.basiclibrary.utils.keyboard
 
 import android.app.Activity
+import android.content.Context
 import android.graphics.Rect
 import android.os.Build
+import android.os.IBinder
 import android.view.View
 import android.view.ViewTreeObserver
+import android.view.inputmethod.InputMethodManager
 import android.widget.FrameLayout
 import androidx.core.view.get
 import androidx.drawerlayout.widget.DrawerLayout
@@ -41,6 +44,7 @@ class KeyboardUtils(
     private var mKeyBoardHeight: Int = 0
 
     private var isStart = false
+
     init {
         val frameLayout = mDecorView.findViewById<FrameLayout>(R.id.content)
         mChildView = frameLayout[0]
@@ -64,6 +68,35 @@ class KeyboardUtils(
             )
     }
 
+    companion object {
+        /**
+         * 显示系统键盘
+         */
+        fun showSoftInput(context: Context) {
+            val im = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
+            im?.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS)
+        }
+
+        /**
+         * 多种隐藏软件盘方法的其中一种
+         *
+         * @param context 上下文
+         * @param token   当前view的token
+         */
+        fun hideSoftInput(context: Context, token: IBinder?) {
+            if (token != null) {
+                val im =
+                    context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
+                im?.hideSoftInputFromWindow(token, InputMethodManager.HIDE_NOT_ALWAYS)
+            }
+        }
+        fun isOpenInput(context: Context): Boolean {
+            val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            return imm.isActive
+        }
+
+    }
+
     fun start(mode: Int) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             activity.window.setSoftInputMode(mode)
@@ -73,6 +106,7 @@ class KeyboardUtils(
             }
         }
     }
+
     fun cancel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && isStart) {
             mDecorView.viewTreeObserver.removeOnGlobalLayoutListener(this)

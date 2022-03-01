@@ -28,7 +28,7 @@ class DefaultAdapterFooterConfig<T, E : ViewDataBinding>(
         override fun footerDataBinding(parent: ViewGroup): E {
             return DataBindingUtil.inflate(
                 LayoutInflater.from(parent.context),
-                R.layout.libarary_recycler_foot_layout,
+                R.layout.library_recycler_foot_layout,
                 parent,
                 false
             )
