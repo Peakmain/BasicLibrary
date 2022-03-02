@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.peakmain.basiclibrary.R
 import com.peakmain.basiclibrary.adapter.CommonRecyclerDataBindingAdapter
 import com.peakmain.basiclibrary.adapter.holder.BaseLibraryFooterViewHolder
-import com.peakmain.basiclibrary.databinding.LibararyRecyclerFootLayoutBinding
+import com.peakmain.basiclibrary.databinding.LibraryRecyclerFootLayoutBinding
 
 /**
  * author ：Peakmain
@@ -39,7 +39,7 @@ class DefaultAdapterFooterConfig<T, E : ViewDataBinding>(
             data: MutableList<T>,
             loadStatus: Int
         ) {
-            val dataBinding = holder.itemDataBinding as LibararyRecyclerFootLayoutBinding
+            val dataBinding = holder.itemDataBinding as LibraryRecyclerFootLayoutBinding
             when (loadStatus) {
                 CommonRecyclerDataBindingAdapter.STATUS_LOADING -> {
                     dataBinding.progress = true

@@ -1,6 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.peakmain.basiclibrary">
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <application>
         <provider
             android:name="com.peakmain.basiclibrary.BasicLibraryProvider"
@@ -11,5 +12,8 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/basic_library_provider_paths" />
         </provider>
+        <activity
+            android:name="com.peakmain.basiclibrary.webview.WebViewActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
     </application>
 </manifest>
