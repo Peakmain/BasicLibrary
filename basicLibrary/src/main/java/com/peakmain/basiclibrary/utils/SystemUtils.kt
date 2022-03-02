@@ -1,6 +1,7 @@
 package com.peakmain.basiclibrary.utils
 
 import android.annotation.SuppressLint
+import android.app.ActivityManager
 import android.content.Context
 import android.os.Build
 import android.telephony.TelephonyManager
@@ -41,6 +42,7 @@ object SystemUtils {
      * @return  手机厂商
      */
     fun getDeviceBrand(): String = Build.BRAND
+
     /**
      * 返回当前程序版本名
      */
@@ -90,5 +92,15 @@ object SystemUtils {
             operator = "中国电信"
         }
         return operator
+    }
+
+    fun getProcessName(context: Context): String? {
+        val manager = context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+        manager.runningAppProcesses.forEach {
+            if (it.pid == android.os.Process.myPid()) {
+                return it.processName
+            }
+        }
+        return null
     }
 }

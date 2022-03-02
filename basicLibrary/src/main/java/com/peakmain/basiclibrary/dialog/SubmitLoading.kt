@@ -10,6 +10,7 @@ import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import com.peakmain.basiclibrary.R
+import com.peakmain.basiclibrary.extend.ktxRunOnUiThreadDelay
 
 /**
  * author ：Peakmain
@@ -38,7 +39,7 @@ class SubmitLoading {
     }
 
     fun show(context: Activity, cancelable: Boolean) {
-        show(context, "loading", cancelable)
+        show(context, "loading...", cancelable)
     }
 
     fun show(context: Activity, msg: String, cancelable: Boolean) {
@@ -82,13 +83,13 @@ class SubmitLoading {
             changeText("")
             animationHide(mProgressBar)
             animationShow(mIvDone, status)
-            Handler(Looper.getMainLooper()).postDelayed({
+            ktxRunOnUiThreadDelay(250) {
                 changeText(msg)
-            }, 250)
-            Handler(Looper.getMainLooper()).postDelayed({
+            }
+            ktxRunOnUiThreadDelay(showTime + 200) {
                 end()
                 hide()
-            }, showTime + 200)
+            }
         } else {
             hide()
         }

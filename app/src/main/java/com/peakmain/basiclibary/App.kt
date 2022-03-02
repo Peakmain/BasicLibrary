@@ -1,12 +1,8 @@
 package com.peakmain.basiclibary
 
 import android.app.Application
-import android.util.Log
-import androidx.lifecycle.ViewModelStore
-import com.peakmain.basiclibrary.BasicLibraryProvider
-import com.peakmain.basiclibrary.base.IApp
-import com.peakmain.basiclibrary.config.BasicLibraryConfig
-import com.tencent.mmkv.MMKV
+import android.content.Context
+import androidx.multidex.MultiDex
 
 /**
  * author ：Peakmain
@@ -15,10 +11,12 @@ import com.tencent.mmkv.MMKV
  * describe：
  */
 class App : Application() {
-
+    override fun attachBaseContext(base: Context?) {
+        super.attachBaseContext(base)
+        MultiDex.install(this)
+    }
     override fun onCreate() {
         super.onCreate()
     }
-
 
 }
