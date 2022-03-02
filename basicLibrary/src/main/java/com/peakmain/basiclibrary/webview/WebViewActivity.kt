@@ -2,15 +2,23 @@ package com.peakmain.basiclibrary.webview
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.KeyEvent
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.DrawableRes
+import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
+import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat
+import com.google.android.material.appbar.AppBarLayout
 import com.peakmain.basiclibrary.R
 import com.peakmain.basiclibrary.base.activity.BaseActivity
 import com.peakmain.basiclibrary.databinding.LayoutActivityWebViewBinding
 import com.peakmain.basiclibrary.helper.WebViewHelper
+import com.peakmain.basiclibrary.utils.StatusBarUtils
 import com.peakmain.basiclibrary.viewModel.WebViewModel
 import com.peakmain.basiclibrary.webview.callback.WebViewTitleBean
 import com.peakmain.basiclibrary.webview.fragment.WebViewFragment
@@ -37,7 +45,7 @@ class WebViewActivity(override val layoutId: Int = R.layout.layout_activity_web_
     companion object {
         fun start(context: Context, url: String, bean: WebViewTitleBean? = null) {
             val intent = Intent(context, WebViewActivity::class.java)
-            val bundle=Bundle()
+            val bundle = Bundle()
             bundle.putString(WebViewHelper.LIBRARY_WEB_VIEW_URL, url)
             bundle.putSerializable(WebViewHelper.LIBRARY_WEB_VIEW_TITLE_BEAN, bean)
             intent.putExtras(bundle)
@@ -47,6 +55,9 @@ class WebViewActivity(override val layoutId: Int = R.layout.layout_activity_web_
 
     override fun initView() {
         initTitle()
+        StatusBarUtils.setStatusBar(
+            this, true, webViewTitleBean?.toolbarBackgroundColor ?: Color.WHITE, false
+        )
         val bundle = Bundle()
         if (!TextUtils.isEmpty(mUrl)) {
             bundle.putString(WebViewHelper.LIBRARY_WEB_VIEW_URL, mUrl)
@@ -58,17 +69,34 @@ class WebViewActivity(override val layoutId: Int = R.layout.layout_activity_web_
     }
 
     private fun initTitle() {
-        DefaultNavigationBar.Builder(
+
+        val defaultNavigationBar = DefaultNavigationBar.Builder(
             this,
             findViewById<View>(android.R.id.content) as ViewGroup
         )
-            .setDisplayHomeAsUpEnabled(true) //Set left click event
+            .setDisplayHomeAsUpEnabled(true)
+            .setTitleTextColor(webViewTitleBean?.titleColor ?: R.color.ui_color_4A4A4A)
+            .setNavigationOnClickListener(View.OnClickListener { v: View? -> finish() })//Set left click event
             .setLeftClickListener(View.OnClickListener { v: View? ->
                 webViewTitleBean?.leftClick ?: finish()
             })
+            .setHomeAsUpIndicator(
+                webViewTitleBean?.alertLeftBackIcon ?: R.drawable.library_ic_left_black_back
+            )
+            .setToolbarBackgroundColor(webViewTitleBean?.toolbarBackgroundColor ?: Color.WHITE)
             .setTitleText(webViewTitleBean?.title) //set toolbar background color
             .create()
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            val appBarLayout =
+                defaultNavigationBar?.findViewById<AppBarLayout>(R.id.navigation_header_container)
+            appBarLayout?.apply {
+                stateListAnimator = null
+                elevation=5f
+            }
+        }
     }
+
 
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
