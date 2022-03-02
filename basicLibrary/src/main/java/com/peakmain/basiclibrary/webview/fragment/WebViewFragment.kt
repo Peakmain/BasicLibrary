@@ -81,7 +81,7 @@ class WebViewFragment(override val layoutId: Int = R.layout.layout_fragment_web_
     }
 
     override fun onPageStarted(view: WebView, url: String) {
-
+        LogUtils.e("onPageStarted:$url")
     }
 
     override fun onPageFinished(view: WebView, url: String) {
