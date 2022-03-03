@@ -162,6 +162,10 @@ class WebViewFragment(override val layoutId: Int = R.layout.layout_fragment_web_
         }
     }
 
+    override fun onProgressChanged(view: WebView?, newProgress: Int) {
+        LogUtils.e("progress:$newProgress")
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
         if (requestCode == REQUEST_CODE_FILE_PICKER) {
             if (resultCode == Activity.RESULT_OK) {

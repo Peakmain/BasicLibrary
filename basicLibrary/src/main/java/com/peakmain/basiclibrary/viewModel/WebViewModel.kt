@@ -22,6 +22,7 @@ class WebViewModel : BaseViewModel() {
     override fun initModel() {
 
     }
+
     fun initWebViewSetting(webView: WebView, userAgent: String? = null) {
         val webSettings: WebSettings = webView.settings
         if (Build.VERSION.SDK_INT >= 19) {
@@ -99,7 +100,7 @@ class WebViewModel : BaseViewModel() {
                     ERROR_FILE_NOT_FOUND -> des = "文件不存在"
                     ERROR_TOO_MANY_REQUESTS -> des = "错误：请求已到上限"
                 }
-                view.loadUrl("javascript:document.body.innerHtml='';")
+                //view.loadUrl("javascript:document.body.innerHtml='';")
                 LogUtils.d("Html Receive Error url: $url")
                 LogUtils.d("Html Receive Error des: $des")
                 callback?.onReceivedError(view, err, des, url)
@@ -148,6 +149,10 @@ class WebViewModel : BaseViewModel() {
 
             override fun onReceivedTitle(view: WebView, title: String) {
                 callback?.onReceivedTitle(title)
+            }
+
+            override fun onProgressChanged(view: WebView?, newProgress: Int) {
+                callback?.onProgressChanged(view, newProgress)
             }
 
             override fun onJsAlert(
