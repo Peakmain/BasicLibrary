@@ -2,6 +2,7 @@ package com.peakmain.basiclibrary.webview.callback
 
 import android.net.Uri
 import android.webkit.ValueCallback
+import android.webkit.WebView
 
 /**
  * author ：Peakmain
@@ -16,4 +17,5 @@ interface WebViewChromeClientCallback {
         fileUploadCallbackSecond: ValueCallback<Array<Uri>>?,
         acceptType: String?
     )
+    fun onProgressChanged(view: WebView?, newProgress: Int)
 }

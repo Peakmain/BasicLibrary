@@ -3,24 +3,24 @@ package com.peakmain.basiclibrary.webview
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.graphics.Typeface
 import android.os.Build
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.TypedValue
 import android.view.KeyEvent
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.DrawableRes
-import androidx.appcompat.widget.Toolbar
-import androidx.core.content.ContextCompat
-import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat
+import android.widget.TextView
 import com.google.android.material.appbar.AppBarLayout
 import com.peakmain.basiclibrary.R
 import com.peakmain.basiclibrary.base.activity.BaseActivity
 import com.peakmain.basiclibrary.databinding.LayoutActivityWebViewBinding
+import com.peakmain.basiclibrary.extend.sp
 import com.peakmain.basiclibrary.helper.WebViewHelper
 import com.peakmain.basiclibrary.utils.StatusBarUtils
 import com.peakmain.basiclibrary.viewModel.WebViewModel
-import com.peakmain.basiclibrary.webview.callback.WebViewTitleBean
+import com.peakmain.basiclibrary.webview.bean.WebViewTitleBean
 import com.peakmain.basiclibrary.webview.fragment.WebViewFragment
 import com.peakmain.ui.navigationbar.DefaultNavigationBar
 
@@ -41,6 +41,7 @@ class WebViewActivity(override val layoutId: Int = R.layout.layout_activity_web_
     private val webViewTitleBean by lazy {
         intent.extras?.getSerializable(WebViewHelper.LIBRARY_WEB_VIEW_TITLE_BEAN) as WebViewTitleBean?
     }
+    private var mDefaultNavigationBar: DefaultNavigationBar? = null
 
     companion object {
         fun start(context: Context, url: String, bean: WebViewTitleBean? = null) {
@@ -69,30 +70,49 @@ class WebViewActivity(override val layoutId: Int = R.layout.layout_activity_web_
     }
 
     private fun initTitle() {
-
-        val defaultNavigationBar = DefaultNavigationBar.Builder(
-            this,
-            findViewById<View>(android.R.id.content) as ViewGroup
-        )
-            .setDisplayHomeAsUpEnabled(true)
-            .setTitleTextColor(webViewTitleBean?.titleColor ?: R.color.ui_color_4A4A4A)
-            .setNavigationOnClickListener(View.OnClickListener { v: View? -> finish() })//Set left click event
-            .setLeftClickListener(View.OnClickListener { v: View? ->
-                webViewTitleBean?.leftClick ?: finish()
-            })
-            .setHomeAsUpIndicator(
-                webViewTitleBean?.alertLeftBackIcon ?: R.drawable.library_ic_left_black_back
+        webViewTitleBean?.apply {
+            val builder = DefaultNavigationBar.Builder(
+                this@WebViewActivity,
+                findViewById<View>(android.R.id.content) as ViewGroup
             )
-            .setToolbarBackgroundColor(webViewTitleBean?.toolbarBackgroundColor ?: Color.WHITE)
-            .setTitleText(webViewTitleBean?.title) //set toolbar background color
-            .create()
-
+            if (!isShowRightArrow) {
+                builder.hideRightView()
+            } else {
+                builder.setRightResId(rightImageIcon)
+            }
+            if (isHideLeftText) {
+                builder.hideLeftText()
+            } else if (!TextUtils.isEmpty(leftText)) {
+                builder.setLeftText(leftText)
+            }
+            if (isHideTitleText) {
+                builder.hideTitleText()
+            } else {
+                builder.setTitleText(
+                    titleText,
+                    if (isTitleTextBold) Typeface.DEFAULT_BOLD else Typeface.DEFAULT
+                ).setTitleTextColor(titleColor)
+            }
+            builder.setToolbarBackgroundColor(toolbarBackgroundColor)
+            builder.setHomeAsUpIndicator(customLeftBackIcon)
+                .setLeftClickListener(View.OnClickListener {
+                    leftViewClickListener
+                }).setRightViewClickListener(View.OnClickListener {
+                    rightViewClickListener
+                })
+            builder.setDisplayHomeAsUpEnabled(isShowHomeAsUp)
+                .setNavigationOnClickListener(View.OnClickListener { finish() })
+            builder.setDisplayShowTitleEnabled(isShowToolbarTitle)
+            mDefaultNavigationBar = builder.create()
+            mDefaultNavigationBar?.findViewById<TextView>(R.id.tv_title)
+                ?.setTextSize(TypedValue.COMPLEX_UNIT_SP, titleTextSize)
+        }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             val appBarLayout =
-                defaultNavigationBar?.findViewById<AppBarLayout>(R.id.navigation_header_container)
+                mDefaultNavigationBar?.findViewById<AppBarLayout>(R.id.navigation_header_container)
             appBarLayout?.apply {
                 stateListAnimator = null
-                elevation=5f
+                elevation = 2f
             }
         }
     }

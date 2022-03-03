@@ -11,7 +11,7 @@ import com.peakmain.basiclibrary.base.activity.BaseActivity
 import com.peakmain.basiclibrary.extend.clickViewDelay
 import com.peakmain.basiclibrary.utils.GlobalCoroutineExceptionHandler
 import com.peakmain.basiclibrary.webview.WebViewActivity
-import com.peakmain.basiclibrary.webview.callback.WebViewTitleBean
+import com.peakmain.basiclibrary.webview.bean.WebViewTitleBean
 import com.peakmain.ui.utils.ToastUtils
 
 class MainActivity(override val layoutId: Int = R.layout.activity_main) :
