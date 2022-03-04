@@ -16,8 +16,11 @@ class ProgressLoading private constructor(context: Context, val webView: View?) 
     //重试的点击事件
     private var mOnRetryClickListener: View.OnClickListener? = null
 
+
+
     companion object {
         private var sInstance: ProgressLoading? = null
+        private var mStatusView = ArrayList<View?>()
         fun instance(context: Context, webView: View): ProgressLoading? {
             if (sInstance == null) {
                 synchronized(this) {
@@ -26,6 +29,7 @@ class ProgressLoading private constructor(context: Context, val webView: View?) 
                     }
                 }
             }
+            mStatusView = ArrayList()
             return sInstance
         }
 
@@ -48,7 +52,7 @@ class ProgressLoading private constructor(context: Context, val webView: View?) 
     private var mNoNetworkViewResId = R.layout.layout_network_view
 
     private val mOtherIds = ArrayList<Int>()
-    private val mStatusView = ArrayList<View?>()
+
     private var mInflater: LayoutInflater? = null
 
     init {
@@ -88,6 +92,7 @@ class ProgressLoading private constructor(context: Context, val webView: View?) 
         showViewById(mEmptyView!!.id)
         return this
     }
+
     private fun showViewById(viewId: Int) {
         webView?.visibility = View.INVISIBLE
         for (view in mStatusView) {
@@ -196,7 +201,7 @@ class ProgressLoading private constructor(context: Context, val webView: View?) 
         mOnRetryClickListener = onRetryClickListener
     }
 
-    fun addLoadingView(loadingView: View?):ProgressLoading {
+    fun addLoadingView(loadingView: View?): ProgressLoading {
         mLoadingView = loadingView
         mLoadingView!!.visibility = View.VISIBLE
         return this
@@ -207,7 +212,7 @@ class ProgressLoading private constructor(context: Context, val webView: View?) 
      *
      * @param emptyView 布局view
      */
-    fun setEmptyView(emptyView: View?):ProgressLoading{
+    fun setEmptyView(emptyView: View?): ProgressLoading {
         mEmptyView = emptyView
         return this
     }
@@ -217,7 +222,7 @@ class ProgressLoading private constructor(context: Context, val webView: View?) 
      *
      * @param emptyViewResId R.layout.xx
      */
-    fun setEmptyView(emptyViewResId: Int):ProgressLoading {
+    fun setEmptyView(emptyViewResId: Int): ProgressLoading {
         mEmptyViewResId = emptyViewResId
         return this
     }
@@ -227,7 +232,7 @@ class ProgressLoading private constructor(context: Context, val webView: View?) 
      *
      * @param errorView 布局view
      */
-    fun setErrorView(errorView: View?):ProgressLoading {
+    fun setErrorView(errorView: View?): ProgressLoading {
         mErrorView = errorView
         return this
     }
@@ -237,7 +242,7 @@ class ProgressLoading private constructor(context: Context, val webView: View?) 
      *
      * @param errorViewResId 布局view的id
      */
-    fun setErrorView(errorViewResId: Int):ProgressLoading {
+    fun setErrorView(errorViewResId: Int): ProgressLoading {
         mErrorViewResId = errorViewResId
         return this
     }
@@ -247,7 +252,7 @@ class ProgressLoading private constructor(context: Context, val webView: View?) 
      *
      * @param loadingView 布局view
      */
-    fun setLoadingView(loadingView: View?):ProgressLoading {
+    fun setLoadingView(loadingView: View?): ProgressLoading {
         mLoadingView = loadingView
         return this
     }
@@ -257,7 +262,7 @@ class ProgressLoading private constructor(context: Context, val webView: View?) 
      *
      * @param loadingViewResId 布局view的id
      */
-    fun setLoadingView(loadingViewResId: Int):ProgressLoading {
+    fun setLoadingView(loadingViewResId: Int): ProgressLoading {
         mLoadingViewResId = loadingViewResId
         return this
     }
@@ -267,7 +272,7 @@ class ProgressLoading private constructor(context: Context, val webView: View?) 
      *
      * @param noNetworkView 布局view
      */
-    fun setNoNetworkView(noNetworkView: View?):ProgressLoading {
+    fun setNoNetworkView(noNetworkView: View?): ProgressLoading {
         mNoNetworkView = noNetworkView
         return this
     }
@@ -277,7 +282,7 @@ class ProgressLoading private constructor(context: Context, val webView: View?) 
      *
      * @param noNetworkViewResId 布局view的id
      */
-    fun setNoNetworkView(noNetworkViewResId: Int):ProgressLoading {
+    fun setNoNetworkView(noNetworkViewResId: Int): ProgressLoading {
         mNoNetworkViewResId = noNetworkViewResId
         return this
     }

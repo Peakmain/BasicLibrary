@@ -16,7 +16,6 @@ import com.google.android.material.appbar.AppBarLayout
 import com.peakmain.basiclibrary.R
 import com.peakmain.basiclibrary.base.activity.BaseActivity
 import com.peakmain.basiclibrary.databinding.LayoutActivityWebViewBinding
-import com.peakmain.basiclibrary.extend.sp
 import com.peakmain.basiclibrary.helper.WebViewHelper
 import com.peakmain.basiclibrary.utils.StatusBarUtils
 import com.peakmain.basiclibrary.viewModel.WebViewModel
@@ -36,7 +35,9 @@ class WebViewActivity(override val layoutId: Int = R.layout.layout_activity_web_
     private val mUrl by lazy {
         intent.extras?.getString(WebViewHelper.LIBRARY_WEB_VIEW_URL)
     }
-
+    private val mStatusColor by lazy {
+        intent.extras?.getInt(WebViewHelper.LIBRARY_WEB_VIEW_STATUS_COLOR)
+    }
     var mWebViewFragment: WebViewFragment? = null
     private val webViewTitleBean by lazy {
         intent.extras?.getSerializable(WebViewHelper.LIBRARY_WEB_VIEW_TITLE_BEAN) as WebViewTitleBean?
@@ -44,10 +45,22 @@ class WebViewActivity(override val layoutId: Int = R.layout.layout_activity_web_
     private var mDefaultNavigationBar: DefaultNavigationBar? = null
 
     companion object {
-        fun start(context: Context, url: String, bean: WebViewTitleBean? = null) {
+        /**
+         * @param context context
+         * @param url 访问网络的url
+         * @param statusColor 状态栏的颜色
+         * @param bean 显示标题的实体类，如果为null则不显示标题
+         */
+        fun start(
+            context: Context,
+            url: String,
+            bean: WebViewTitleBean? = null,
+            statusColor: Int = 0
+        ) {
             val intent = Intent(context, WebViewActivity::class.java)
             val bundle = Bundle()
             bundle.putString(WebViewHelper.LIBRARY_WEB_VIEW_URL, url)
+            bundle.putInt(WebViewHelper.LIBRARY_WEB_VIEW_STATUS_COLOR, statusColor)
             bundle.putSerializable(WebViewHelper.LIBRARY_WEB_VIEW_TITLE_BEAN, bean)
             intent.putExtras(bundle)
             context.startActivity(intent)
@@ -57,7 +70,11 @@ class WebViewActivity(override val layoutId: Int = R.layout.layout_activity_web_
     override fun initView() {
         initTitle()
         StatusBarUtils.setStatusBar(
-            this, true, webViewTitleBean?.toolbarBackgroundColor ?: Color.WHITE, false
+            this,
+            true,
+            if (mStatusColor == null || mStatusColor == 0) webViewTitleBean?.toolbarBackgroundColor
+                ?: Color.WHITE else mStatusColor!!,
+            false
         )
         val bundle = Bundle()
         if (!TextUtils.isEmpty(mUrl)) {
@@ -106,15 +123,16 @@ class WebViewActivity(override val layoutId: Int = R.layout.layout_activity_web_
             mDefaultNavigationBar = builder.create()
             mDefaultNavigationBar?.findViewById<TextView>(R.id.tv_title)
                 ?.setTextSize(TypedValue.COMPLEX_UNIT_SP, titleTextSize)
-        }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            val appBarLayout =
-                mDefaultNavigationBar?.findViewById<AppBarLayout>(R.id.navigation_header_container)
-            appBarLayout?.apply {
-                stateListAnimator = null
-                elevation = 2f
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                val appBarLayout =
+                    mDefaultNavigationBar?.findViewById<AppBarLayout>(R.id.navigation_header_container)
+                appBarLayout?.apply {
+                    stateListAnimator = null
+                    elevation = 2f
+                }
             }
         }
+
     }
 
 
