@@ -1,3 +1,0 @@
-include ':basicLibrary'
-include ':app'
-rootProject.name = "BasicLibary"
