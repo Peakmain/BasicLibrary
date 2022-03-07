@@ -5,13 +5,13 @@ plugins {
     kotlin("kapt")
 }
 android {
-    compileSdkVersion(30)
+    compileSdkVersion(AndroidConfigConstants.compileSdkVersion)
 
     defaultConfig {
-        minSdkVersion(16)
-        targetSdkVersion(30)
-        versionCode = 1
-        versionName = "1.0"
+        minSdkVersion(AndroidConfigConstants.minSdkVersion)
+        targetSdkVersion(AndroidConfigConstants.targetSdkVersion)
+        versionCode = AndroidConfigConstants.versionCode
+        versionName = AndroidConfigConstants.versionName
 
     }
 
@@ -42,37 +42,37 @@ android {
 }
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
-    implementation("org.jetbrains.kotlin:kotlin-stdlib:${KotlinConstants.kotlin_version}")
-    implementation("androidx.core:core-ktx:1.3.2") {
+    implementation(DependenciesConfigConstants.kotlin_stdlib)
+    implementation(DependenciesConfigConstants.core_ktx) {
         isTransitive = false
     }
-    implementation("androidx.appcompat:appcompat:1.2.0")
-    api("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.2.1") {
+    implementation(DependenciesConfigConstants.appcompat)
+    api(DependenciesConfigConstants.kotlin_coroutines_core) {
         isTransitive = false
     }
-    api("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.2.0") {
+    api(DependenciesConfigConstants.kotlin_coroutines_android) {
         isTransitive = false
     }
 
     //OkHttp3
-    api("com.squareup.okhttp3:logging-interceptor:3.11.0")
+    api(DependenciesConfigConstants.okhttp3_logging_interceptor)
     //Retrofit网络请求
-    api("com.squareup.retrofit2:converter-gson:2.6.2") {
+    api(DependenciesConfigConstants.retrofit_gson) {
         exclude(group = "com.squareup.okhttp3", module = "okhttp")
     }
-    api("com.squareup.retrofit2:adapter-rxjava2:2.4.0") {
+    api(DependenciesConfigConstants.retrofit_rxjava) {
         exclude(group = "com.squareup.retrofit2", module = "retrofit")
     }
-    api("com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:0.9.2") {
+    api(DependenciesConfigConstants.retrofit_adapter) {
         isTransitive = false
     }
-    api("io.reactivex.rxjava2:rxandroid:2.1.1")
-    api("com.tencent:mmkv:1.2.11")
-    implementation("androidx.cardview:cardview:1.0.0")
+    api(DependenciesConfigConstants.rxandroid)
+    api(DependenciesConfigConstants.mmkv)
+    implementation(DependenciesConfigConstants.cardview)
 
-    kapt("com.android.databinding:compiler:3.1.4")
-    api("com.github.Peakmain:BasicUI:1.1.12")
-    api("androidx.recyclerview:recyclerview:1.2.0")
-    api("com.google.android.material:material:1.3.0")
+    kapt(DependenciesConfigConstants.databinding)
+    api(DependenciesConfigConstants.basicUI)
+    api(DependenciesConfigConstants.recyclerview)
+    api(DependenciesConfigConstants.material)
 
 }
