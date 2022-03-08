@@ -15,6 +15,7 @@ import com.peakmain.basiclibrary.dialog.ProgressLoading
 import com.peakmain.basiclibrary.helper.WebViewHelper
 import com.peakmain.basiclibrary.utils.BasicLibraryUtils
 import com.peakmain.basiclibrary.viewModel.WebViewModel
+import com.peakmain.basiclibrary.webview.WebViewLifecycle
 import com.peakmain.basiclibrary.webview.callback.WebViewChromeClientCallback
 import com.peakmain.basiclibrary.webview.callback.WebViewClientCallback
 import com.peakmain.ui.utils.LogUtils
@@ -43,6 +44,7 @@ class WebViewFragment(override val layoutId: Int = R.layout.layout_fragment_web_
         }
         ProgressLoading.instance(requireContext(), mBinding.libraryWebView)?.showLoading()
         loadUrl2WebView(null)
+        lifecycle.addObserver(WebViewLifecycle(mBinding.libraryWebView))
     }
 
     private fun loadUrl2WebView(oldUrl: String?) {
