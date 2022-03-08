@@ -22,6 +22,7 @@
         <entry key="basicLibrary/src/main/res/drawable/library_clear_black_24dp.xml" value="0.12962962962962962" />
         <entry key="basicLibrary/src/main/res/drawable/library_ic_left_back.xml" value="0.271875" />
         <entry key="basicLibrary/src/main/res/drawable/library_progress_bar.xml" value="0.271875" />
+        <entry key="basicLibrary/src/main/res/layout/activity_app_manager.xml" value="0.2557291666666667" />
         <entry key="basicLibrary/src/main/res/layout/layout_activity_web_view.xml" value="0.12436676798378926" />
         <entry key="basicLibrary/src/main/res/layout/layout_activity_webview.xml" value="0.2557291666666667" />
         <entry key="basicLibrary/src/main/res/layout/layout_avi_loading_view.xml" value="0.2557291666666667" />
