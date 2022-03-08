@@ -1,4 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="library_loading_text">加载中&#8230;</string>
+
+    <!--商店列表-->
+    <array name="library_app_market_array">
+        <!--Google Play-->
+        <item>com.android.vending</item>
+        <!--应用宝-->
+        <item>com.tencent.android.qqdownloader</item>
+        <!--360手机助手-->
+        <item>com.qihoo.appstore</item>
+        <!--百度手机助手-->
+        <item>com.baidu.appsearch</item>
+        <!--小米应用商店-->
+        <item>com.xiaomi.market</item>
+        <!--豌豆荚-->
+        <item>com.wandoujia.phoenix2</item>
+        <!--华为应用市场-->
+        <item>com.huawei.appmarket</item>
+        <!--淘宝手机助手-->
+        <item>com.taobao.appcenter</item>
+        <!--安卓市场-->
+        <item>com.hiapk.marketpho</item>
+        <!--安智市场-->
+        <item>cn.goapk.market</item>
+    </array>
+
 </resources>

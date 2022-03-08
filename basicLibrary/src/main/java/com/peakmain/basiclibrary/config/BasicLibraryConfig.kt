@@ -12,6 +12,7 @@ import java.lang.NullPointerException
 class BasicLibraryConfig{
     private  var mApp: IApp?=null
     companion object {
+        @Volatile
         private var sInstance: BasicLibraryConfig? = null
         fun getInstance():BasicLibraryConfig {
             if (sInstance == null) {
