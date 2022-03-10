@@ -11,6 +11,7 @@ import android.content.Context
 
 class PreferencesUtils private constructor(val context: Context) {
     companion object {
+        @Volatile
         private var instance: PreferencesUtils? = null
         @JvmStatic
         fun getInstance(context: Context): PreferencesUtils {
