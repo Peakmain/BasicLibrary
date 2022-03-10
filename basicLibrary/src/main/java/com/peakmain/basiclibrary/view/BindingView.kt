@@ -20,7 +20,7 @@ import com.peakmain.ui.utils.TextUtils
  * describe：
  */
 object BindingView {
-    @BindingAdapter("app:loadUrl")
+    @BindingAdapter("loadUrl")
     @JvmStatic
     fun loadImage(img: ImageView, url: String) {
         ImageLoader.instance?.displayImage(img.context, url, img)
@@ -29,7 +29,7 @@ object BindingView {
     /**
      * 文本添加*前缀
      */
-    @BindingAdapter(value = ["app:asteriskPrevText", "app:asteriskColor"], requireAll = false)
+    @BindingAdapter(value = ["asteriskPrevText", "asteriskColor"], requireAll = false)
     @JvmStatic
     fun setAsteriskPrefixText(textView: TextView, text: String?, color: Int) {
         var textContent: String? = null
@@ -43,13 +43,13 @@ object BindingView {
     /**
      * 设置view的visibility
      */
-    @BindingAdapter(value = ["app:visibilityOrGone"])
+    @BindingAdapter(value = ["visibilityOrGone"])
     @JvmStatic
     fun setViewVisibleOrGone(view: View, showVisibility: Boolean) {
         view.visibility = if (showVisibility) View.VISIBLE else View.GONE
     }
 
-    @BindingAdapter(value = ["app:visibilityOrInVisible"])
+    @BindingAdapter(value = ["visibilityOrInVisible"])
     @JvmStatic
     fun setViewVisibleOrInvisible(view: View, showVisibility: Boolean) {
         view.visibility = if (showVisibility) View.VISIBLE else View.INVISIBLE
@@ -58,7 +58,7 @@ object BindingView {
     /**
      * 防止多次重复点击
      */
-    @BindingAdapter(value = ["app:clickDelayTime", "app:click"], requireAll = false)
+    @BindingAdapter(value = ["clickDelayTime", "click"], requireAll = false)
     @JvmStatic
     fun setViewClick(view: View, delayTime: Long = 0, block: View.OnClickListener? = null) {
         if (delayTime == 0L) {
@@ -75,7 +75,7 @@ object BindingView {
     /**
      * textView的drawableLeft和drawableRight的点击事件
      */
-    @BindingAdapter(value = ["app:drawableLeftClick", "app:drawableRightClick"], requireAll = false)
+    @BindingAdapter(value = ["drawableLeftClick", "drawableRightClick"], requireAll = false)
     @JvmStatic
     fun setTextViewDrawableClick(
         view: TextView,
