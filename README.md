@@ -20,10 +20,19 @@ Add it in your root build.gradle at the end of repositories:
 		}
 	}
 ```
+but If it is a new version of Android studio,Add it in your root setting.gradle at the end of repositories:
+```
+dependencyResolutionManagement {
+    repositories {
+        ...
+        maven { url 'https://jitpack.io' }
+    }
+}
+```
 #### Step 2. Add the dependency
 ```
 	dependencies {
-	        implementation 'com.github.Peakmain:BasicLibrary:1.0.2'
+	        implementation 'com.github.Peakmain:BasicLibrary:1.0.3'
 	}
 ```
 
