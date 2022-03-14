@@ -52,7 +52,7 @@ abstract class BaseActivity<T : ViewDataBinding, E : BaseViewModel>() :
     abstract fun initView()
 
 
-    fun initBefore() {
+    open fun initBefore() {
     }
 
     protected fun <E : ViewModel> getViewModel(modelClass: Class<E>): E {
