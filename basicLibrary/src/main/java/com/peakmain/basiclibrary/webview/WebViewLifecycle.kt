@@ -31,7 +31,7 @@ class WebViewLifecycle(var webView: WebView? = null) : LifecycleObserver {
         if (Looper.getMainLooper() != Looper.myLooper()) return
         webView?.apply {
             stopLoading()
-            handler.removeCallbacksAndMessages(null)
+            handler?.removeCallbacksAndMessages(null)
             removeAllViews()
             val mViewGroup = parent as ViewGroup?
             mViewGroup?.removeView(this)
