@@ -2,7 +2,6 @@ package com.peakmain.basiclibrary.webview
 
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Build
 import android.os.Bundle
@@ -12,6 +11,8 @@ import android.view.KeyEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.annotation.ColorInt
+import androidx.core.content.ContextCompat
 import com.google.android.material.appbar.AppBarLayout
 import com.peakmain.basiclibrary.R
 import com.peakmain.basiclibrary.base.activity.BaseActivity
@@ -55,7 +56,7 @@ class WebViewActivity(override val layoutId: Int = R.layout.layout_activity_web_
             context: Context,
             url: String,
             bean: WebViewTitleBean? = null,
-            statusColor: Int = 0
+            @ColorInt statusColor: Int = 0
         ) {
             val intent = Intent(context, WebViewActivity::class.java)
             val bundle = Bundle()
@@ -69,13 +70,17 @@ class WebViewActivity(override val layoutId: Int = R.layout.layout_activity_web_
 
     override fun initView() {
         initTitle()
-        StatusBarUtils.setStatusBar(
+        StatusBarUtils.setLightMode(this)
+        StatusBarUtils.setColor(
             this,
-            true,
-            if (mStatusColor == null || mStatusColor == 0) webViewTitleBean?.toolbarBackgroundColor
-                ?: Color.WHITE else mStatusColor!!,
-            false
+            if (mStatusColor == null || mStatusColor == 0) ContextCompat.getColor(
+                this,
+                webViewTitleBean?.toolbarBackgroundColor ?: android.R.color.white
+            )
+            else ContextCompat.getColor(this, mStatusColor!!),
+            1
         )
+
         val bundle = Bundle()
         if (!TextUtils.isEmpty(mUrl)) {
             bundle.putString(WebViewHelper.LIBRARY_WEB_VIEW_URL, mUrl)
