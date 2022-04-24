@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.peakmain.basiclibrary.R
+import com.peakmain.basiclibrary.base.BaseTwoSingleton
 
 /**
  * author ：Peakmain
@@ -17,27 +18,19 @@ class ProgressLoading private constructor(context: Context, val webView: View?) 
     private var mOnRetryClickListener: View.OnClickListener? = null
 
 
-
-    companion object {
-        private var sInstance: ProgressLoading? = null
+    companion object : BaseTwoSingleton<Context, View, ProgressLoading>() {
         private var mStatusView = ArrayList<View?>()
-        fun instance(context: Context, webView: View): ProgressLoading? {
-            if (sInstance == null) {
-                synchronized(this) {
-                    if (sInstance == null) {
-                        sInstance = ProgressLoading(context, webView)
-                    }
-                }
-            }
+        override fun createSingleton(params1: Context, params2: View): ProgressLoading? {
             mStatusView = ArrayList()
-            return sInstance
+            return ProgressLoading(params1, params2)
         }
-
 
         private val DEFAULT_LAYOUT_PARAMS = ViewGroup.LayoutParams(
             ViewGroup.LayoutParams.MATCH_PARENT,
             ViewGroup.LayoutParams.MATCH_PARENT
         )
+
+
     }
 
     private var mEmptyView: View? = null

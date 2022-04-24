@@ -7,6 +7,7 @@ import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import android.net.Uri
 import com.peakmain.basiclibrary.R
+import com.peakmain.basiclibrary.base.BaseOneSingleton
 import com.peakmain.basiclibrary.bean.AppManagerBean
 import java.lang.ref.WeakReference
 
@@ -23,25 +24,16 @@ class AppManagerHelper private constructor(val reference: WeakReference<Context>
     //所有商店包名
     private lateinit var mAllMarkArray: Array<String>
 
-    companion object {
-        @Volatile
-        private var instance: AppManagerHelper? = null
-        fun getInstance(context: Context): AppManagerHelper? {
-            if (instance == null) {
-                synchronized(this) {
-                    if (instance == null) {
-                        instance = AppManagerHelper(WeakReference(context))
-                    }
-                }
-            }
-            return instance
-        }
+    companion object : BaseOneSingleton<Context, AppManagerHelper>() {
+
+        override fun createSingleton(params: Context): AppManagerHelper =
+            AppManagerHelper(WeakReference(params))
 
     }
 
     @SuppressLint("QueryPermissionsNeeded")
     fun loadAllAppList(): ArrayList<AppManagerBean> {
-        if(reference.get()==null)return mAllAppList
+        if (reference.get() == null) return mAllAppList
         val context = reference.get() as Context
         mPackageManager = context.packageManager
         val intent = Intent(Intent.ACTION_MAIN, null)
@@ -68,7 +60,7 @@ class AppManagerHelper private constructor(val reference: WeakReference<Context>
     }
 
     fun startAppStore(appName: String): Boolean {
-        if(reference.get()==null)return false
+        if (reference.get() == null) return false
         val context = reference.get() as Context
         mAllMarkArray = context.resources.getStringArray(R.array.library_app_market_array)
         mAllAppList.forEach {
@@ -88,7 +80,7 @@ class AppManagerHelper private constructor(val reference: WeakReference<Context>
      * 启动卸载App
      */
     fun startUnInstallApp(packageName: String) {
-        if(reference.get()==null)return
+        if (reference.get() == null) return
         val context = reference.get() as Context
         val uri = Uri.parse("package:$packageName")
         val intent = Intent(Intent.ACTION_DELETE)
@@ -101,7 +93,7 @@ class AppManagerHelper private constructor(val reference: WeakReference<Context>
      * 跳转应用商店
      */
     fun startAppStore(packageName: String, markPackageName: String) {
-        if(reference.get()==null)return
+        if (reference.get() == null) return
         val context = reference.get() as Context
         val uri = Uri.parse("market://details?id=$packageName")
         val intent = Intent(Intent.ACTION_VIEW, uri)

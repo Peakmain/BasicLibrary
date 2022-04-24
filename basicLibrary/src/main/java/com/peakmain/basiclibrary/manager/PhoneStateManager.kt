@@ -36,11 +36,13 @@ class PhoneStateManager private constructor() {
     private lateinit var mStateCallbacks: MutableList<OnPhoneStateCallback>
 
     init {
-        val application = BasicLibraryConfig.getInstance().getApp().getApplication()
-        telephonyManager =
-            application.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
-        if (telephonyManager != null) {
-            telephonyManager!!.listen(phoneStateListener, PhoneStateListener.LISTEN_CALL_STATE)
+        val application = BasicLibraryConfig.getInstance()?.getApp()?.getApplication()
+        if (application != null) {
+            telephonyManager =
+                application.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
+            if (telephonyManager != null) {
+                telephonyManager!!.listen(phoneStateListener, PhoneStateListener.LISTEN_CALL_STATE)
+            }
         }
         mStateCallbacks = CopyOnWriteArrayList()
     }
