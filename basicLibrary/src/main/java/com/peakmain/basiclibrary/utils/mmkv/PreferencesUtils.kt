@@ -1,6 +1,7 @@
 package com.peakmain.basiclibrary.utils.mmkv
 
 import android.content.Context
+import com.peakmain.basiclibrary.base.BaseOneSingleton
 
 /**
  * author ：Peakmain
@@ -10,24 +11,8 @@ import android.content.Context
  */
 
 class PreferencesUtils private constructor(val context: Context) {
-    companion object {
-        @Volatile
-        private var instance: PreferencesUtils? = null
-        @JvmStatic
-        fun getInstance(context: Context): PreferencesUtils {
-            if (instance == null) {
-                synchronized(context) {
-                    if (instance == null) {
-                        instance =
-                            PreferencesUtils(
-                                context
-                            )
-                    }
-                }
-            }
-            return instance!!
-        }
-
+    companion object : BaseOneSingleton<Context, PreferencesUtils>() {
+        override fun createSingleton(params: Context): PreferencesUtils? = PreferencesUtils(params)
     }
 
 
@@ -56,6 +41,7 @@ class PreferencesUtils private constructor(val context: Context) {
     fun getParam(key: String, defaultObject: Any?): Any? {
         return getSharedPreferences().getParam(key, defaultObject)
     }
+
     fun clearData() {
         getSharedPreferences().clearData()
     }
