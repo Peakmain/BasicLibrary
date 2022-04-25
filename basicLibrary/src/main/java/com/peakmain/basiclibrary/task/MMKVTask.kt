@@ -13,6 +13,9 @@ import com.tencent.mmkv.MMKV
  */
 class MMKVTask : MainTask() {
     override fun run() {
-        MMKV.initialize(BasicLibraryConfig.getInstance().getApp().getApplication())
+        BasicLibraryConfig.getInstance()?.getApp()?.getApplication()?.apply {
+            MMKV.initialize(this)
+        }
+       
     }
 }

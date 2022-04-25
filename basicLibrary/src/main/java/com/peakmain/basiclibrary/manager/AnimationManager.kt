@@ -24,8 +24,11 @@ object AnimationManager {
      * 隐藏淡入淡出动画
      */
     fun hideCrossFadeLoadingView(contentView: View, loadingView: View) {
-        val animationDuration: Int = BasicLibraryConfig.getInstance().getApp()
-            .getApplication().resources.getInteger(android.R.integer.config_shortAnimTime)
+        if (BasicLibraryConfig.getInstance()?.getApp()?.getApplication() == null) {
+            return
+        }
+        val animationDuration: Int = BasicLibraryConfig.getInstance()?.getApp()
+            ?.getApplication()!!.resources.getInteger(android.R.integer.config_shortAnimTime)
         contentView.apply {
             alpha = 0f
             visibility = View.VISIBLE

@@ -29,6 +29,7 @@ class AppManagerHelper private constructor(val reference: WeakReference<Context>
         override fun createSingleton(params: Context): AppManagerHelper =
             AppManagerHelper(WeakReference(params))
 
+
     }
 
     @SuppressLint("QueryPermissionsNeeded")
