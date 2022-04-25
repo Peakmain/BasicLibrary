@@ -22,7 +22,7 @@ abstract class BaseActivity<T : ViewDataBinding, E : BaseViewModel>() :
     abstract val layoutId: Int
     protected lateinit var mBinding: T
     protected lateinit var mViewModel: E
-    private var app: IApp? = BasicLibraryConfig.getInstance().getApp()
+    private var app: IApp? = BasicLibraryConfig.getInstance()?.getApp()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {

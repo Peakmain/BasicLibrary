@@ -10,7 +10,7 @@ package com.peakmain.basiclibrary.base
 abstract class BaseEmptySingleton<out T> {
     @Volatile
     private var sInstance: T? = null
-    protected abstract fun createSingleton(): T?
+    protected abstract val createSingleton :()->T
     fun getInstance(): T? {
         sInstance ?: synchronized(this) {
             sInstance ?: createSingleton().also {
@@ -24,7 +24,7 @@ abstract class BaseEmptySingleton<out T> {
 abstract class BaseOneSingleton<in P, out T> {
     @Volatile
     private var sInstance: T? = null
-    protected abstract fun createSingleton(params: P): T?
+    protected abstract fun createSingleton(params:P):T
     fun getInstance(params: P): T? {
         sInstance ?: synchronized(this) {
             sInstance ?: createSingleton(params).also {

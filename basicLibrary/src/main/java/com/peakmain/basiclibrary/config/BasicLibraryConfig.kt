@@ -1,9 +1,7 @@
 package com.peakmain.basiclibrary.config
 
 import com.peakmain.basiclibrary.base.BaseEmptySingleton
-import com.peakmain.basiclibrary.base.BaseOneSingleton
 import com.peakmain.basiclibrary.base.IApp
-import java.lang.NullPointerException
 
 /**
  * author ：Peakmain
@@ -15,8 +13,7 @@ class BasicLibraryConfig private constructor() {
     private var mApp: IApp? = null
 
     companion object:BaseEmptySingleton<BasicLibraryConfig>(){
-
-        override fun createSingleton(): BasicLibraryConfig = BasicLibraryConfig()
+        override val createSingleton=::BasicLibraryConfig
     }
 
     fun setApp(app: IApp) {

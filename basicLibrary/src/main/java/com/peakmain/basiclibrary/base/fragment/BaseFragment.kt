@@ -30,7 +30,7 @@ abstract class BaseFragment<T : ViewDataBinding, E : BaseViewModel>() :
 
     protected lateinit var mViewModel: E
     protected lateinit var mBinding: T
-    private var app: IApp? = BasicLibraryConfig.getInstance().getApp()
+    private var app: IApp? = BasicLibraryConfig.getInstance()?.getApp()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

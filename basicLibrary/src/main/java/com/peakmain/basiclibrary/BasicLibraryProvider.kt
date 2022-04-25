@@ -19,7 +19,7 @@ class BasicLibraryProvider : FileProvider(), IApp {
     private lateinit var viewModelStore: ViewModelStore
     protected lateinit var mDispatcher: TaskDispatcher
     override fun onCreate(): Boolean {
-        BasicLibraryConfig.getInstance().setApp(this)
+        BasicLibraryConfig.getInstance()?.setApp(this)
         viewModelStore = ViewModelStore()
         TaskDispatcher.init(getApplication())
         mDispatcher = TaskDispatcher.createInstance()
