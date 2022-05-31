@@ -28,7 +28,7 @@ class BasicLibraryProvider : FileProvider(), IApp {
     }
 
     override fun getApplication(): Application {
-        return context!!.applicationContext as Application
+        return context?.applicationContext as Application
     }
 
     override fun getViewModelStore(): ViewModelStore {

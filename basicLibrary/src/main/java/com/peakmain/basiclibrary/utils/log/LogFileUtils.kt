@@ -1,6 +1,7 @@
 package com.peakmain.basiclibrary.utils.log
 
 import com.peakmain.basiclibrary.extend.isSpace
+import com.peakmain.ui.constants.BasicUIUtils
 import com.peakmain.ui.constants.PermissionConstants
 import com.peakmain.ui.utils.LogUtils
 import com.peakmain.ui.utils.PermissionUtils
@@ -43,15 +44,34 @@ object LogFileUtils {
     private val WEEK = DAY * 7
     private const val YYYY_MM_DD_HH_MM_SS = "yyyy-MM-dd HH:mm:ss"
     private const val YYYY_MM_DD = "yyyy-MM-dd"
+    private const val LOGCAT_BASE_PATH = "Peakmain/Log"
+    private fun getBasePath(children: String) =
+        BasicUIUtils.application?.getExternalFilesDir(null)?.absolutePath + "/$children/"
+
+    var basePath: String = getBasePath(LOGCAT_BASE_PATH)
+    fun setLogPath(path: String) {
+        basePath = path
+    }
+
+    @JvmStatic
+    fun write(str: String) {
+        try {
+            write(basePath, str)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    @JvmStatic
     fun write(filePath: String, str: String) {
         if (PermissionUtils.hasPermission(PermissionConstants.getPermissions(PermissionConstants.STORAGE))) {
             val file = (if (filePath.isSpace()) null else File(filePath)) ?: return
             file.also {
-                if(!it.exists()){
+                if (!it.exists()) {
                     it.mkdirs()
                 }
                 val logFileName =
-                   formatTimeByLong(System.currentTimeMillis(),YYYY_MM_DD)
+                    formatTimeByLong(System.currentTimeMillis(), YYYY_MM_DD)
                 val logPath = "$filePath$logFileName.log"
                 File(logPath).also { log ->
                     if (!log.exists()) {
@@ -59,10 +79,12 @@ object LogFileUtils {
                     }
                     writeLogToFile(
                         log,
-                        "${formatTimeByLong(
-                            System.currentTimeMillis(),
-                            YYYY_MM_DD_HH_MM_SS
-                        )}   $str"
+                        "${
+                            formatTimeByLong(
+                                System.currentTimeMillis(),
+                                YYYY_MM_DD_HH_MM_SS
+                            )
+                        }   $str"
                     )
                 }
             }
@@ -86,6 +108,7 @@ object LogFileUtils {
             e.printStackTrace()
         }
     }
+
     /**
      * 删除文件
      *
@@ -102,7 +125,7 @@ object LogFileUtils {
         return flag
     }
 
-    private fun formatTimeByLong(time: Long,pattern:String): String {
+    private fun formatTimeByLong(time: Long, pattern: String): String {
         if (time == -1L) {
             return ""
         }
