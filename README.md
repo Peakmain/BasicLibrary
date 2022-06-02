@@ -32,7 +32,7 @@ dependencyResolutionManagement {
 #### Step 2. Add the dependency
 ```
 	dependencies {
-	        implementation 'com.github.Peakmain:BasicLibrary:1.0.3'
+	        implementation 'com.github.Peakmain:BasicLibrary:1.0.4'
 	}
 ```
 
