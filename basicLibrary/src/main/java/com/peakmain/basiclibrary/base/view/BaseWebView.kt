@@ -2,6 +2,7 @@ package com.peakmain.basiclibrary.base.view
 
 import android.content.Context
 import android.util.AttributeSet
+import android.webkit.JavascriptInterface
 import android.webkit.WebView
 import com.peakmain.basiclibrary.helper.WebViewHelper
 

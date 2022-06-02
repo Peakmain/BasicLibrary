@@ -150,8 +150,8 @@ class ProgressLoading private constructor(context: Context, val webView: View?) 
         return this
     }
 
-    fun showNoNetwork(layoutId: Int, layoutParams: ViewGroup.LayoutParams?) {
-        showNoNetwork(inflateView(layoutId), layoutParams)
+    fun showNoNetwork(layoutId: Int, layoutParams: ViewGroup.LayoutParams?):ProgressLoading{
+        return showNoNetwork(inflateView(layoutId), layoutParams)
     }
 
     fun showContentView() {
@@ -163,19 +163,20 @@ class ProgressLoading private constructor(context: Context, val webView: View?) 
         }
     }
 
-    fun showError() {
+    fun showError():ProgressLoading {
         if (mErrorView != null) {
             showError(mErrorView, DEFAULT_LAYOUT_PARAMS)
         } else {
             showError(mErrorViewResId, DEFAULT_LAYOUT_PARAMS)
         }
+        return this
     }
 
-    fun showError(layoutId: Int, layoutParams: ViewGroup.LayoutParams?) {
-        showError(inflateView(layoutId), layoutParams)
+    fun showError(layoutId: Int, layoutParams: ViewGroup.LayoutParams?):ProgressLoading {
+        return showError(inflateView(layoutId), layoutParams)
     }
 
-    fun showError(view: View?, layoutParams: ViewGroup.LayoutParams?) {
+    fun showError(view: View?, layoutParams: ViewGroup.LayoutParams?):ProgressLoading {
         if (null == mErrorView) {
             mErrorView = view
             val errorRetryView = mErrorView!!.findViewById<View>(R.id.error_retry_view)
@@ -188,6 +189,7 @@ class ProgressLoading private constructor(context: Context, val webView: View?) 
         }
         mStatusView.add(mErrorView)
         showViewById(mErrorView!!.id)
+        return this
     }
 
     fun setOnRetryClickListener(onRetryClickListener: View.OnClickListener?) {
