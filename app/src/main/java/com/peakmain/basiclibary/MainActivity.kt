@@ -10,8 +10,7 @@ import com.peakmain.basiclibrary.adapter.CommonRecyclerDataBindingAdapter
 import com.peakmain.basiclibrary.base.activity.BaseActivity
 import com.peakmain.basiclibrary.extend.clickViewDelay
 import com.peakmain.basiclibrary.utils.GlobalCoroutineExceptionHandler
-import com.peakmain.basiclibrary.webview.WebViewActivity
-import com.peakmain.basiclibrary.webview.bean.WebViewTitleBean
+import com.peakmain.basiclibrary.webview.BaseWebViewActivity
 import com.peakmain.ui.utils.ToastUtils
 
 class MainActivity(override val layoutId: Int = R.layout.activity_main) :
@@ -38,7 +37,7 @@ class MainActivity(override val layoutId: Int = R.layout.activity_main) :
 
         }
         mBinding.tvRefreshStatus.clickViewDelay {
-            WebViewActivity.start(this, "https://www.baidu.com", WebViewTitleBean("百度"))
+            BaseWebViewActivity.start(this, "https://www.baidu.com")
         }
     }
 

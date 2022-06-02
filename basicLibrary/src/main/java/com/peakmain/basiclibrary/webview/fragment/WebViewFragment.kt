@@ -15,6 +15,7 @@ import com.peakmain.basiclibrary.dialog.ProgressLoading
 import com.peakmain.basiclibrary.helper.WebViewHelper
 import com.peakmain.basiclibrary.utils.BasicLibraryUtils
 import com.peakmain.basiclibrary.viewModel.WebViewModel
+import com.peakmain.basiclibrary.webview.BaseWebViewActivity
 import com.peakmain.basiclibrary.webview.WebViewLifecycle
 import com.peakmain.basiclibrary.webview.callback.WebViewChromeClientCallback
 import com.peakmain.basiclibrary.webview.callback.WebViewClientCallback
@@ -42,7 +43,7 @@ class WebViewFragment(override val layoutId: Int = R.layout.layout_fragment_web_
             mViewModel.initWebClient(this, this@WebViewFragment)
             mViewModel.initWebChromeClient(this, this@WebViewFragment)
         }
-        ProgressLoading.instance(requireContext(), mBinding.libraryWebView)?.showLoading()
+
         loadUrl2WebView(null)
         lifecycle.addObserver(WebViewLifecycle(mBinding.libraryWebView))
     }
@@ -84,14 +85,15 @@ class WebViewFragment(override val layoutId: Int = R.layout.layout_fragment_web_
 
     override fun onPageStarted(view: WebView, url: String) {
         LogUtils.e("onPageStarted:$url")
+        ProgressLoading.getInstance(requireContext(), mBinding.libraryWebView)?.showLoading()
     }
 
     override fun onPageFinished(view: WebView, url: String) {
-        ProgressLoading.instance(requireContext(), mBinding.libraryWebView)?.hideLoading()
+        ProgressLoading.getInstance(requireContext(), mBinding.libraryWebView)?.hideLoading()
         if (!TextUtils.isEmpty(url) && (url.startsWith("http") || url.startsWith("https"))
             && !BasicLibraryUtils.isNetworkAvailable(activity)
         ) {
-            ProgressLoading.instance(requireContext(), mBinding.libraryWebView)?.showNoNetwork()
+            ProgressLoading.getInstance(requireContext(), mBinding.libraryWebView)?.showNoNetwork()
                 ?.setOnRetryClickListener(View.OnClickListener {
                     loadUrl2WebView(url)
                 })
@@ -99,6 +101,7 @@ class WebViewFragment(override val layoutId: Int = R.layout.layout_fragment_web_
     }
 
     override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
+
         //处理电话功能
         if (url.startsWith("tel")) {
             try {
@@ -108,9 +111,18 @@ class WebViewFragment(override val layoutId: Int = R.layout.layout_fragment_web_
             } catch (ex: ActivityNotFoundException) {
                 ex.printStackTrace()
             }
+        } else if (url.startsWith("mailto:")) {
+            val activity: Activity? = activity
+            if (activity != null) {
+                val i = Intent(Intent.ACTION_SEND)
+                i.setType("plain/text").putExtra(Intent.EXTRA_EMAIL, arrayOf(url))
+                activity.startActivity(i)
+                return true
+            }
+            return true
         }
         // 对支付宝和微信的支付页面点击做特殊处理
-        if (url.contains("alipays://platformapi") || url.contains("weixin://wap/pay?")) {
+        else if (url.contains("alipays://platformapi") || url.contains("weixin://wap/pay?")) {
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
             startActivity(intent)
             return true
@@ -123,12 +135,18 @@ class WebViewFragment(override val layoutId: Int = R.layout.layout_fragment_web_
     }
 
     override fun onReceivedError(view: WebView, err: Int, des: String, url: String) {
-        ProgressLoading.instance(requireContext(), mBinding.libraryWebView)
+        ProgressLoading.getInstance(requireContext(), mBinding.libraryWebView)
             ?.showError()
+            ?.setOnRetryClickListener(View.OnClickListener {
+                loadUrl2WebView(url)
+            })
     }
 
     override fun onReceivedTitle(title: String) {
-
+        if (activity != null && activity is BaseWebViewActivity) {
+            val activity = activity as BaseWebViewActivity
+            activity.onReceivedTitle(title)
+        }
     }
 
     fun loadUrl(url: String) {

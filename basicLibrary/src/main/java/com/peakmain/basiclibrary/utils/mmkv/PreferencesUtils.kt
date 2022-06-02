@@ -12,7 +12,7 @@ import com.peakmain.basiclibrary.base.BaseOneSingleton
 
 class PreferencesUtils private constructor(val context: Context) {
     companion object : BaseOneSingleton<Context, PreferencesUtils>() {
-        override fun createSingleton(params: Context): PreferencesUtils? = PreferencesUtils(params)
+        override fun createSingleton(params: Context): PreferencesUtils = PreferencesUtils(params)
     }
 
 
