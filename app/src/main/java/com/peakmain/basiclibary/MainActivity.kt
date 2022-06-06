@@ -2,6 +2,7 @@ package com.peakmain.basiclibary
 
 import android.view.View
 import android.widget.ProgressBar
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.peakmain.basiclibary.adapter.TestAdapter
 import com.peakmain.basiclibary.databinding.ActivityMainBinding
@@ -10,7 +11,8 @@ import com.peakmain.basiclibrary.adapter.CommonRecyclerDataBindingAdapter
 import com.peakmain.basiclibrary.base.activity.BaseActivity
 import com.peakmain.basiclibrary.extend.clickViewDelay
 import com.peakmain.basiclibrary.utils.GlobalCoroutineExceptionHandler
-import com.peakmain.basiclibrary.webview.BaseWebViewActivity
+import com.peakmain.basiclibrary.webview.WebViewConfig
+import com.peakmain.basiclibrary.webview.WebViewConfig.Companion.MODE_LIGHT
 import com.peakmain.ui.utils.ToastUtils
 
 class MainActivity(override val layoutId: Int = R.layout.activity_main) :
@@ -37,7 +39,13 @@ class MainActivity(override val layoutId: Int = R.layout.activity_main) :
 
         }
         mBinding.tvRefreshStatus.clickViewDelay {
-            BaseWebViewActivity.start(this, "https://www.baidu.com")
+            WebViewConfig.getInstance(this)?.apply {
+                url("https://www.baidu.com")
+                statusBarColor(ContextCompat.getColor(this@MainActivity,android.R.color.white))
+                statusMode(MODE_LIGHT)
+                titleBean()
+                start()
+            }
         }
     }
 

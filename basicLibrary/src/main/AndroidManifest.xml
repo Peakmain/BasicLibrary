@@ -13,6 +13,6 @@
                 android:resource="@xml/basic_library_provider_paths" />
         </provider>
         <activity
-            android:name="com.peakmain.basiclibrary.webview.BaseWebViewActivity" />
+            android:name="com.peakmain.basiclibrary.webview.WebViewActivity" />
     </application>
 </manifest>
