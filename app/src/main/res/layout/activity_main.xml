@@ -29,6 +29,7 @@
             android:layout_height="wrap_content"
             android:drawableRight="@drawable/abc_vector_test"
             android:drawablePadding="@dimen/dimen_10"
+            android:padding="@dimen/dimen_10"
             android:text="测试"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/recyclerview" />

@@ -15,7 +15,7 @@ import com.peakmain.basiclibrary.dialog.ProgressLoading
 import com.peakmain.basiclibrary.helper.WebViewHelper
 import com.peakmain.basiclibrary.utils.BasicLibraryUtils
 import com.peakmain.basiclibrary.viewModel.WebViewModel
-import com.peakmain.basiclibrary.webview.BaseWebViewActivity
+import com.peakmain.basiclibrary.webview.WebViewActivity
 import com.peakmain.basiclibrary.webview.WebViewLifecycle
 import com.peakmain.basiclibrary.webview.callback.WebViewChromeClientCallback
 import com.peakmain.basiclibrary.webview.callback.WebViewClientCallback
@@ -43,7 +43,7 @@ class WebViewFragment(override val layoutId: Int = R.layout.layout_fragment_web_
             mViewModel.initWebClient(this, this@WebViewFragment)
             mViewModel.initWebChromeClient(this, this@WebViewFragment)
         }
-
+        ProgressLoading.getInstance(requireContext(), mBinding.libraryWebView)?.showLoading()
         loadUrl2WebView(null)
         lifecycle.addObserver(WebViewLifecycle(mBinding.libraryWebView))
     }
@@ -85,7 +85,7 @@ class WebViewFragment(override val layoutId: Int = R.layout.layout_fragment_web_
 
     override fun onPageStarted(view: WebView, url: String) {
         LogUtils.e("onPageStarted:$url")
-        ProgressLoading.getInstance(requireContext(), mBinding.libraryWebView)?.showLoading()
+
     }
 
     override fun onPageFinished(view: WebView, url: String) {
@@ -143,8 +143,8 @@ class WebViewFragment(override val layoutId: Int = R.layout.layout_fragment_web_
     }
 
     override fun onReceivedTitle(title: String) {
-        if (activity != null && activity is BaseWebViewActivity) {
-            val activity = activity as BaseWebViewActivity
+        if (activity != null && activity is WebViewActivity) {
+            val activity = activity as WebViewActivity
             activity.onReceivedTitle(title)
         }
     }
