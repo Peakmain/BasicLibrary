@@ -20,10 +20,7 @@ class BasicLibraryConfig private constructor() {
         this.mApp = app
     }
 
-    fun getApp(): IApp {
-        if (mApp == null) {
-            throw NullPointerException("IApp must not be empty!")
-        }
-        return mApp!!
+    fun getApp(): IApp? {
+        return mApp
     }
 }
