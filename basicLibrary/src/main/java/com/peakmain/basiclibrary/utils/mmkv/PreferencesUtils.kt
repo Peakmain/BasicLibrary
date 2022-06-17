@@ -11,10 +11,24 @@ import com.peakmain.basiclibrary.base.BaseOneSingleton
  */
 
 class PreferencesUtils private constructor(val context: Context) {
-    companion object : BaseOneSingleton<Context, PreferencesUtils>() {
-        override fun createSingleton(params: Context): PreferencesUtils = PreferencesUtils(params)
+    companion object {
+        @Volatile
+        private var instance: PreferencesUtils? = null
+        @JvmStatic
+        fun getInstance(context: Context): PreferencesUtils {
+            if (instance == null) {
+                synchronized(context) {
+                    if (instance == null) {
+                        instance =
+                            PreferencesUtils(
+                                context
+                            )
+                    }
+                }
+            }
+            return instance!!
+        }
     }
-
 
     private lateinit var mSharedPreferences: DefaultSharedPreferencesFactory
     fun getSharedPreferences(): DefaultSharedPreferencesFactory {

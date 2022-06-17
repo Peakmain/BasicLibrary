@@ -1,5 +1,6 @@
 package com.peakmain.basiclibary
 
+import android.util.Log
 import android.view.View
 import android.widget.ProgressBar
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -8,6 +9,7 @@ import com.peakmain.basiclibary.databinding.ActivityMainBinding
 import com.peakmain.basiclibary.viewModel.MainViewModel
 import com.peakmain.basiclibrary.adapter.CommonRecyclerDataBindingAdapter
 import com.peakmain.basiclibrary.base.activity.BaseActivity
+import com.peakmain.basiclibrary.config.BasicLibraryConfig
 import com.peakmain.basiclibrary.extend.clickViewDelay
 import com.peakmain.basiclibrary.utils.GlobalCoroutineExceptionHandler
 import com.peakmain.ui.utils.ToastUtils
