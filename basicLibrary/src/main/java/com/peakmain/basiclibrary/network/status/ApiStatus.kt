@@ -14,4 +14,5 @@ abstract class ApiStatus<T>:BaseApiStatus<T>{
 
     override fun loadMore(t: T, isRefresh: Boolean) {
     }
+
 }

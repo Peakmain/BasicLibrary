@@ -1,7 +1,7 @@
 package com.peakmain.basiclibrary.utils.mmkv
 
 import android.content.Context
-import com.peakmain.basiclibrary.base.BaseOneSingleton
+import java.lang.ref.WeakReference
 
 /**
  * author ：Peakmain
@@ -10,34 +10,33 @@ import com.peakmain.basiclibrary.base.BaseOneSingleton
  * describe：
  */
 
-class PreferencesUtils private constructor(val context: Context) {
+class PreferencesUtils private constructor(val contextRef: WeakReference<Context>) {
     companion object {
         @Volatile
         private var instance: PreferencesUtils? = null
+
         @JvmStatic
-        fun getInstance(context: Context): PreferencesUtils {
-            if (instance == null) {
-                synchronized(context) {
-                    if (instance == null) {
-                        instance =
-                            PreferencesUtils(
-                                context
-                            )
-                    }
+        fun getInstance(context: Context): PreferencesUtils? {
+            instance ?: synchronized(this) {
+                instance ?: PreferencesUtils(WeakReference(context)).also {
+                    instance = it
                 }
             }
-            return instance!!
+            return instance
         }
     }
 
     private lateinit var mSharedPreferences: DefaultSharedPreferencesFactory
-    fun getSharedPreferences(): DefaultSharedPreferencesFactory {
-        return if (this::mSharedPreferences.isInitialized) {
-            mSharedPreferences
+    fun getSharedPreferences(): DefaultSharedPreferencesFactory? {
+         if (this::mSharedPreferences.isInitialized) {
+             return mSharedPreferences
         } else {
-            init(context)
-            mSharedPreferences
+            val context = contextRef.get()
+            if (context != null) {
+                return init(context)
+            }
         }
+        return null
     }
 
     private fun init(context: Context): DefaultSharedPreferencesFactory {
@@ -49,15 +48,15 @@ class PreferencesUtils private constructor(val context: Context) {
     }
 
     fun saveParams(key: String, objects: Any) {
-        getSharedPreferences().saveParams(key, objects)
+        getSharedPreferences()?.saveParams(key, objects)
     }
 
     fun getParam(key: String, defaultObject: Any?): Any? {
-        return getSharedPreferences().getParam(key, defaultObject)
+        return getSharedPreferences()?.getParam(key, defaultObject)
     }
 
     fun clearData() {
-        getSharedPreferences().clearData()
+        getSharedPreferences()?.clearData()
     }
 }
 

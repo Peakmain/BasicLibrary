@@ -1,6 +1,8 @@
 package com.peakmain.basiclibary.network;
 
 
+import com.peakmain.basiclibrary.network.entity.BaseEntity;
+
 import io.reactivex.Observable;
 import retrofit2.http.GET;
 
@@ -17,4 +19,7 @@ public interface WanAndroidApi {
      */
     @GET("project/tree/json")
     Observable<DataResponse<ProjectTree>> getProjectTree();
+
+    @GET("project/tree/json")
+    Observable<BaseEntity<ProjectTree>> getProjectTree1();
 }
