@@ -7,7 +7,10 @@ import com.peakmain.basiclibary.network.ProjectTree
 import com.peakmain.basiclibary.network.WanAndroidApi
 import com.peakmain.basiclibrary.base.viewmodel.BaseViewModel
 import com.peakmain.basiclibrary.network.RetrofitManager
+import com.peakmain.basiclibrary.network.entity.BaseEntity
+import com.peakmain.basiclibary.network.status.ApiBaseStatus
 import com.peakmain.basiclibrary.network.status.ApiStatus
+import com.peakmain.basiclibary.network.status.BaseEntityDataRetrofitData
 import com.peakmain.ui.utils.ToastUtils
 
 /**
@@ -26,6 +29,7 @@ class MainViewModel : BaseViewModel() {
 
      val isShow = false
     fun getProjectTree() {
+
         RetrofitManager.createData(api.projectTree,
             object : ApiStatus<DataResponse<ProjectTree>>() {
 
@@ -38,6 +42,33 @@ class MainViewModel : BaseViewModel() {
 
 
             })
+        RetrofitManager.createData(api.projectTree1, BaseEntityDataRetrofitData(object :
+            ApiBaseStatus<BaseEntity<ProjectTree>>(){
+            override fun baseData(entity: BaseEntity<ProjectTree>) {
+                TODO("Not yet implemented")
+            }
+
+            override fun before() {
+                TODO("Not yet implemented")
+            }
+
+            override fun success(t: BaseEntity<ProjectTree>) {
+                TODO("Not yet implemented")
+            }
+
+            override fun isEmpty() {
+                TODO("Not yet implemented")
+            }
+
+            override fun loadMore(t: BaseEntity<ProjectTree>, isRefresh: Boolean) {
+                TODO("Not yet implemented")
+            }
+
+            override fun error(exception: java.lang.Exception) {
+                TODO("Not yet implemented")
+            }
+
+        }) )
         RetrofitManager.createData(api.projectTree, {
             //todo before()
         }, {

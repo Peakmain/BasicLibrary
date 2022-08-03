@@ -14,6 +14,8 @@ import android.view.WindowManager
 import androidx.core.view.get
 import androidx.drawerlayout.widget.DrawerLayout
 import com.peakmain.basiclibrary.R
+import com.peakmain.basiclibrary.base.BaseEmptySingleton
+import com.peakmain.basiclibrary.constants.AndroidVersion
 
 /**
  * author ：Peakmain
@@ -21,7 +23,7 @@ import com.peakmain.basiclibrary.R
  * mail:2726449200@qq.com
  * describe：
  */
-object WindowUtils {
+class WindowUtils {
     private var mContentView: ViewGroup? = null
 
     /**
@@ -32,6 +34,11 @@ object WindowUtils {
     private var mPaddingLeft = 0
     private var mPaddingRight = 0
     private var mPaddingTop = 0
+
+    companion object : BaseEmptySingleton<WindowUtils>() {
+        override val createSingleton: () -> WindowUtils
+            get() = ::WindowUtils
+    }
 
     /**
      * 检查布局根节点是否使用了android:fitsSystemWindows="true"属性
@@ -138,14 +145,15 @@ object WindowUtils {
         return 0
     }
 
-    fun getNaviationBarHeight(activity: Activity): Int {
+    fun getNavigationBarHeight(activity: Activity): Int {
         if (hasNavBar(activity)) {
-            var key: String = ""
-            if (activity.resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
-                key = "navigation_bar_height"
-            } else {
-                key = "navigation_bar_height_landscape"
-            }
+            var key = ""
+            key =
+                if (activity.resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+                    "navigation_bar_height"
+                } else {
+                    "navigation_bar_height_landscape"
+                }
             return getInternalDimensionSize(activity, key)
         }
         return 0
@@ -185,19 +193,25 @@ object WindowUtils {
                 }
             }
         }
-        //其他手机根据屏幕真实高度与显示高度是否相同来判断
-        val windowManager = activity.windowManager
-        val d = windowManager.defaultDisplay
-        val realDisplayMetrics = DisplayMetrics()
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-            d.getRealMetrics(realDisplayMetrics)
+        val realHeight: Int
+        val realWidth: Int
+        if (AndroidVersion.isAndroid11()) {
+            val metrics = activity.windowManager.currentWindowMetrics
+            realHeight = metrics.bounds.height()
+            realWidth = metrics.bounds.width()
+        } else {
+            //其他手机根据屏幕真实高度与显示高度是否相同来判断
+            val windowManager = activity.windowManager
+            val d = windowManager.defaultDisplay
+            val realDisplayMetrics = DisplayMetrics()
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+                d.getRealMetrics(realDisplayMetrics)
+            }
+            realHeight = realDisplayMetrics.heightPixels
+            realWidth = realDisplayMetrics.widthPixels
         }
-        val realHeight = realDisplayMetrics.heightPixels
-        val realWidth = realDisplayMetrics.widthPixels
-        val displayMetrics = DisplayMetrics()
-        d.getMetrics(displayMetrics)
-        val displayHeight = displayMetrics.heightPixels
-        val displayWidth = displayMetrics.widthPixels
+        val displayHeight = Resources.getSystem().displayMetrics.heightPixels
+        val displayWidth = Resources.getSystem().displayMetrics.widthPixels
         return realWidth - displayWidth > 0 || realHeight - displayHeight > 0
     }
 
@@ -214,12 +228,15 @@ object WindowUtils {
     fun getPaddingBottom(): Int {
         return mPaddingBottom
     }
+
     fun getPaddingTop(): Int {
         return mPaddingTop
     }
+
     fun getPaddingLeft(): Int {
         return mPaddingLeft
     }
+
     fun getPaddingRight(): Int {
         return mPaddingRight
     }
