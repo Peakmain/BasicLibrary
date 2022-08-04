@@ -5,10 +5,9 @@ import com.peakmain.basiclibrary.network.status.ApiStatus
 import com.peakmain.basiclibrary.network.status.CommonRetrofitData
 import com.peakmain.basiclibrary.network.strategy.CommonRetrofitStrategy
 import com.peakmain.basiclibrary.network.strategy.IRetrofitStrategy
+import com.peakmain.basiclibrary.helper.RetrofitHelper
 import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers
 
 /**
  * author ：Peakmain
@@ -45,19 +44,21 @@ class RetrofitManager {
         ): Disposable {
             return retrofitData.createData(observable)
         }
+
         fun <T> createData(
             observable: Observable<T>,
+            retrofitData: AbstractRetrofitData<T>? = null,
             before: () -> Unit,
             success: T.() -> Unit,
             error: (Exception) -> Unit = {}
         ): Disposable {
-            before()
-            return observable.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread()).subscribe({ t ->
-                    success(t)
-                }, { throwable ->
-                    error(Exception(throwable))
-                })
+            if (retrofitData == null) {
+                val tempRetrofitData = RetrofitHelper.function2RetrofitData(before, success, error)
+                return tempRetrofitData.createData(observable)
+            }
+            return retrofitData.createData(observable)
         }
+
+
     }
 }
