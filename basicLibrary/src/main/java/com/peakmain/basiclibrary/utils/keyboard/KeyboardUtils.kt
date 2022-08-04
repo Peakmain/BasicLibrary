@@ -90,6 +90,7 @@ class KeyboardUtils(
                 im?.hideSoftInputFromWindow(token, InputMethodManager.HIDE_NOT_ALWAYS)
             }
         }
+
         fun isOpenInput(context: Context): Boolean {
             val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             return imm.isActive
@@ -115,21 +116,22 @@ class KeyboardUtils(
     }
 
     override fun onGlobalLayout() {
-        var keyboardHeight = 0
+        var keyboardHeight: Int
         var bottom = 0
         val naviationBarHeight =
-            WindowUtils.getNaviationBarHeight(
+            WindowUtils.getInstance()?.getNavigationBarHeight(
                 activity
-            )
+            ) ?: 0
         val rect = Rect()
         var isPopup = false
         mDecorView.getWindowVisibleDisplayFrame(rect)
         keyboardHeight = mContentView.height - rect.bottom
         if (keyboardHeight != mPrevKeyboardHeight) {
             mPrevKeyboardHeight = keyboardHeight
-            if (!WindowUtils.checkFitsSystemWindow(
-                    mDecorView.findViewById(R.id.content)
-                )
+            if (WindowUtils.getInstance() != null && !WindowUtils.getInstance()!!
+                    .checkFitsSystemWindow(
+                        mDecorView.findViewById(R.id.content)
+                    )
             ) {
                 if (mChildView != null) {
                     if (isSupportActionBar) {
@@ -144,19 +146,21 @@ class KeyboardUtils(
                     }
                     mContentView.setPadding(mPaddingLeft, mPaddingTop, mPaddingRight, bottom)
                 } else {
-                    bottom =
-                        WindowUtils.getPaddingBottom()
-                    keyboardHeight -= naviationBarHeight
-                    if (keyboardHeight > naviationBarHeight) {
-                        bottom = keyboardHeight + naviationBarHeight
-                        isPopup = true
+                    WindowUtils.getInstance()?.apply {
+                        bottom = getPaddingBottom()
+                        keyboardHeight -= naviationBarHeight
+                        if (keyboardHeight > naviationBarHeight) {
+                            bottom = keyboardHeight + naviationBarHeight
+                            isPopup = true
+                        }
+                        mContentView.setPadding(
+                            getPaddingLeft(),
+                            getPaddingTop(),
+                            getPaddingRight(),
+                            getPaddingBottom()
+                        )
                     }
-                    mContentView.setPadding(
-                        WindowUtils.getPaddingLeft(),
-                        WindowUtils.getPaddingTop(),
-                        WindowUtils.getPaddingRight(),
-                        WindowUtils.getPaddingBottom()
-                    )
+
                 }
             } else {
                 keyboardHeight -= naviationBarHeight
