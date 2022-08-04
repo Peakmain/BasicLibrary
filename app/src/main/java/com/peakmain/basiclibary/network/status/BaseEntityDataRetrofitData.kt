@@ -15,16 +15,15 @@ import io.reactivex.schedulers.Schedulers
  * mail:2726449200@qq.com
  * describe：
  */
-class BaseEntityDataRetrofitData<T>( apiStatus: ApiBaseStatus<BaseEntity<T>>) :
+class BaseEntityDataRetrofitData<T>(val apiStatus: ApiBaseStatus<BaseEntity<T>>) :
     AbstractRetrofitData<BaseEntity<T>>(apiStatus) {
-    private var mApiStatus: ApiBaseStatus<BaseEntity<T>> = apiStatus
     override fun createData(observable: Observable<BaseEntity<T>>): Disposable {
-        mApiStatus.before()
+        apiStatus.before()
         return observable.subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread()).subscribe({ t ->
-                checkResult(observable, t, mApiStatus)
+                checkResult(observable, t, apiStatus)
             }, { exception ->
-                checkError(exception, mApiStatus)
+                checkError(exception, apiStatus)
             })
     }
 
@@ -33,7 +32,7 @@ class BaseEntityDataRetrofitData<T>( apiStatus: ApiBaseStatus<BaseEntity<T>>) :
         apiStatus.error(Exception(exception))
     }
 
-    private fun  checkResult(
+    private fun checkResult(
         observable: Observable<BaseEntity<T>>,
         t: BaseEntity<T>,
         apiStatus: ApiBaseStatus<BaseEntity<T>>
