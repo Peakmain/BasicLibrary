@@ -47,10 +47,10 @@ class RetrofitManager {
 
         fun <T> createData(
             observable: Observable<T>,
-            retrofitData: AbstractRetrofitData<T>? = null,
             before: () -> Unit,
             success: T.() -> Unit,
-            error: (Exception) -> Unit = {}
+            error: (Exception) -> Unit = {},
+            retrofitData: AbstractRetrofitData<T>? = null
         ): Disposable {
             if (retrofitData == null) {
                 val tempRetrofitData = RetrofitHelper.function2RetrofitData(before, success, error)
