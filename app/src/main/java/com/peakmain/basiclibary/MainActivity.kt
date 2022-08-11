@@ -10,8 +10,12 @@ import com.peakmain.basiclibary.viewModel.MainViewModel
 import com.peakmain.basiclibrary.adapter.CommonRecyclerDataBindingAdapter
 import com.peakmain.basiclibrary.base.activity.BaseActivity
 import com.peakmain.basiclibrary.config.BasicLibraryConfig
+import com.peakmain.basiclibrary.extend.click
 import com.peakmain.basiclibrary.extend.clickViewDelay
+import com.peakmain.basiclibrary.interfaces.OnPermissionCallback
+import com.peakmain.basiclibrary.permission.PkPermission
 import com.peakmain.basiclibrary.utils.GlobalCoroutineExceptionHandler
+import com.peakmain.ui.constants.PermissionConstants
 import com.peakmain.ui.utils.ToastUtils
 
 class MainActivity(override val layoutId: Int = R.layout.activity_main) :
@@ -37,7 +41,22 @@ class MainActivity(override val layoutId: Int = R.layout.activity_main) :
         GlobalCoroutineExceptionHandler().coroutineExceptionCallback = { context, exception ->
 
         }
-        mBinding.tvRefreshStatus.clickViewDelay {
+        mBinding.tvRefreshStatus.click {
+            if(PkPermission.isGranted(PermissionConstants.getPermissions(PermissionConstants.STORAGE))){
+                Log.e("TAG","授予了读写权限")
+            }else{
+                val permission=PermissionConstants.getPermissions(PermissionConstants.STORAGE)
+                PkPermission.request(this,permission,object :OnPermissionCallback{
+                    override fun onGranted(permissions: Array<String>) {
+                        Log.e("TAG","授予了读写权限")
+                    }
+
+                    override fun onDenied(permissions: Array<String>, never: Boolean) {
+                        Log.e("TAG", "拒接了了读写权限:$never")
+                    }
+
+                })
+            }
         }
     }
 
