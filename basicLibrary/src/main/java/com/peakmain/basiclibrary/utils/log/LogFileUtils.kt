@@ -1,10 +1,11 @@
 package com.peakmain.basiclibrary.utils.log
 
+import android.util.Log
+import com.peakmain.basiclibrary.BuildConfig
+import com.peakmain.basiclibrary.config.BasicLibraryConfig
+import com.peakmain.basiclibrary.constants.PermissionConstants
 import com.peakmain.basiclibrary.extend.isSpace
-import com.peakmain.ui.constants.BasicUIUtils
-import com.peakmain.ui.constants.PermissionConstants
-import com.peakmain.ui.utils.LogUtils
-import com.peakmain.ui.utils.PermissionUtils
+import com.peakmain.basiclibrary.permission.PkPermission
 import java.io.File
 import java.io.RandomAccessFile
 import java.text.SimpleDateFormat
@@ -45,10 +46,12 @@ object LogFileUtils {
     private const val YYYY_MM_DD_HH_MM_SS = "yyyy-MM-dd HH:mm:ss"
     private const val YYYY_MM_DD = "yyyy-MM-dd"
     private const val LOGCAT_BASE_PATH = "Peakmain/Log"
+    val application = BasicLibraryConfig.getInstance()?.getApp()?.getApplication()
     private fun getBasePath(children: String) =
-        BasicUIUtils.application?.getExternalFilesDir(null)?.absolutePath + "/$children/"
+       application?.getExternalFilesDir(null)?.absolutePath + "/$children/"
 
     var basePath: String = getBasePath(LOGCAT_BASE_PATH)
+    @JvmStatic
     fun setLogPath(path: String) {
         basePath = path
     }
@@ -64,7 +67,7 @@ object LogFileUtils {
 
     @JvmStatic
     fun write(filePath: String, str: String) {
-        if (PermissionUtils.hasPermission(PermissionConstants.getPermissions(PermissionConstants.STORAGE))) {
+        if (PkPermission.isGranted(PermissionConstants.getPermissions(PermissionConstants.STORAGE))) {
             val file = (if (filePath.isSpace()) null else File(filePath)) ?: return
             file.also {
                 if (!it.exists()) {
@@ -89,7 +92,7 @@ object LogFileUtils {
                 }
             }
         } else {
-            LogUtils.e("请开启读写权限")
+            Log.e("TAG","请开启读写权限")
         }
     }
 

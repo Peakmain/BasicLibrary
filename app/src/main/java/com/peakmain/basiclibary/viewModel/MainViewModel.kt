@@ -11,7 +11,6 @@ import com.peakmain.basiclibrary.network.entity.BaseEntity
 import com.peakmain.basiclibary.network.status.ApiBaseStatus
 import com.peakmain.basiclibrary.network.status.ApiStatus
 import com.peakmain.basiclibary.network.status.BaseEntityDataRetrofitData
-import com.peakmain.ui.utils.ToastUtils
 
 /**
  * author ：Peakmain
@@ -80,7 +79,6 @@ class MainViewModel : BaseViewModel() {
 
 
     fun clickListener(view: View) {
-        ToastUtils.showLong("测试")
     }
 
 }

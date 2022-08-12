@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.peakmain.basiclibrary.adapter.holder.BaseLibraryFooterViewHolder
 import com.peakmain.basiclibrary.adapter.holder.BaseLibraryViewHolder
 import com.peakmain.basiclibrary.config.BaseAdapterFooterConfig
-import com.peakmain.ui.recyclerview.listener.OnItemClickListener
+import com.peakmain.basiclibrary.adapter.listener.OnItemClickListener
 import com.peakmain.ui.recyclerview.listener.OnLongClickListener
 import androidx.annotation.IntDef
 import com.peakmain.basiclibrary.adapter.listener.BaseLibraryOnScrollListener

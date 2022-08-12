@@ -10,13 +10,12 @@ import com.peakmain.basiclibary.viewModel.MainViewModel
 import com.peakmain.basiclibrary.adapter.CommonRecyclerDataBindingAdapter
 import com.peakmain.basiclibrary.base.activity.BaseActivity
 import com.peakmain.basiclibrary.config.BasicLibraryConfig
+import com.peakmain.basiclibrary.constants.PermissionConstants
 import com.peakmain.basiclibrary.extend.click
 import com.peakmain.basiclibrary.extend.clickViewDelay
 import com.peakmain.basiclibrary.interfaces.OnPermissionCallback
 import com.peakmain.basiclibrary.permission.PkPermission
 import com.peakmain.basiclibrary.utils.GlobalCoroutineExceptionHandler
-import com.peakmain.ui.constants.PermissionConstants
-import com.peakmain.ui.utils.ToastUtils
 
 class MainActivity(override val layoutId: Int = R.layout.activity_main) :
     BaseActivity<ActivityMainBinding, MainViewModel>() {
@@ -42,10 +41,10 @@ class MainActivity(override val layoutId: Int = R.layout.activity_main) :
 
         }
         mBinding.tvRefreshStatus.click {
-            if(PkPermission.isGranted(PermissionConstants.getPermissions(PermissionConstants.STORAGE))){
+            if(PkPermission.isGranted(PermissionConstants.getPermissions(PermissionConstants.CAMERA))){
                 Log.e("TAG","授予了读写权限")
             }else{
-                val permission=PermissionConstants.getPermissions(PermissionConstants.STORAGE)
+                val permission=PermissionConstants.getPermissions(PermissionConstants.CAMERA)
                 PkPermission.request(this,permission,object :OnPermissionCallback{
                     override fun onGranted(permissions: Array<String>) {
                         Log.e("TAG","授予了读写权限")
@@ -61,7 +60,6 @@ class MainActivity(override val layoutId: Int = R.layout.activity_main) :
     }
 
     fun setClickView(view: View) {
-        ToastUtils.showLong("测试")
     }
 
     val data = ArrayList<String>()
