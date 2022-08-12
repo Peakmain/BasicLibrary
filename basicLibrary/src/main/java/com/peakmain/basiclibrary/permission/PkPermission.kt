@@ -1,12 +1,9 @@
 package com.peakmain.basiclibrary.permission
 
-import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
-import com.peakmain.basiclibrary.constants.AndroidVersion
 import com.peakmain.basiclibrary.helper.PermissionHelper
 import com.peakmain.basiclibrary.interfaces.OnPermissionCallback
-import com.peakmain.ui.utils.PermissionUtils
 
 /**
  * author ：Peakmain
@@ -18,7 +15,7 @@ class PkPermission private constructor() {
     private lateinit var mPermission: Array<String>
     private var mPkPermissionFragment: PkPermissionFragment? = null
     companion object {
-        val TAG = PkPermission::class.simpleName
+        @JvmStatic
         val instance by lazy(LazyThreadSafetyMode.SYNCHRONIZED) {
             PkPermission()
         }

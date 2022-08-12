@@ -3,7 +3,6 @@ package com.peakmain.basiclibrary.base
 import android.app.Application
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStore
-import com.peakmain.ui.utils.launcher.dispatcher.TaskDispatcher
 
 /**
  * author ：Peakmain
@@ -19,5 +18,4 @@ interface IApp {
 
     fun getApplication(): Application
     fun getViewModelStore(): ViewModelStore
-    fun getDispatcher():TaskDispatcher
 }

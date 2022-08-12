@@ -4,12 +4,6 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Build
 import android.util.Log
-import android.view.DisplayCutout
-import android.view.View
-import android.view.WindowInsets
-import androidx.annotation.RequiresApi
-import com.peakmain.basiclibrary.constants.AndroidVersion
-import com.peakmain.ui.utils.SizeUtils
 import java.lang.reflect.Method
 
 /**
@@ -127,15 +121,18 @@ object NotchScreenUtil {
     
 
     fun getOppoNotchSize(): Int {
-        return SizeUtils.dp2px(80f)
+        return dp2px(80f)
     }
 
 
     fun getVivoNotchSize(): Int {
-        return SizeUtils.dp2px(32f)
+        return dp2px(32f)
     }
 
-
+    fun dp2px(dpValue: Float): Int {
+        val scale = BasicLibraryUtils.application?.resources?.displayMetrics!!.density
+        return (dpValue * scale + 0.5f).toInt()
+    }
     const val DEVICE_BRAND_OPPO = 0x0001
     const val DEVICE_BRAND_HUAWEI = 0x0002
     const val DEVICE_BRAND_VIVO = 0x0003

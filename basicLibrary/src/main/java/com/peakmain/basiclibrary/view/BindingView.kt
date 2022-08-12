@@ -1,17 +1,11 @@
 package com.peakmain.basiclibrary.view
 
-import android.opengl.Visibility
 import android.view.MotionEvent
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
-import com.peakmain.basiclibrary.extend.click
-import com.peakmain.basiclibrary.extend.clickClipListener
 import com.peakmain.basiclibrary.extend.clickViewDelay
-import com.peakmain.basiclibrary.extend.ktxRunOnUiThread
-import com.peakmain.ui.imageLoader.ImageLoader
-import com.peakmain.ui.utils.TextUtils
 
 /**
  * author ：Peakmain
@@ -20,25 +14,6 @@ import com.peakmain.ui.utils.TextUtils
  * describe：
  */
 object BindingView {
-    @BindingAdapter("loadUrl")
-    @JvmStatic
-    fun loadImage(img: ImageView, url: String) {
-        ImageLoader.instance?.displayImage(img.context, url, img)
-    }
-
-    /**
-     * 文本添加*前缀
-     */
-    @BindingAdapter(value = ["asteriskPrevText", "asteriskColor"], requireAll = false)
-    @JvmStatic
-    fun setAsteriskPrefixText(textView: TextView, text: String?, color: Int) {
-        var textContent: String? = null
-        if (android.text.TextUtils.isEmpty(text)) {
-            textContent = textView.text.toString()
-        }
-        val spannableString = TextUtils.clipTextColor("*$textContent", color, 0, 1)
-        textView.text = spannableString
-    }
 
     /**
      * 设置view的visibility
