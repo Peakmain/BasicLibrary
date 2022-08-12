@@ -1,5 +1,6 @@
 package com.peakmain.basiclibrary.permission
 
+import android.content.Context
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import com.peakmain.basiclibrary.helper.PermissionHelper
@@ -14,14 +15,17 @@ import com.peakmain.basiclibrary.interfaces.OnPermissionCallback
 class PkPermission private constructor() {
     private lateinit var mPermission: Array<String>
     private var mPkPermissionFragment: PkPermissionFragment? = null
+
     companion object {
         @JvmStatic
-        val instance by lazy(LazyThreadSafetyMode.SYNCHRONIZED) {
+        private val instance by lazy(LazyThreadSafetyMode.SYNCHRONIZED) {
             PkPermission()
         }
+
         /**
          * 是否授予某权限
          */
+        @JvmStatic
         fun isGranted(permissions: String): Boolean {
             return PermissionHelper.instance.isGranted(permissions)
         }
@@ -29,14 +33,17 @@ class PkPermission private constructor() {
         /**
          * 是否授予某权限
          */
+        @JvmStatic
         fun isGranted(permissions: Array<String>): Boolean {
             return PermissionHelper.instance.isGranted(permissions)
         }
+
+        @JvmStatic
         fun request(fragment: Fragment, permissions: Array<String>, block: OnPermissionCallback) {
             instance.with(fragment).requestPermission(permissions)
                 .request(block)
         }
-
+        @JvmStatic
         fun request(
             activity: FragmentActivity,
             permissions: Array<String>,
@@ -45,13 +52,19 @@ class PkPermission private constructor() {
             instance.with(activity).requestPermission(permissions)
                 .request(block)
         }
+        @JvmStatic
+        fun toAppSetting(context: Context) {
+            PermissionSettingFactory.toAppSetting(context)
+        }
+
+        @JvmStatic
+        fun getAppSettingIntent(context: Context) {
+            PermissionSettingFactory.getAppSettingIntent(context)
+        }
         fun onRequestPermissionsResult(permissions: Array<String>, grantResults: IntArray) {
-           instance.onRequestPermissionsResult(permissions,grantResults)
+            instance.onRequestPermissionsResult(permissions, grantResults)
         }
     }
-
-
-
 
 
     private fun with(fragment: Fragment): PkPermission {
@@ -66,14 +79,13 @@ class PkPermission private constructor() {
     }
 
     private fun request(block: OnPermissionCallback) {
-        mPkPermissionFragment?.requestPermissions(mPermission,block)
+        mPkPermissionFragment?.requestPermissions(mPermission, block)
     }
 
     private fun requestPermission(permissions: Array<String>): PkPermission {
         this.mPermission = permissions
         return this
     }
-
 
 
     private fun onRequestPermissionsResult(permissions: Array<String>, grantResults: IntArray) {

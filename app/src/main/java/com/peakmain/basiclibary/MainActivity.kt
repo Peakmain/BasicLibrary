@@ -9,10 +9,8 @@ import com.peakmain.basiclibary.databinding.ActivityMainBinding
 import com.peakmain.basiclibary.viewModel.MainViewModel
 import com.peakmain.basiclibrary.adapter.CommonRecyclerDataBindingAdapter
 import com.peakmain.basiclibrary.base.activity.BaseActivity
-import com.peakmain.basiclibrary.config.BasicLibraryConfig
 import com.peakmain.basiclibrary.constants.PermissionConstants
 import com.peakmain.basiclibrary.extend.click
-import com.peakmain.basiclibrary.extend.clickViewDelay
 import com.peakmain.basiclibrary.interfaces.OnPermissionCallback
 import com.peakmain.basiclibrary.permission.PkPermission
 import com.peakmain.basiclibrary.utils.GlobalCoroutineExceptionHandler
@@ -52,6 +50,7 @@ class MainActivity(override val layoutId: Int = R.layout.activity_main) :
 
                     override fun onDenied(permissions: Array<String>, never: Boolean) {
                         Log.e("TAG", "拒接了了读写权限:$never")
+                        PkPermission.toAppSetting(this@MainActivity)
                     }
 
                 })
