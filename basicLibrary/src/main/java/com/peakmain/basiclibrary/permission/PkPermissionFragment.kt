@@ -36,7 +36,7 @@ internal class PkPermissionFragment : Fragment() {
         val fragmentActivity = activity ?: return false
         return !AndroidVersion.isAndroid6() || fragmentActivity.packageManager.isPermissionRevokedByPolicy(
             permission,
-            activity!!.packageName
+            fragmentActivity.packageName
         )
     }
 
