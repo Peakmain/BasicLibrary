@@ -31,7 +31,7 @@ internal class PermissionHelper private constructor() {
             pkPermissionFragment = PkPermissionFragment()
             fragmentManager.beginTransaction()
                 .add(pkPermissionFragment, TAG)
-                .commitNow()
+                .commitAllowingStateLoss()
         }
         return pkPermissionFragment
     }

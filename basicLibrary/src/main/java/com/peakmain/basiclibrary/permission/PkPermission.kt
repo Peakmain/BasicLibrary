@@ -37,7 +37,11 @@ class PkPermission private constructor() {
         fun isGranted(permissions: Array<String>): Boolean {
             return PermissionHelper.instance.isGranted(permissions)
         }
-
+        @JvmStatic
+        fun request(fragment: Fragment,permissions: String,block: OnPermissionCallback){
+            instance.with(fragment).requestPermission(arrayOf(permissions))
+                .request(block)
+        }
         @JvmStatic
         fun request(fragment: Fragment, permissions: Array<String>, block: OnPermissionCallback) {
             instance.with(fragment).requestPermission(permissions)
@@ -61,9 +65,6 @@ class PkPermission private constructor() {
         fun getAppSettingIntent(context: Context) {
             PermissionSettingFactory.getAppSettingIntent(context)
         }
-        fun onRequestPermissionsResult(permissions: Array<String>, grantResults: IntArray) {
-            instance.onRequestPermissionsResult(permissions, grantResults)
-        }
     }
 
 
@@ -85,12 +86,6 @@ class PkPermission private constructor() {
     private fun requestPermission(permissions: Array<String>): PkPermission {
         this.mPermission = permissions
         return this
-    }
-
-
-    private fun onRequestPermissionsResult(permissions: Array<String>, grantResults: IntArray) {
-        mPkPermissionFragment
-            ?.onRequestPermissionsResult(permissions, grantResults)
     }
 
 }

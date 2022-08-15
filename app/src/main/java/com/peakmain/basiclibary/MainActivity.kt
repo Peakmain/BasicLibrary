@@ -39,10 +39,10 @@ class MainActivity(override val layoutId: Int = R.layout.activity_main) :
 
         }
         mBinding.tvRefreshStatus.click {
-            if(PkPermission.isGranted(PermissionConstants.getPermissions(PermissionConstants.CAMERA))){
+            if(PkPermission.isGranted(PermissionConstants.getPermissions(PermissionConstants.STORAGE))){
                 Log.e("TAG","授予了读写权限")
             }else{
-                val permission=PermissionConstants.getPermissions(PermissionConstants.CAMERA)
+                val permission=PermissionConstants.getPermissions(PermissionConstants.STORAGE)
                 PkPermission.request(this,permission,object :OnPermissionCallback{
                     override fun onGranted(permissions: Array<String>) {
                         Log.e("TAG","授予了读写权限")
