@@ -34,7 +34,7 @@ internal object PermissionSettingFactory {
     }
 
     fun getAppSettingIntent(context: Context): Intent {
-        return when (Build.MANUFACTURER) {
+       /* return when (Build.MANUFACTURER) {
             MANUFACTURER_HUAWEI -> HuaWeiPermissionSetting().getAppSetting(context)
             MANUFACTURER_MEIZU -> MeiZuPermissionSetting().getAppSetting(context)
             MANUFACTURER_XIAOMI -> XiaomiPermissionSetting().getAppSetting(context)
@@ -43,6 +43,7 @@ internal object PermissionSettingFactory {
             MANUFACTURER_VIVO -> VIVOPermissionSetting().getAppSetting(context)
             MANUFACTURER_LG -> LGPermissionSetting().getAppSetting(context)
             else -> DefaultPermissionSetting().getAppSetting(context)
-        }
+        }*/
+        return DefaultPermissionSetting().getAppSetting(context)
     }
 }

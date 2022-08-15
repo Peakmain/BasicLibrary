@@ -22,6 +22,7 @@ object AndroidVersion {
     val ANDROID_6: Int = Build.VERSION_CODES.M
     val ANDROID_5_1: Int = Build.VERSION_CODES.LOLLIPOP_MR1
     val ANDROID_5: Int = Build.VERSION_CODES.LOLLIPOP
+    val ANDROID_4_4_w: Int = Build.VERSION_CODES.KITKAT_WATCH
     val ANDROID_4_4: Int = Build.VERSION_CODES.KITKAT
     val ANDROID_4_3: Int = Build.VERSION_CODES.JELLY_BEAN_MR2
     val ANDROID_4_2: Int = Build.VERSION_CODES.JELLY_BEAN_MR1
@@ -93,7 +94,18 @@ object AndroidVersion {
     fun isAndroid5(): Boolean {
         return Build.VERSION.SDK_INT >= ANDROID_5
     }
-
+    /**
+     * 是否是 Android 4.4W 及以上版本
+     */
+    fun isAndroid4_4_w(): Boolean {
+        return Build.VERSION.SDK_INT >= ANDROID_4_4_w
+    }
+    /**
+     * 是否是 Android 4.4 及以上版本
+     */
+    fun isAndroid4_4(): Boolean {
+        return Build.VERSION.SDK_INT >= ANDROID_4_4
+    }
     /**
      * 是否是 Android 4.3 及以上版本
      */
