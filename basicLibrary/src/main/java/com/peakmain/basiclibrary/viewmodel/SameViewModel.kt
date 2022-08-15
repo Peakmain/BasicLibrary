@@ -1,4 +1,4 @@
-package com.peakmain.basiclibrary.viewModel
+package com.peakmain.basiclibrary.viewmodel
 
 import com.peakmain.basiclibrary.base.viewmodel.BaseViewModel
 

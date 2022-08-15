@@ -5,7 +5,7 @@
 
         <variable
             name="vm"
-            type="com.peakmain.basiclibrary.viewModel.SameViewModel" />
+            type="com.peakmain.basiclibrary.viewmodel.SameViewModel" />
     </data>
 
     <LinearLayout
