@@ -38,13 +38,22 @@ class PkPermission private constructor() {
             return PermissionHelper.instance.isGranted(permissions)
         }
         @JvmStatic
-        fun request(fragment: Fragment,permissions: String,block: OnPermissionCallback){
-            instance.with(fragment).requestPermission(arrayOf(permissions))
+        fun request(fragment: Fragment,permission: String,block: OnPermissionCallback){
+            instance.with(fragment).requestPermission(arrayOf(permission))
                 .request(block)
         }
         @JvmStatic
         fun request(fragment: Fragment, permissions: Array<String>, block: OnPermissionCallback) {
             instance.with(fragment).requestPermission(permissions)
+                .request(block)
+        }
+        @JvmStatic
+        fun request(
+            activity: FragmentActivity,
+            permission: String,
+            block: OnPermissionCallback
+        ) {
+            instance.with(activity).requestPermission(permission)
                 .request(block)
         }
         @JvmStatic
@@ -82,7 +91,10 @@ class PkPermission private constructor() {
     private fun request(block: OnPermissionCallback) {
         mPkPermissionFragment?.requestPermissions(mPermission, block)
     }
-
+    private fun requestPermission(permission: String): PkPermission {
+        this.mPermission = arrayOf(permission)
+        return this
+    }
     private fun requestPermission(permissions: Array<String>): PkPermission {
         this.mPermission = permissions
         return this

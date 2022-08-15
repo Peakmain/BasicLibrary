@@ -3,11 +3,10 @@ package com.peakmain.basiclibrary.permission
 import android.os.Bundle
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
 import com.peakmain.basiclibrary.constants.AndroidVersion
 import com.peakmain.basiclibrary.helper.PermissionHelper
 import com.peakmain.basiclibrary.interfaces.OnPermissionCallback
+import com.peakmain.basiclibrary.viewmodel.PkPermissionViewModel
 
 
 /**
@@ -18,23 +17,15 @@ import com.peakmain.basiclibrary.interfaces.OnPermissionCallback
  */
 internal class PkPermissionFragment : Fragment() {
 
-    private var mOnPermissionCallback: OnPermissionCallback? = null
-    private var mOnPermissionCallbackLiveData =
-        MutableLiveData<Pair<Array<String>?, OnPermissionCallback?>>()
+    private val mViewModel = PkPermissionViewModel()
     private var mSinglePermissionLauncher =
         registerForActivityResult(RequestPermissionContract()) {
-            val permission = it.first
-            when {
-                it.second -> mOnPermissionCallback?.onGranted(arrayOf(permission))
-                permission.isNotEmpty() && shouldShowRequestPermissionRationale(permission) ->
-                    mOnPermissionCallback?.onDenied(
-                        arrayOf(permission),
-                        false
-                    )
-                else -> mOnPermissionCallback?.onDenied(arrayOf(permission), true)
-            }
+            mViewModel.registerSingleForActivityResult(
+                it,
+                shouldShowRequestPermissionRationale(it.first)
+            )
         }
-    private val mPermissionLauncher =
+    private val mMultiPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) {
             if (it.containsValue(false)) {
                 val deniedList = mutableListOf<String>()
@@ -43,12 +34,15 @@ internal class PkPermissionFragment : Fragment() {
                     shouldShowRequestPermissionRationale(permission)
                 }
                 if (shouldPermissionList.isNotEmpty()) {
-                    mOnPermissionCallback?.onDenied(shouldPermissionList.toTypedArray(), false)
+                    mViewModel.mOnPermissionCallback?.onDenied(
+                        shouldPermissionList.toTypedArray(),
+                        false
+                    )
                 } else {
-                    mOnPermissionCallback?.onDenied(deniedList.toTypedArray(), true)
+                    mViewModel.mOnPermissionCallback?.onDenied(deniedList.toTypedArray(), true)
                 }
             } else {
-                mOnPermissionCallback?.onGranted(it.keys.toTypedArray())
+                mViewModel.mOnPermissionCallback?.onGranted(it.keys.toTypedArray())
             }
         }
 
@@ -74,52 +68,31 @@ internal class PkPermissionFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        mOnPermissionCallbackLiveData.observe(
+        mViewModel.mOnPermissionCallbackLiveData.observe(
             this,
-            requestPermissionObserver()
+            mViewModel.requestPermissionObserver(
+                mSinglePermissionLauncher,
+                mMultiPermissionLauncher
+            )
         )
     }
 
-    private fun requestPermissionObserver(): Observer<Pair<Array<String>?, OnPermissionCallback?>> =
-        Observer {
-            val callback = it.second
-            val permissions = it.first
-            mOnPermissionCallback = callback
-            if (callback != null && permissions != null) {
-                val deniedPermissions =
-                    PermissionHelper.instance.getDeniedPermissions(*permissions)
-                if (!AndroidVersion.isAndroid6() || deniedPermissions.isEmpty()) {
-                    mOnPermissionCallback?.onGranted(permissions)
-                } else if (permissions.size == 1) {
-                    mSinglePermissionLauncher.launch(deniedPermissions[0])
-                } else {
-                    mPermissionLauncher.launch(deniedPermissions.toTypedArray())
-
-                }
-            }
-        }
-
     fun requestPermission(permission: String, block: OnPermissionCallback) {
-        this.mOnPermissionCallback = block
-        mOnPermissionCallbackLiveData.value = arrayOf(permission) to block
+        mViewModel.mOnPermissionCallback = block
+        mViewModel.mOnPermissionCallbackLiveData.value = arrayOf(permission) to block
     }
 
     /**
      * 申请权限
      */
     fun requestPermissions(permissions: Array<String>, block: OnPermissionCallback) {
-        this.mOnPermissionCallback = block
-        mOnPermissionCallbackLiveData.value = permissions to block
+        mViewModel.mOnPermissionCallback = block
+        mViewModel.mOnPermissionCallbackLiveData.value = permissions to block
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        if (mOnPermissionCallback != null) {
-            mOnPermissionCallback = null
-        }
-        if (mOnPermissionCallbackLiveData.value != null) {
-            mOnPermissionCallbackLiveData.value = null
-        }
+        mViewModel.clearData()
     }
 
 }
