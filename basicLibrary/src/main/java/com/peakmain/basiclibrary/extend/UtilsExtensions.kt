@@ -1,18 +1,15 @@
 package com.peakmain.basiclibrary.extend
 
+import android.Manifest.permission.*
 import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.util.TypedValue
-import androidx.activity.result.ActivityResultCaller
 import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.fragment.app.Fragment
 import com.google.gson.Gson
-import com.peakmain.basiclibrary.interfaces.OnPermissionCallback
-import com.peakmain.basiclibrary.permission.RequestPermissionContract
+import com.peakmain.basiclibrary.constants.AndroidVersion
 
 /**
  * author ：Peakmain
@@ -117,41 +114,45 @@ private fun getChina(input: Int): String? {
     return sd
 }
 
-fun ActivityResultCaller.registerSingleForPermissionResult(
-    fragment: Fragment,
-    onPermissionCallback: OnPermissionCallback?
-): ActivityResultLauncher<String> {
-    return registerForActivityResult(RequestPermissionContract()) {
-        val permission = it.first
-        when {
-            it.second -> onPermissionCallback?.onGranted(arrayOf(permission))
-            permission.isNotEmpty() && fragment.shouldShowRequestPermissionRationale(permission) -> onPermissionCallback?.onDenied(
-                arrayOf(permission),
-                false
+fun ActivityResultLauncher<Array<String>>.launchMulti(
+    permissions: Array<String>,
+    block: (() -> Unit)? = null
+) {
+    val permissionsSet = permissions.toMutableSet()
+    if (AndroidVersion.isAndroid12()) {
+        if (permissionsSet.contains(ACCESS_FINE_LOCATION) &&
+            !permissionsSet.contains(ACCESS_COARSE_LOCATION)
+        ) {
+            //Android 12必须添加ACCESS_COARSE_LOCATION
+            //官方适配文档：https://developer.android.google.cn/about/versions/12/approximate-location
+            throw IllegalArgumentException(
+                "在android 12或更高的版本中，请勿单独请求ACCESS_FINE_LOCATION权限，" +
+                        "而应在单个运行时请求中同时请求ACCESS_FINE_LOCATION和ACCESS_COARSE_LOCATION权限。"
             )
-            else -> onPermissionCallback?.onDenied(arrayOf(permission), true)
         }
     }
-}
 
-fun ActivityResultCaller.registerMultiForPermissionResult(
-    fragment: Fragment,
-    onPermissionCallback: OnPermissionCallback?
-): ActivityResultLauncher<Array<String>> {
-    return registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) {
-        if (it.containsValue(false)) {
-            val deniedList = mutableListOf<String>()
-            for (entry in it.entries) if (!entry.value) deniedList.add(entry.key)
-            val shouldPermissionList = deniedList.filter { permission ->
-                fragment.shouldShowRequestPermissionRationale(permission)
-            }
-            if (shouldPermissionList.isNotEmpty()) {
-                onPermissionCallback?.onDenied(shouldPermissionList.toTypedArray(), false)
-            } else {
-                onPermissionCallback?.onDenied(deniedList.toTypedArray(), true)
-            }
-        }else{
-            onPermissionCallback?.onGranted(it.keys.toTypedArray())
-        }
+    if (!permissionsSet.contains(ACCESS_BACKGROUND_LOCATION)) {
+        launch(permissions)
+        return
     }
+    if (permissionsSet.contains(ACCESS_COARSE_LOCATION)
+        && !permissionsSet.contains(ACCESS_FINE_LOCATION)
+    ) {
+        permissionsSet.add(ACCESS_FINE_LOCATION)
+    }
+    //后台定位权限不要和其他权限一起申请
+    for (permission in permissions) {
+        if (permission != ACCESS_FINE_LOCATION || permission != ACCESS_COARSE_LOCATION || permission == ACCESS_BACKGROUND_LOCATION) {
+            continue
+        }
+        throw  IllegalArgumentException("因为有background location 权限, 请不要申请与位置无关的权限!!")
+    }
+    if (AndroidVersion.isAndroid10() && permissionsSet.size >= 2) {
+        permissionsSet.remove(ACCESS_BACKGROUND_LOCATION)
+        launchMulti(permissionsSet.toTypedArray())
+        block?.invoke()
+        return
+    }
+    launch(permissions)
 }

@@ -63,7 +63,10 @@ class MainActivity(override val layoutId: Int = R.layout.activity_main) :
             val permission = PermissionConstants.getPermissions(permissions)
             PkPermission.request(this, permission, object : OnPermissionCallback {
                 override fun onGranted(permissions: Array<String>) {
-                    Log.e("TAG", "授予了权限:$permission")
+                    for (s in permissions) {
+                        Log.e("TAG", "授予了权限:$s")
+                    }
+
                 }
 
                 override fun onDenied(permissions: Array<String>, never: Boolean) {

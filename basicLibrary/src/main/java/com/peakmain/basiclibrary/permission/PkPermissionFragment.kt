@@ -1,5 +1,6 @@
 package com.peakmain.basiclibrary.permission
 
+import android.Manifest
 import android.os.Bundle
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
@@ -27,23 +28,15 @@ internal class PkPermissionFragment : Fragment() {
         }
     private val mMultiPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) {
-            if (it.containsValue(false)) {
-                val deniedList = mutableListOf<String>()
-                for (entry in it.entries) if (!entry.value) deniedList.add(entry.key)
-                val shouldPermissionList = deniedList.filter { permission ->
-                    shouldShowRequestPermissionRationale(permission)
-                }
-                if (shouldPermissionList.isNotEmpty()) {
-                    mViewModel.mOnPermissionCallback?.onDenied(
-                        shouldPermissionList.toTypedArray(),
-                        false
-                    )
-                } else {
-                    mViewModel.mOnPermissionCallback?.onDenied(deniedList.toTypedArray(), true)
-                }
-            } else {
-                mViewModel.mOnPermissionCallback?.onGranted(it.keys.toTypedArray())
+            mViewModel.registerMultiForActivityResult(it, { permission ->
+                shouldShowRequestPermissionRationale(permission)
+            }) {
+                requestPermission(
+                    Manifest.permission.ACCESS_BACKGROUND_LOCATION,
+                    mViewModel.mOnPermissionCallback
+                )
             }
+
         }
 
     /**
@@ -68,16 +61,17 @@ internal class PkPermissionFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        mViewModel.mOnPermissionCallbackLiveData.observe(
-            this,
+        mViewModel.mOnPermissionCallbackLiveData.observe(this,
             mViewModel.requestPermissionObserver(
                 mSinglePermissionLauncher,
                 mMultiPermissionLauncher
-            )
+            ) {
+                mViewModel.sBackgroundLocationPermission = true
+            }
         )
     }
 
-    fun requestPermission(permission: String, block: OnPermissionCallback) {
+    fun requestPermission(permission: String, block: OnPermissionCallback?) {
         mViewModel.mOnPermissionCallback = block
         mViewModel.mOnPermissionCallbackLiveData.value = arrayOf(permission) to block
     }
