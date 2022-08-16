@@ -78,15 +78,6 @@ class XXFragment(override val layoutId: Int = 自定义布局) :
 - 初始化
 在Application中添加如下代码即可
 ```
-        try {
-            TaskDispatcher dispatcher = BasicLibraryConfig.Companion.getInstance().getApp().getDispatcher();
-            dispatcher.start();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-```
-或者直接使用MMKV的初始化
-```
 	MMKV.initialize(BasicLibraryConfig.getInstance().getApp().getApplication())//参数是Context
 ```
 - 使用
@@ -98,7 +89,6 @@ class XXFragment(override val layoutId: Int = 自定义布局) :
 ```
  PreferencesUtils.getInstance(this).getParam(key,defalutParams)//👈🏻key: String, defaultObject: Any?
 ```
-- 关于启动优化——启动器TaskDispatcher大家可以看我之前关于BasicUI的wiki：[有向无环图实现启动器优化](https://github.com/Peakmain/BasicUI/wiki/有向无环图实现启动器优化)
 
 #### 4、防止多次点击事件的处理
 立即处理
@@ -253,31 +243,21 @@ class TestAdapter(data: MutableList<String>, layoutManager: LinearLayoutManager)
         }
 ```
 #### 10、BindingAdapter的使用
-	
-- ①、文本添加*前缀
-```
-	app:asteriskPrevText=""//文本的名字
-	app:asteriskColor=""//星号的颜色
-```
-- ②、设置image的url图片
-```
-	app:loadUrl=""//参数url
-```
-- ③、设置view的visibility是View.VISIBLE还是View.Gone
+- ①、设置view的visibility是View.VISIBLE还是View.Gone
 ```
 	app:visibilityOrGone="@{!vm.isShow}"//true表示View.Visible,false则表示View.Gone
 ```
-- ④、设置view的visibility是View.VISIBLE还是View.InVisibile
+- ②、设置view的visibility是View.VISIBLE还是View.InVisibile
 ```
 	app:visibilityOrInVisible="@{vm.isShow}"//true表示View.Visible,false则表示View.InVisbile
 
 ```
-- ⑤、防止多次重复点击
+- ③、防止多次重复点击
 ```
 	app:clickDelayTime="@{vm.delayTime}"//设置点击事件的延迟时间,参数为long类型
 	app:click="@{vm.clickListener}"//设置点击事件的事件处理
 ```
-- ⑥、textView的drawableLeft和drawableRight的点击事件
+- ④、textView的drawableLeft和drawableRight的点击事件
 ```
 	app:drawableLeftClick=""//drawableLeft的点击事件
 	app:drawableRightClick=""//drawableRight的点击事件
