@@ -1,7 +1,6 @@
 # BasicLibrary
 - BasicLibrary是基于kotlin+jetpack+mvvm封装的一套框架,提高Android开发效率
-- 集成了自己封装的BasicUI库，关于BasicUI大家可以看我之前写的文章[BasicUI常用UI组件和实用工具类封装，提高Android开发的效率](https://www.jianshu.com/p/78bcc6c3bbca)
-还包括:
+功能包括:
 - MMKV的封装
 - 防止多次事件的处理
 - Retrofit封装实现网络解耦
