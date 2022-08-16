@@ -14,7 +14,7 @@ import com.peakmain.basiclibrary.config.BaseAdapterFooterConfig
 import com.peakmain.basiclibrary.adapter.listener.OnItemClickListener
 import androidx.annotation.IntDef
 import com.peakmain.basiclibrary.adapter.listener.BaseLibraryOnScrollListener
-import com.peakmain.ui.recyclerview.listener.OnLongClickListener
+import com.peakmain.basiclibrary.adapter.listener.OnLongClickListener
 import java.lang.RuntimeException
 
 
