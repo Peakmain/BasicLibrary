@@ -1,4 +1,4 @@
-package com.peakmain.ui.recyclerview.listener
+package com.peakmain.basiclibrary.adapter.listener
 
 /**
  * author ：Peakmain
