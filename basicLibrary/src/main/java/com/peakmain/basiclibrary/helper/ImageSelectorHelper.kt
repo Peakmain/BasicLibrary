@@ -3,7 +3,7 @@ package com.peakmain.basiclibrary.helper
 import android.os.Bundle
 import androidx.fragment.app.FragmentManager
 import com.peakmain.basiclibrary.config.ImageContext
-import com.peakmain.basiclibrary.image.ImageSelector
+import com.peakmain.basiclibrary.image.PkImageSelector
 import com.peakmain.basiclibrary.image.ImageSelectorFragment
 import com.peakmain.basiclibrary.config.ImageRequestConfig
 import com.peakmain.basiclibrary.constants.ImageSelectConstants
@@ -19,7 +19,7 @@ internal class ImageSelectorHelper private constructor() {
         val instance by lazy(LazyThreadSafetyMode.SYNCHRONIZED) {
             ImageSelectorHelper()
         }
-        private val TAG = ImageSelector::class.simpleName
+        private val TAG = PkImageSelector::class.simpleName
     }
 
     fun getPictureSelectFragment(

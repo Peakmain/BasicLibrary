@@ -160,7 +160,7 @@ fun ActivityResultLauncher<Array<String>>.launchMulti(
 }
 
 
-fun ActivityResultLauncher<String?>.launchSingleImage(config: ImageRequestConfig?) {
+fun ActivityResultLauncher<String?>.launchImage(config: ImageRequestConfig?) {
     when (config?.imageType) {
         ImageSelectConstants.IMAGE_TYPE -> launch("image/*")
         ImageSelectConstants.VIDEO_TYPE -> launch("video/*")

@@ -13,12 +13,13 @@ import com.peakmain.basiclibrary.constants.ImageSelectConstants
  * mail:2726449200@qq.com
  * describe：
  */
-class ImageSelector private constructor(mConfig: ImageRequestConfig, imageContext: ImageContext) {
+class PkImageSelector private constructor(mConfig: ImageRequestConfig, imageContext: ImageContext) {
     private var mPictureSelectorFragment: ImageSelectorFragment? = null
 
     init {
         mPictureSelectorFragment = ImageSelectorHelper.instance
-            .getPictureSelectFragment(mConfig,imageContext)
+            .getPictureSelectFragment(mConfig, imageContext)
+        mPictureSelectorFragment?.start()
     }
 
     companion object {
@@ -54,8 +55,8 @@ class ImageSelector private constructor(mConfig: ImageRequestConfig, imageContex
                 return this
             }
 
-            fun start(): ImageSelector {
-                return ImageSelector(mConfig,imageContext)
+            fun start(): PkImageSelector {
+                return PkImageSelector(mConfig, imageContext)
             }
 
         }
