@@ -9,6 +9,7 @@ import com.peakmain.basiclibrary.constants.ImageSelectConstants
 import com.peakmain.basiclibrary.extend.launchImage
 import com.peakmain.basiclibrary.image.contract.SelectMultipleContract
 import com.peakmain.basiclibrary.image.contract.SelectSinglePhotoContract
+import com.peakmain.basiclibrary.interfaces.OnImageSelectorCallback
 import com.peakmain.basiclibrary.viewmodel.ImageSelectViewModel
 
 /**
@@ -18,18 +19,17 @@ import com.peakmain.basiclibrary.viewmodel.ImageSelectViewModel
  * describe：
  */
 internal class ImageSelectorFragment : Fragment() {
+    private var mOnImageSelectorCallback: OnImageSelectorCallback?=null
     private var mImageSelectViewModel: ImageSelectViewModel = ImageSelectViewModel()
     private val mSelectPhotoLauncher =
         registerForActivityResult(SelectSinglePhotoContract()) { uri ->
             mImageSelectViewModel.mStart.value = false
-            Log.e("TAG", "uri:$uri")
+            mOnImageSelectorCallback?.onImageSelect(arrayListOf(uri))
         }
     private val mSelectMultiPhotoLauncher =
         registerForActivityResult(SelectMultipleContract()) { lists ->
             mImageSelectViewModel.mStart.value = false
-            lists.forEach {
-                Log.e("TAG", "多选的图片:$it")
-            }
+            mOnImageSelectorCallback?.onImageSelect(lists)
         }
 
     private val mConfig by lazy {
@@ -51,7 +51,8 @@ internal class ImageSelectorFragment : Fragment() {
     }
 
 
-    fun start() {
+    fun start(onImageSelectorCallback: OnImageSelectorCallback?) {
         mImageSelectViewModel.mStart.value = true
+        mOnImageSelectorCallback=onImageSelectorCallback
     }
 }

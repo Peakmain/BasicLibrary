@@ -1,5 +1,7 @@
 package com.peakmain.basiclibary
 
+import android.net.Uri
+import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.peakmain.basiclibary.adapter.TestAdapter
 import com.peakmain.basiclibary.databinding.ActivityMainBinding
@@ -13,6 +15,7 @@ import com.peakmain.basiclibrary.constants.ImageSelectConstants
 import com.peakmain.basiclibrary.constants.PermissionConstants
 import com.peakmain.basiclibrary.extend.click
 import com.peakmain.basiclibrary.image.PkImageSelector
+import com.peakmain.basiclibrary.interfaces.OnImageSelectorCallback
 import com.peakmain.basiclibrary.utils.GlobalCoroutineExceptionHandler
 
 class MainActivity(override val layoutId: Int = R.layout.activity_main) :
@@ -32,7 +35,14 @@ class MainActivity(override val layoutId: Int = R.layout.activity_main) :
                     1 -> requestPermission(this@MainActivity, PermissionConstants.STORAGE)
                     2 -> requestPermission(this@MainActivity, PermissionConstants.LOCATION)
                     3 -> PkImageSelector.builder(this@MainActivity).setSingle(false)
-                        .setType(ImageSelectConstants.IMAGE_TYPE).start()
+                        .setType(ImageSelectConstants.IMAGE_TYPE).forResult(object :OnImageSelectorCallback{
+                            override fun onImageSelect(uris: List<Uri?>) {
+                                for (uri in uris) {
+                                    Log.e("TAG","选择了图片:$uri")
+                                }
+                            }
+
+                        })
 
                 }
             }
