@@ -6,6 +6,7 @@ import com.peakmain.basiclibrary.config.ImageContext
 import com.peakmain.basiclibrary.helper.ImageSelectorHelper
 import com.peakmain.basiclibrary.config.ImageRequestConfig
 import com.peakmain.basiclibrary.constants.ImageSelectConstants
+import com.peakmain.basiclibrary.interfaces.OnImageSelectorCallback
 
 /**
  * author ：Peakmain
@@ -19,7 +20,7 @@ class PkImageSelector private constructor(mConfig: ImageRequestConfig, imageCont
     init {
         mPictureSelectorFragment = ImageSelectorHelper.instance
             .getPictureSelectFragment(mConfig, imageContext)
-        mPictureSelectorFragment?.start()
+        mPictureSelectorFragment?.start(imageContext.onImageSelectorCallback)
     }
 
     companion object {
@@ -55,7 +56,8 @@ class PkImageSelector private constructor(mConfig: ImageRequestConfig, imageCont
                 return this
             }
 
-            fun start(): PkImageSelector {
+            fun forResult(onImageSelectorCallback: OnImageSelectorCallback? = null): PkImageSelector {
+                imageContext.onImageSelectorCallback = onImageSelectorCallback
                 return PkImageSelector(mConfig, imageContext)
             }
 
