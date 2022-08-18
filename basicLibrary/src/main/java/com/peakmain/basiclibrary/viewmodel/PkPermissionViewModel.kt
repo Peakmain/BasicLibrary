@@ -1,6 +1,5 @@
 package com.peakmain.basiclibrary.viewmodel
 
-import android.Manifest
 import android.Manifest.permission.ACCESS_COARSE_LOCATION
 import android.Manifest.permission.ACCESS_FINE_LOCATION
 import androidx.activity.result.ActivityResultLauncher

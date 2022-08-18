@@ -9,7 +9,9 @@ import android.graphics.drawable.Drawable
 import android.util.TypedValue
 import androidx.activity.result.ActivityResultLauncher
 import com.google.gson.Gson
+import com.peakmain.basiclibrary.config.ImageRequestConfig
 import com.peakmain.basiclibrary.constants.AndroidVersion
+import com.peakmain.basiclibrary.constants.ImageSelectConstants
 
 /**
  * author ：Peakmain
@@ -155,4 +157,13 @@ fun ActivityResultLauncher<Array<String>>.launchMulti(
         return
     }
     launch(permissions)
+}
+
+
+fun ActivityResultLauncher<String?>.launchSingleImage(config: ImageRequestConfig?) {
+    when (config?.imageType) {
+        ImageSelectConstants.IMAGE_TYPE -> launch("image/*")
+        ImageSelectConstants.VIDEO_TYPE -> launch("video/*")
+        ImageSelectConstants.ALL_TYPE -> launch("*/")
+    }
 }
