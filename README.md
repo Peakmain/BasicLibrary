@@ -4,11 +4,13 @@
 - **使用文档链接:** https://github.com/Peakmain/BasicLibrary/wiki
 
 ### 功能介绍
+- Activity Results API实现权限封装
 - MMKV的封装
 - 防止多次事件的处理
 - Retrofit封装实现网络解耦
 - 线程的切换，View的抖动效果
 - LiveData实现事件分发总线
+
 
 ### 怎样使用
 #### Step 1. Add the JitPack repository to your build file
@@ -34,7 +36,7 @@ dependencyResolutionManagement {
 #### Step 2. Add the dependency
 ```
 	dependencies {
-	        implementation 'com.github.Peakmain:BasicLibrary:1.0.7'
+	        implementation 'com.github.Peakmain:BasicLibrary:1.1.1'
 	}
 ```
 
