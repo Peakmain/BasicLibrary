@@ -1,9 +1,7 @@
 package com.peakmain.basiclibary
 
-import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.peakmain.basiclibary.adapter.TestAdapter
-import com.peakmain.basiclibrary.image.contract.SelectSinglePhotoContract
 import com.peakmain.basiclibary.databinding.ActivityMainBinding
 import com.peakmain.basiclibary.utils.PermissionUtils.requestPermission
 import com.peakmain.basiclibary.utils.PermissionUtils.requestSinglePermission
@@ -14,7 +12,7 @@ import com.peakmain.basiclibrary.base.activity.BaseActivity
 import com.peakmain.basiclibrary.constants.ImageSelectConstants
 import com.peakmain.basiclibrary.constants.PermissionConstants
 import com.peakmain.basiclibrary.extend.click
-import com.peakmain.basiclibrary.image.ImageSelector
+import com.peakmain.basiclibrary.image.PkImageSelector
 import com.peakmain.basiclibrary.utils.GlobalCoroutineExceptionHandler
 
 class MainActivity(override val layoutId: Int = R.layout.activity_main) :
@@ -33,7 +31,8 @@ class MainActivity(override val layoutId: Int = R.layout.activity_main) :
                     )
                     1 -> requestPermission(this@MainActivity, PermissionConstants.STORAGE)
                     2 -> requestPermission(this@MainActivity, PermissionConstants.LOCATION)
-                    3 -> ImageSelector.builder(this@MainActivity).setSingle(true).setType(ImageSelectConstants.IMAGE_TYPE).start()
+                    3 -> PkImageSelector.builder(this@MainActivity).setSingle(false)
+                        .setType(ImageSelectConstants.IMAGE_TYPE).start()
 
                 }
             }
