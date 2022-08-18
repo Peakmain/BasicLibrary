@@ -1,5 +1,6 @@
 package com.peakmain.basiclibrary.interfaces
 
+import android.graphics.Bitmap
 import android.net.Uri
 
 /**
@@ -9,5 +10,8 @@ import android.net.Uri
  * describe：
  */
 interface OnImageSelectorCallback {
-    fun onImageSelect(uris:List<Uri?>)
+    //图片选择的回调
+    fun onImageSelect(uris: List<Uri?>)
+    //相机拍照的回调
+    fun onImageSelect(bitmap: Bitmap?)
 }

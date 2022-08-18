@@ -2,6 +2,7 @@ package com.peakmain.basiclibary
 
 import android.net.Uri
 import android.util.Log
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.peakmain.basiclibary.adapter.TestAdapter
 import com.peakmain.basiclibary.databinding.ActivityMainBinding
@@ -20,11 +21,11 @@ import com.peakmain.basiclibrary.utils.GlobalCoroutineExceptionHandler
 
 class MainActivity(override val layoutId: Int = R.layout.activity_main) :
     BaseActivity<ActivityMainBinding, MainViewModel>() {
-
     override fun initView() {
         val testAdapter = TestAdapter(getData(), LinearLayoutManager(this))
         testAdapter.bindToRecyclerView(mBinding.recyclerview)
         mBinding.recyclerview.layoutManager = LinearLayoutManager(this)
+
         testAdapter.setOnItemClickListener(object : OnItemClickListener {
             override fun onItemClick(position: Int) {
                 when (position) {
@@ -35,14 +36,17 @@ class MainActivity(override val layoutId: Int = R.layout.activity_main) :
                     1 -> requestPermission(this@MainActivity, PermissionConstants.STORAGE)
                     2 -> requestPermission(this@MainActivity, PermissionConstants.LOCATION)
                     3 -> PkImageSelector.builder(this@MainActivity).setSingle(false)
-                        .setType(ImageSelectConstants.IMAGE_TYPE).forResult(object :OnImageSelectorCallback{
+                        .setType(ImageSelectConstants.IMAGE_TYPE)
+                        .forResult(object : OnImageSelectorCallback {
                             override fun onImageSelect(uris: List<Uri?>) {
                                 for (uri in uris) {
-                                    Log.e("TAG","选择了图片:$uri")
+                                    Log.e("TAG", "选择了图片:$uri")
                                 }
                             }
 
                         })
+                    4 -> PkImageSelector.builder(this@MainActivity)
+                        .setType(ImageSelectConstants.TAKE_PHOTO_TYPE).forResult()
 
                 }
             }
@@ -73,6 +77,7 @@ class MainActivity(override val layoutId: Int = R.layout.activity_main) :
         data.add("申请读写权限")
         data.add("申请位置权限")
         data.add("选择单个图片")
+        data.add("拍照")
         return data
     }
 
