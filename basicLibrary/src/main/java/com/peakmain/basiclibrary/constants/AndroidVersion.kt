@@ -71,7 +71,7 @@ object AndroidVersion {
     /**
      * 是否是 Android 7.0 及以上版本
      */
-    fun isAndroid87(): Boolean {
+    fun isAndroid7(): Boolean {
         return Build.VERSION.SDK_INT >= ANDROID_7
     }
     /**
