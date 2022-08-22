@@ -1,5 +1,6 @@
 package com.peakmain.basiclibary
 
+import android.graphics.Bitmap
 import android.net.Uri
 import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
@@ -16,6 +17,7 @@ import com.peakmain.basiclibrary.constants.ImageSelectConstants
 import com.peakmain.basiclibrary.constants.PermissionConstants
 import com.peakmain.basiclibrary.extend.click
 import com.peakmain.basiclibrary.image.PkImageSelector
+import com.peakmain.basiclibrary.image.SimpleImageSelectorCallback
 import com.peakmain.basiclibrary.interfaces.OnImageSelectorCallback
 import com.peakmain.basiclibrary.utils.GlobalCoroutineExceptionHandler
 
@@ -37,13 +39,12 @@ class MainActivity(override val layoutId: Int = R.layout.activity_main) :
                     2 -> requestPermission(this@MainActivity, PermissionConstants.LOCATION)
                     3 -> PkImageSelector.builder(this@MainActivity).setSingle(false)
                         .setType(ImageSelectConstants.IMAGE_TYPE)
-                        .forResult(object : OnImageSelectorCallback {
+                        .forResult(object : SimpleImageSelectorCallback() {
                             override fun onImageSelect(uris: List<Uri?>) {
                                 for (uri in uris) {
                                     Log.e("TAG", "选择了图片:$uri")
                                 }
                             }
-
                         })
                     4 -> PkImageSelector.builder(this@MainActivity)
                         .setType(ImageSelectConstants.TAKE_PHOTO_TYPE).forResult()
