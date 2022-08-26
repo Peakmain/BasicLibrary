@@ -8,9 +8,11 @@ import android.os.Build
 import android.provider.Settings
 import android.util.DisplayMetrics
 import android.util.TypedValue
+import android.view.Surface
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import androidx.annotation.RequiresApi
 import androidx.core.view.get
 import androidx.drawerlayout.widget.DrawerLayout
 import com.peakmain.basiclibrary.R
@@ -23,7 +25,7 @@ import com.peakmain.basiclibrary.constants.AndroidVersion
  * mail:2726449200@qq.com
  * describe：
  */
-class WindowUtils {
+class WindowUtils private constructor() {
     private var mContentView: ViewGroup? = null
 
     /**
@@ -39,54 +41,64 @@ class WindowUtils {
         override val createSingleton: () -> WindowUtils
             get() = ::WindowUtils
 
-        /**
-         * 获取状态栏的高度
-         */
-        fun getStatusHeight(context: Context): Int {
-            return getInternalDimensionSize(context, "status_bar_height")
-        }
+    }
 
-        private fun getInternalDimensionSize(context: Context, key: String): Int {
-            val resourceId =
-                Resources.getSystem().getIdentifier(key, "dimen", "android")
-            try {
-                if (resourceId >= 0) {
-                    val sizeContext = context.resources.getDimensionPixelSize(resourceId)
-                    val sizeSystem = Resources.getSystem().getDimensionPixelSize(resourceId)
-                    return if (sizeSystem >= sizeContext) {
-                        sizeSystem
-                    } else {
-                        val densityContext = context.resources.displayMetrics.density
-                        val densitySystem = Resources.getSystem().displayMetrics.density
-                        val f = sizeContext * densitySystem / densityContext
-                        if (f >= 0) (f + 0.5f).toInt() else (f - 0.5f).toInt()
-                    }
-                }
-            } catch (e: Exception) {
-                return 0
-            }
-            return 0
+    /**
+     * 获取actionBar的高度
+     */
+    fun getActionBarHeight(activity: Activity): Int {
+        var result: Int = 0
+        val actionBar = activity.window.findViewById<View>(R.id.action_bar_container)
+        if (actionBar != null) {
+            result = actionBar.measuredHeight
         }
-        /**
-         * 获取actionBar的高度
-         */
-        fun getActionBarHeight(activity: Activity): Int {
-            var result: Int = 0
-            val actionBar = activity.window.findViewById<View>(R.id.action_bar_container)
-            if (actionBar != null) {
-                result = actionBar.measuredHeight
-            }
-            if (result == 0) {
-                val typedValue = TypedValue()
-                activity.theme.resolveAttribute(android.R.attr.actionBarSize, typedValue, true)
-                result = TypedValue.complexToDimensionPixelOffset(
-                    typedValue.data,
-                    actionBar.resources.displayMetrics
-                )
-            }
-            return result
+        if (result == 0) {
+            val typedValue = TypedValue()
+            activity.theme.resolveAttribute(android.R.attr.actionBarSize, typedValue, true)
+            result = TypedValue.complexToDimensionPixelOffset(
+                typedValue.data,
+                actionBar.resources.displayMetrics
+            )
         }
+        return result
+    }
 
+    /**
+     * 获取状态栏的高度
+     */
+    fun getStatusHeight(context: Context): Int {
+        return getInternalDimensionSize(context, "status_bar_height")
+    }
+
+    /**
+     * 获取当前窗口的旋转角度
+     *
+     * @param activity activity
+     * @return int
+     */
+    fun getDisplayRotation(context: Activity): Int {
+        return when (if (AndroidVersion.isAndroid11()) context.display?.rotation
+        else context.windowManager.defaultDisplay.rotation) {
+            Surface.ROTATION_0 -> 0
+            Surface.ROTATION_90 -> 90
+            Surface.ROTATION_180 -> 180
+            Surface.ROTATION_270 -> 270
+            else -> 0
+        }
+    }
+
+    /**
+     * 是否是横屏
+     */
+    fun isLandscape(): Boolean {
+        return BasicLibraryUtils.application?.resources?.configuration?.orientation == Configuration.ORIENTATION_LANDSCAPE
+    }
+
+    /**
+     * 是否是竖屏
+     */
+    fun isPortrait(): Boolean {
+        return BasicLibraryUtils.application?.resources?.configuration?.orientation == Configuration.ORIENTATION_PORTRAIT
     }
 
     /**
@@ -144,7 +156,6 @@ class WindowUtils {
         }
         setPadding(0, top, 0, 0)
     }
-
 
 
     fun getNavigationBarHeight(activity: Activity): Int {
@@ -241,5 +252,27 @@ class WindowUtils {
 
     fun getPaddingRight(): Int {
         return mPaddingRight
+    }
+
+    private fun getInternalDimensionSize(context: Context, key: String): Int {
+        val resourceId =
+            Resources.getSystem().getIdentifier(key, "dimen", "android")
+        try {
+            if (resourceId >= 0) {
+                val sizeContext = context.resources.getDimensionPixelSize(resourceId)
+                val sizeSystem = Resources.getSystem().getDimensionPixelSize(resourceId)
+                return if (sizeSystem >= sizeContext) {
+                    sizeSystem
+                } else {
+                    val densityContext = context.resources.displayMetrics.density
+                    val densitySystem = Resources.getSystem().displayMetrics.density
+                    val f = sizeContext * densitySystem / densityContext
+                    if (f >= 0) (f + 0.5f).toInt() else (f - 0.5f).toInt()
+                }
+            }
+        } catch (e: Exception) {
+            return 0
+        }
+        return 0
     }
 }

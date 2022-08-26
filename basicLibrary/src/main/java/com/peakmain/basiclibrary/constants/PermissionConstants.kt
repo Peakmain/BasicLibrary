@@ -4,6 +4,7 @@ import android.Manifest.permission
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.annotation.StringDef
+import java.security.Permission
 
 
 /**
@@ -23,7 +24,12 @@ object PermissionConstants {
     const val SMS = "SMS"
     const val STORAGE = "STORAGE"
     const val ACTIVITY_RECOGNITION = "ACTIVITY_RECOGNITION"
+    const val NOTIFICATIONS = "NOTIFICATIONS"
 
+    @RequiresApi(33)
+    private val GROUP_NOTIFICATIONS = arrayOf(
+        permission.POST_NOTIFICATIONS
+    )
     private val GROUP_CALENDAR = arrayOf(
         permission.READ_CALENDAR,
         permission.WRITE_CALENDAR
@@ -36,6 +42,7 @@ object PermissionConstants {
         permission.WRITE_CONTACTS,
         permission.GET_ACCOUNTS
     )
+
     /**
      * 关于位置权限说明:
      * android 10.0
@@ -53,6 +60,7 @@ object PermissionConstants {
         permission.ACCESS_FINE_LOCATION,
         permission.ACCESS_COARSE_LOCATION
     )
+
     @RequiresApi(Build.VERSION_CODES.Q)
     private val GROUP_LOCATION = arrayOf(
         permission.ACCESS_FINE_LOCATION,
@@ -105,7 +113,7 @@ object PermissionConstants {
 
     @StringDef(
         CALENDAR, CAMERA, CONTACTS, LOCATION, MICROPHONE, PHONE, SENSORS, SMS, STORAGE,
-        ACTIVITY_RECOGNITION
+        ACTIVITY_RECOGNITION, NOTIFICATIONS
     )
     @kotlin.annotation.Retention(AnnotationRetention.SOURCE)
     annotation class PermissionGroup
@@ -140,7 +148,11 @@ object PermissionConstants {
                     GROUP_ACTIVITY_RECOGNITION
                 else
                     arrayOf(permission)
-
+            NOTIFICATIONS ->
+                if (AndroidVersion.isAndroid13())
+                    GROUP_NOTIFICATIONS
+                else
+                    arrayOf(permission)
             else -> arrayOf(permission)
         }
     }

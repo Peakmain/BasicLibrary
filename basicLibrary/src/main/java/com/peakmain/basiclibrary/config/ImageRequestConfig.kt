@@ -13,6 +13,9 @@ import java.io.Serializable
  * describe：
  */
 class ImageRequestConfig : Serializable {
+    //最多选择图片的数量
+    var maxNum: Int = 1
+
     //默认是单选
     var isSingle: Boolean = true
 
@@ -23,5 +26,5 @@ class ImageRequestConfig : Serializable {
 internal data class ImageContext(
     var fragment: Fragment? = null,
     var activity: FragmentActivity? = null,
-    var onImageSelectorCallback: OnImageSelectorCallback?=null
+    var onImageSelectorCallback: OnImageSelectorCallback? = null
 )

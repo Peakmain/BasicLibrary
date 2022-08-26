@@ -8,6 +8,10 @@ import com.peakmain.basiclibrary.image.contract.SelectMultipleContract
 import android.content.ClipData
 import android.content.Context
 import android.net.Uri
+import android.os.Build
+import android.provider.MediaStore
+import androidx.annotation.RequiresApi
+import com.peakmain.basiclibrary.constants.AndroidVersion
 import java.util.ArrayList
 import java.util.LinkedHashSet
 
@@ -17,13 +21,22 @@ import java.util.LinkedHashSet
  * mail:2726449200@qq.com
  * describe：
  */
-class SelectMultipleContract : ActivityResultContract<String, List<Uri?>>() {
+class SelectMultipleContract(val maxNum: Int) : ActivityResultContract<String, List<Uri?>>() {
+
     @CallSuper
     override fun createIntent(context: Context, input: String): Intent {
-        return Intent(Intent.ACTION_GET_CONTENT)
+        val intent = Intent(Intent.ACTION_GET_CONTENT)
             .addCategory(Intent.CATEGORY_OPENABLE)
             .setType(input)
-            .putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
+        if (AndroidVersion.isAndroid4_3()) {
+            intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
+        }
+        if (AndroidVersion.isAndroid13()) {
+            return intent
+                .putExtra(MediaStore.EXTRA_PICK_IMAGES_MAX, maxNum)
+        }
+        return intent
+
     }
 
     override fun parseResult(resultCode: Int, intent: Intent?): List<Uri?> {
