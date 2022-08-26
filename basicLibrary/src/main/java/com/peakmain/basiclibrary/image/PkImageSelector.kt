@@ -51,6 +51,14 @@ class PkImageSelector private constructor(mConfig: ImageRequestConfig, imageCont
                 return this
             }
 
+            /**
+             * 设置多选最多的数量
+             * android 13及以上才生效
+             */
+            fun setMaxNum(num: Int = 1) {
+                mConfig.maxNum = num
+            }
+
             fun setType(@ImageSelectConstants.ImageSelectType type: Int): Builder {
                 mConfig.imageType = type
                 return this
