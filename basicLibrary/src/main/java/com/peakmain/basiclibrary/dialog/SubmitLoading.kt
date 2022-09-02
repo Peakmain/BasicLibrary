@@ -1,6 +1,7 @@
 package com.peakmain.basiclibrary.dialog
 
 import android.app.Activity
+import android.content.Context
 import android.graphics.drawable.Drawable
 import android.os.Handler
 import android.os.Looper
@@ -38,11 +39,19 @@ class SubmitLoading {
         show(context, false)
     }
 
+    fun show(context: Fragment) {
+        show(context, false)
+    }
+
     fun show(context: Activity, msg: String) {
         show(context, msg, false)
     }
 
     fun show(context: Activity, cancelable: Boolean) {
+        show(context, "加载中...", cancelable)
+    }
+
+    fun show(context: Fragment, cancelable: Boolean) {
         show(context, "加载中...", cancelable)
     }
 
@@ -68,14 +77,29 @@ class SubmitLoading {
 
     fun show(context: Activity, msg: String, cancelable: Boolean) {
         val view = context.layoutInflater.inflate(R.layout.layout_submit_loading, null)
+        setView(view, msg, context, cancelable)
+    }
+
+    private fun setView(
+        view: View,
+        msg: String,
+        context: Context?,
+        cancelable: Boolean
+    ) {
         mTvLoading = view.findViewById(R.id.tv_loading)
         mProgressBar = view.findViewById(R.id.progressBar)
         mIvDone = view.findViewById(R.id.iv_done)
         mTvLoading.text = msg
+        if (context == null) return
         mDialog = CustomCenterDialog(context, view, R.style.CustomDialogThemes).also {
             it.setCancelable(cancelable)
             it.show()
         }
+    }
+
+    fun show(context: Fragment, msg: String, cancelable: Boolean) {
+        val view = context.layoutInflater.inflate(R.layout.layout_submit_loading, null)
+        setView(view, msg, context.context, cancelable)
     }
 
     fun success(end: () -> Unit = {}) {
@@ -165,11 +189,13 @@ class SubmitLoading {
             mProgressBar.visibility = visibility
         }
     }
+
     fun setIconVisibility(visibility: Int) {
         if (this::mIvDone.isInitialized) {
             mIvDone.visibility = visibility
         }
     }
+
     fun hide() {
         if (this::mDialog.isInitialized) {
             mDialog.dismiss()

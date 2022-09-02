@@ -1,4 +1,4 @@
-package com.peakmain.basiclibary.viewModel
+package com.peakmain.basiclibrary.viewmodel
 
 import com.peakmain.basiclibrary.base.viewmodel.BaseViewModel
 
@@ -8,7 +8,7 @@ import com.peakmain.basiclibrary.base.viewmodel.BaseViewModel
  * mail:2726449200@qq.com
  * describe：
  */
-class MainViewModel:BaseViewModel() {
+class EmptyViewModel:BaseViewModel() {
     override fun initModel() {
 
     }

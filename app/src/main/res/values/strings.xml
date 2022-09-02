@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">BasicLibary</string>
+    <string name="peakmain">Peakmain</string>
+    <string name="github">Github:https://github.com/Peakmain/BasicUI</string>
+    <string name="jianshu">简书:https://www.jianshu.com/u/3ff32f5aea98</string>
+
+    <string name="bottom_naivgation_home">首页</string>
+    <!--我的-->
+    <string name="bottom_naivgation_me">我的</string>
 </resources>

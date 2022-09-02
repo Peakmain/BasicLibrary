@@ -1,114 +1,100 @@
 package com.peakmain.basiclibary
 
-import android.graphics.Bitmap
-import android.net.Uri
-import android.util.Log
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.peakmain.basiclibary.adapter.TestAdapter
+import android.view.MenuItem
+import android.widget.FrameLayout
+import android.widget.Toast
+import androidx.fragment.app.FragmentTransaction
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.peakmain.basiclibary.databinding.ActivityMainBinding
-import com.peakmain.basiclibary.utils.PermissionUtils.requestPermission
-import com.peakmain.basiclibary.utils.PermissionUtils.requestSinglePermission
+import com.peakmain.basiclibary.fragment.HomeFragment
+import com.peakmain.basiclibary.fragment.MineFragment
 import com.peakmain.basiclibary.viewModel.MainViewModel
-import com.peakmain.basiclibrary.adapter.CommonRecyclerDataBindingAdapter
-import com.peakmain.basiclibrary.adapter.listener.OnItemClickListener
 import com.peakmain.basiclibrary.base.activity.BaseActivity
-import com.peakmain.basiclibrary.constants.ImageSelectConstants
-import com.peakmain.basiclibrary.constants.PermissionConstants
-import com.peakmain.basiclibrary.dialog.SubmitLoading
-import com.peakmain.basiclibrary.extend.click
-import com.peakmain.basiclibrary.extend.ktxRunOnUiThreadDelay
-import com.peakmain.basiclibrary.image.PkImageSelector
-import com.peakmain.basiclibrary.image.SimpleImageSelectorCallback
-import com.peakmain.basiclibrary.interfaces.OnImageSelectorCallback
-import com.peakmain.basiclibrary.utils.GlobalCoroutineExceptionHandler
+import com.peakmain.ui.utils.ToastUtils
+import com.peakmain.ui.utils.fps.FpsMonitorUtils
+import com.peakmain.ui.widget.SuspensionView
+/**
+ * author ：Peakmain
+ * createTime：2022/9/2
+ * mail:2726449200@qq.com
+ * describe：
+ */
+class MainActivity(override val layoutId: Int=R.layout.activity_main) : BaseActivity<ActivityMainBinding,MainViewModel>() {
+    //View
+    var mBottomNavigation: BottomNavigationView? = null
 
-class MainActivity(override val layoutId: Int = R.layout.activity_main) :
-    BaseActivity<ActivityMainBinding, MainViewModel>() {
+    //fragments
+    private var mHomeFragment: HomeFragment? = null
+    private var mMineFragment: MineFragment? = null
+
     override fun initView() {
-        val testAdapter = TestAdapter(getData(), LinearLayoutManager(this))
-        testAdapter.bindToRecyclerView(mBinding.recyclerview)
-        mBinding.recyclerview.layoutManager = LinearLayoutManager(this)
+        mBottomNavigation = findViewById(R.id.bottom_navigation)
+        showFragment(FRAGMENT_HOME)
+        mBottomNavigation!!.setOnNavigationItemSelectedListener { item: MenuItem -> onOptionsItemSelected(item) }
+        mBottomNavigation!!.selectedItemId = R.id.menu_home
+    }
 
-        testAdapter.setOnItemClickListener(object : OnItemClickListener {
-            override fun onItemClick(position: Int) {
-                when (position) {
-                    0 -> requestSinglePermission(
-                        this@MainActivity,
-                        android.Manifest.permission.CAMERA
-                    )
-                    1 -> requestPermission(this@MainActivity, PermissionConstants.STORAGE)
-                    2 -> requestPermission(this@MainActivity, PermissionConstants.LOCATION)
-                    3 -> PkImageSelector.builder(this@MainActivity).setSingle(true)
-                        .setType(ImageSelectConstants.IMAGE_TYPE)
-                        .forResult(object : SimpleImageSelectorCallback() {
-                            override fun onImageSelect(uris: List<Uri?>) {
-                                for (uri in uris) {
-                                    Log.e("TAG", "选择了图片:$uri")
-                                }
-                            }
-                        })
-                    4-> {
-                        PkImageSelector.builder(this@MainActivity).setSingle(false)
-                            .setType(ImageSelectConstants.IMAGE_TYPE)
-                            .setMaxNum(4)
-                            .forResult(object : SimpleImageSelectorCallback() {
-                                override fun onImageSelect(uris: List<Uri?>) {
-                                    for (uri in uris) {
-                                        Log.e("TAG", "选择了图片:$uri")
-                                    }
-                                }
-                            })
-                    }
-                    5 -> PkImageSelector.builder(this@MainActivity)
-                        .setType(ImageSelectConstants.TAKE_PHOTO_TYPE).forResult()
-                    6->{
-                        SubmitLoading.instance.show(this@MainActivity)
-                        ktxRunOnUiThreadDelay(2000) {
-                            SubmitLoading.instance.success()
-                        }
-                    }
 
-                }
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val itemId = item.itemId
+        when (itemId) {
+            R.id.menu_home -> {
+                showFragment(FRAGMENT_HOME)
+                return true
             }
+            R.id.menu_me -> {
+                showFragment(FRAGMENT_ME)
+                return true
+            }
+            else -> {
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
 
-        })
-        testAdapter.setOnLoadMoreListener(object :
-            CommonRecyclerDataBindingAdapter.OnLoadMoreListener {
-            override fun onLoadMoreListener() {
-                if (data.size < 60) {
-                    updateData()
-                    testAdapter.loadMore()
+    private fun showFragment(index: Int) {
+        val ft = supportFragmentManager.beginTransaction()
+        hintFragment(ft)
+        when (index) {
+            FRAGMENT_HOME ->
+                /**
+                 * 如果Fragment为空，就新建一个实例
+                 * 如果不为空，就将它从栈中显示出来
+                 */
+                if (mHomeFragment == null) {
+                    mHomeFragment = HomeFragment()
+                    ft.add(R.id.container, mHomeFragment!!, HomeFragment::class.java.name)
                 } else {
-                    testAdapter.loadNoMore()
+                    ft.show(mHomeFragment!!)
                 }
+            FRAGMENT_ME -> if (mMineFragment == null) {
+                mMineFragment = MineFragment()
+                ft.add(R.id.container, mMineFragment!!, MineFragment::class.java.name)
+            } else {
+                ft.show(mMineFragment!!)
             }
-
-        })
-        GlobalCoroutineExceptionHandler().coroutineExceptionCallback = { context, exception ->
-
+            else -> {
+            }
         }
-        mBinding.tvRefreshStatus.click {
+        ft.commit()
+    }
+
+    /**
+     * 隐藏fragment
+     */
+    private fun hintFragment(ft: FragmentTransaction) {
+        // 如果不为空，就先隐藏起来
+        if (mHomeFragment != null) {
+            ft.hide(mHomeFragment!!)
+        }
+        if (mMineFragment != null) {
+            ft.hide(mMineFragment!!)
         }
     }
 
-    val data = ArrayList<String>()
-    private fun getData(): MutableList<String> {
-        data.add("申请单个相机权限")
-        data.add("申请读写权限")
-        data.add("申请位置权限")
-        data.add("选择单个图片")
-        data.add("选择多个图片")
-        data.add("拍照")
-        data.add("加载loading")
-        return data
+    companion object {
+        //底部切换的tab常量
+        private const val FRAGMENT_HOME = 0
+        private const val FRAGMENT_ME = 1
     }
-
-    private fun updateData(): MutableList<String> {
-        data.add("申请单个相机权限")
-        data.add("申请读写权限")
-        data.add("申请位置权限")
-        return data
-    }
-
 }
