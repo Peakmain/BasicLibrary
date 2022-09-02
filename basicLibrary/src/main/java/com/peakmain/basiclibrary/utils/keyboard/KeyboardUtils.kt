@@ -61,11 +61,11 @@ class KeyboardUtils(
         }
         mContentView = if (mChildView != null) mChildView!! else frameLayout
         mStatusBarHeight =
-            WindowUtils.getStatusHeight(activity)
+            WindowUtils.getInstance()?.getStatusHeight(activity)?:0
         mActionBarHeight =
-            WindowUtils.getActionBarHeight(
+            WindowUtils.getInstance()?.getActionBarHeight(
                 activity
-            )
+            )?:0
     }
 
     companion object {

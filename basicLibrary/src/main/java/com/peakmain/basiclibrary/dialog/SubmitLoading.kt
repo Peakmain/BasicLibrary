@@ -1,6 +1,7 @@
 package com.peakmain.basiclibrary.dialog
 
 import android.app.Activity
+import android.graphics.drawable.Drawable
 import android.os.Handler
 import android.os.Looper
 import android.view.View
@@ -9,6 +10,7 @@ import android.view.animation.Animation
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.fragment.app.Fragment
 import com.peakmain.basiclibrary.R
 import com.peakmain.basiclibrary.extend.ktxRunOnUiThreadDelay
 
@@ -29,7 +31,9 @@ class SubmitLoading {
     lateinit var mProgressBar: ProgressBar
     lateinit var mIvDone: ImageView
 
-
+    /**
+     * 默认显示加载中
+     */
     fun show(context: Activity) {
         show(context, false)
     }
@@ -39,7 +43,27 @@ class SubmitLoading {
     }
 
     fun show(context: Activity, cancelable: Boolean) {
-        show(context, "loading...", cancelable)
+        show(context, "加载中...", cancelable)
+    }
+
+    fun setIcon(resourceId: Int): SubmitLoading {
+        mProgressBar.visibility = View.GONE
+        mIvDone.visibility = View.VISIBLE
+        mIvDone.setImageResource(resourceId)
+        return this
+    }
+
+    fun setIcon(drawable: Drawable): SubmitLoading {
+        mProgressBar.visibility = View.GONE
+        mIvDone.visibility = View.VISIBLE
+        mIvDone.setImageDrawable(drawable)
+        return this
+    }
+
+    fun hideIcon(): SubmitLoading {
+        setIconVisibility(View.GONE)
+        setLoadingVisibility(View.GONE)
+        return this
     }
 
     fun show(context: Activity, msg: String, cancelable: Boolean) {
@@ -55,11 +79,11 @@ class SubmitLoading {
     }
 
     fun success(end: () -> Unit = {}) {
-        success("successful!", end)
+        success("成功文案!", end)
     }
 
     fun success(msg: String, end: () -> Unit = {}) {
-        hideTips(msg, 400, true, end)
+        hideTips(msg, 600, true, end)
     }
 
     fun success(msg: String, time: Long, end: () -> Unit = {}) {
@@ -71,7 +95,7 @@ class SubmitLoading {
     }
 
     fun error(msg: String, end: () -> Unit = {}) {
-        error(msg, 400, end)
+        error(msg, 600, end)
     }
 
     fun error(msg: String, time: Long, end: () -> Unit = {}) {
@@ -136,10 +160,21 @@ class SubmitLoading {
         }
     }
 
+    fun setLoadingVisibility(visibility: Int) {
+        if (this::mProgressBar.isInitialized) {
+            mProgressBar.visibility = visibility
+        }
+    }
+    fun setIconVisibility(visibility: Int) {
+        if (this::mIvDone.isInitialized) {
+            mIvDone.visibility = visibility
+        }
+    }
     fun hide() {
         if (this::mDialog.isInitialized) {
             mDialog.dismiss()
         }
     }
+
 
 }

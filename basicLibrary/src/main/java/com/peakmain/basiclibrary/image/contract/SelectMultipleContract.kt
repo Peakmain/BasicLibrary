@@ -21,8 +21,7 @@ import java.util.LinkedHashSet
  * mail:2726449200@qq.com
  * describe：
  */
-class SelectMultipleContract(val maxNum: Int) : ActivityResultContract<String, List<Uri?>>() {
-
+class SelectMultipleContract(var maxNum: Int=9) : ActivityResultContract<String, List<Uri?>>() {
     @CallSuper
     override fun createIntent(context: Context, input: String): Intent {
         val intent = Intent(Intent.ACTION_GET_CONTENT)
