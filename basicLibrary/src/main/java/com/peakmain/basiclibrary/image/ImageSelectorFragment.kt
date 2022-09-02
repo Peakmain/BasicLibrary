@@ -20,14 +20,12 @@ import com.peakmain.basiclibrary.viewmodel.ImageSelectViewModel
 internal class ImageSelectorFragment : Fragment() {
 
     private var mImageSelectViewModel: ImageSelectViewModel = ImageSelectViewModel()
+    var selectMultipleContract = SelectMultipleContract()
     private val mSelectPhotoLauncher =
         registerForActivityResult(SelectSinglePhotoContract()) { uri ->
             mImageSelectViewModel.registerSingleLauncher(uri)
         }
-    private val mSelectMultiPhotoLauncher =
-        registerForActivityResult(SelectMultipleContract()) { lists ->
-            mImageSelectViewModel.registerMultiLauncher(lists)
-        }
+
 
     private val takePictureLauncher =
         registerForActivityResult(TakePictureContract()) {
@@ -36,6 +34,10 @@ internal class ImageSelectorFragment : Fragment() {
     private val mConfig by lazy {
         arguments?.get(ImageSelectConstants.REQUEST_CONFIG) as ImageRequestConfig?
     }
+    private val mSelectMultiPhotoLauncher =
+        registerForActivityResult(selectMultipleContract) { lists ->
+            mImageSelectViewModel.registerMultiLauncher(lists)
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,12 +45,13 @@ internal class ImageSelectorFragment : Fragment() {
             this,
             mImageSelectViewModel.imageSelectorObserver(mConfig, {
                 mSelectPhotoLauncher.launchImage(mConfig)
-            },{
+            }, {
                 mSelectMultiPhotoLauncher.launchImage(mConfig)
             }) {
                 takePictureLauncher.launch(null)
             }
         )
+        selectMultipleContract.maxNum = mConfig?.maxNum ?: 9
     }
 
 

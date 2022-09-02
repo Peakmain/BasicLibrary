@@ -41,7 +41,7 @@ object AnimationManager {
             .alpha(0f)
             .setDuration(animationDuration.toLong())
             .setListener(object : AnimatorListenerAdapter() {
-                override fun onAnimationEnd(animation: Animator?) {
+                override fun onAnimationEnd(animation: Animator) {
                     loadingView.visibility = View.GONE
                 }
             })

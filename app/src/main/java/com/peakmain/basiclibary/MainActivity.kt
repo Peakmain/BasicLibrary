@@ -15,7 +15,9 @@ import com.peakmain.basiclibrary.adapter.listener.OnItemClickListener
 import com.peakmain.basiclibrary.base.activity.BaseActivity
 import com.peakmain.basiclibrary.constants.ImageSelectConstants
 import com.peakmain.basiclibrary.constants.PermissionConstants
+import com.peakmain.basiclibrary.dialog.SubmitLoading
 import com.peakmain.basiclibrary.extend.click
+import com.peakmain.basiclibrary.extend.ktxRunOnUiThreadDelay
 import com.peakmain.basiclibrary.image.PkImageSelector
 import com.peakmain.basiclibrary.image.SimpleImageSelectorCallback
 import com.peakmain.basiclibrary.interfaces.OnImageSelectorCallback
@@ -37,7 +39,7 @@ class MainActivity(override val layoutId: Int = R.layout.activity_main) :
                     )
                     1 -> requestPermission(this@MainActivity, PermissionConstants.STORAGE)
                     2 -> requestPermission(this@MainActivity, PermissionConstants.LOCATION)
-                    3 -> PkImageSelector.builder(this@MainActivity).setSingle(false)
+                    3 -> PkImageSelector.builder(this@MainActivity).setSingle(true)
                         .setType(ImageSelectConstants.IMAGE_TYPE)
                         .forResult(object : SimpleImageSelectorCallback() {
                             override fun onImageSelect(uris: List<Uri?>) {
@@ -46,8 +48,26 @@ class MainActivity(override val layoutId: Int = R.layout.activity_main) :
                                 }
                             }
                         })
-                    4 -> PkImageSelector.builder(this@MainActivity)
+                    4-> {
+                        PkImageSelector.builder(this@MainActivity).setSingle(false)
+                            .setType(ImageSelectConstants.IMAGE_TYPE)
+                            .setMaxNum(4)
+                            .forResult(object : SimpleImageSelectorCallback() {
+                                override fun onImageSelect(uris: List<Uri?>) {
+                                    for (uri in uris) {
+                                        Log.e("TAG", "选择了图片:$uri")
+                                    }
+                                }
+                            })
+                    }
+                    5 -> PkImageSelector.builder(this@MainActivity)
                         .setType(ImageSelectConstants.TAKE_PHOTO_TYPE).forResult()
+                    6->{
+                        SubmitLoading.instance.show(this@MainActivity)
+                        ktxRunOnUiThreadDelay(2000) {
+                            SubmitLoading.instance.success()
+                        }
+                    }
 
                 }
             }
@@ -78,7 +98,9 @@ class MainActivity(override val layoutId: Int = R.layout.activity_main) :
         data.add("申请读写权限")
         data.add("申请位置权限")
         data.add("选择单个图片")
+        data.add("选择多个图片")
         data.add("拍照")
+        data.add("加载loading")
         return data
     }
 
