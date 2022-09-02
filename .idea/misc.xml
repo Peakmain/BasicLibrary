@@ -21,8 +21,13 @@
         <entry key="../../../../Library/Android/sdk/gradle-5.4/caches/transforms-2/files-2.1/146cdc323728232c25fda804206c1820/jetified-BasicUI-1.1.12/res/layout/ui_defualt_navigation_bar.xml" value="0.2557291666666667" />
         <entry key="../../../../Library/Android/sdk/gradle-5.4/caches/transforms-2/files-2.1/abe153dd6e6e847ed7b10642199efd41/jetified-BasicUI-1.1.13/res/layout/layout_error_view.xml" value="0.2557291666666667" />
         <entry key="../../../../Library/Android/sdk/platforms/android-30/data/res/layout/auto_complete_list.xml" value="0.12436676798378926" />
+        <entry key="..\:/AndroidProject/Peakmain/BasicLibrary/app/src/main/res/drawable/ic_bottom_navigation_home.xml" value="0.1" />
+        <entry key="..\:/AndroidProject/Peakmain/BasicLibrary/app/src/main/res/drawable/ic_bottom_navigation_me.xml" value="0.1" />
+        <entry key="..\:/AndroidProject/Peakmain/BasicLibrary/app/src/main/res/drawable/selector_tab_color.xml" value="0.106" />
         <entry key="..\:/AndroidProject/Peakmain/BasicLibrary/app/src/main/res/layout/activity_main.xml" value="0.10960144927536232" />
+        <entry key="..\:/AndroidProject/Peakmain/BasicLibrary/app/src/main/res/layout/fragment_mine.xml" value="0.13179347826086957" />
         <entry key="..\:/AndroidProject/Peakmain/BasicLibrary/app/src/main/res/layout/recycler_adpter_test.xml" value="0.1358695652173913" />
+        <entry key="..\:/AndroidProject/Peakmain/BasicLibrary/app/src/main/res/menu/bottom_navigation_main.xml" value="0.2841796875" />
         <entry key="..\:/AndroidProject/Peakmain/BasicLibrary/basicLibrary/src/main/res/layout/layout_submit_loading.xml" value="0.13179347826086957" />
         <entry key="..\:/AndroidProject/Peakmain/BasicLibrary/basicLibrary/src/main/res/layout/same_layout.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.30880503144654087" />

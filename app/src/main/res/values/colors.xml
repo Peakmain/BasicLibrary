@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#6200EE</color>
-    <color name="colorPrimaryDark">#3700B3</color>
-    <color name="colorAccent">#03DAC5</color>
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorStatus">#921241</color>
+    <color name="colorAccent">#D81B60</color>
+    <color name="white">#FFFFFF</color>
+    <color name="checkbox_button_tint">#F117D4</color>
+    <color name="view_line_background">#d1d1d1</color>
+    <color name="ui_color_F5F5F5">#F5F5F5</color>
+    <color name="color_7D7D7D">#7D7D7D</color>
+    <color name="color_999999">#999999</color>
 </resources>
