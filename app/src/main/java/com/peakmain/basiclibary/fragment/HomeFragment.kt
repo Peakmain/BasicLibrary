@@ -3,6 +3,7 @@ package com.peakmain.basiclibary.fragment
 import android.net.Uri
 import android.util.Log
 import android.view.View
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.peakmain.basiclibary.R
 import com.peakmain.basiclibary.adapter.TestAdapter
@@ -22,14 +23,17 @@ import com.peakmain.basiclibrary.extend.ktxRunOnUiThreadDelay
 import com.peakmain.basiclibrary.image.PkImageSelector
 import com.peakmain.basiclibrary.image.SimpleImageSelectorCallback
 import com.peakmain.basiclibrary.utils.GlobalCoroutineExceptionHandler
+import com.peakmain.basiclibrary.utils.StatusBarUtils
+import com.peakmain.ui.recyclerview.itemdecoration.DividerGridItemDecoration
 
 class HomeFragment(override val layoutId: Int = R.layout.fragment_home) :
     BaseFragment<FragmentHomeBinding, HomeFragmentViewModel>() {
     override fun initView(fragmentView:View) {
-        val testAdapter = TestAdapter(getData(), LinearLayoutManager(context))
+        val testAdapter = TestAdapter(getData())
         testAdapter.bindToRecyclerView(mBinding.recyclerview)
-        mBinding.recyclerview.layoutManager = LinearLayoutManager(context)
-
+        context?.let {
+             mBinding.recyclerview.addItemDecoration(DividerGridItemDecoration(it))
+        }
         testAdapter.setOnItemClickListener(object : OnItemClickListener {
             override fun onItemClick(position: Int) {
                 when (position) {
