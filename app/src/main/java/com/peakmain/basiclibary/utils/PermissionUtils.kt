@@ -64,4 +64,35 @@ object PermissionUtils {
             })
         }
     }
+    fun requestPermission(fragment: HomeFragment,  permissions: Array<String>) {
+        if (PkPermission.isGranted(permissions = permissions)) {
+            Log.e("TAG", "授予了权限:${permissions}")
+        } else {
+            PkPermission.request(fragment, permissions, object : OnPermissionCallback {
+                override fun onGranted(permissions: Array<String>) {
+                    for (s in permissions) {
+                        Log.e("TAG", "授予了权限:$s")
+                    }
+
+                }
+
+                override fun onDenied(permissions: Array<String>, never: Boolean) {
+                    if(never){
+                        for (s in permissions) {
+                            Log.e("TAG", "拒绝了权限:$s")
+                        }
+                        fragment.context?.let {
+                            PkPermission.toAppSetting(it)
+                        }
+                    }else{
+                        for (s in permissions) {
+                            Log.e("TAG", "临时授予了权限:$s")
+                        }
+                    }
+
+                }
+
+            })
+        }
+    }
 }
