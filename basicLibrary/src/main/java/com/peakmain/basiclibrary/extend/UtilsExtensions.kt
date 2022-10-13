@@ -25,11 +25,13 @@ inline fun <reified T> Gson.fromJson(json: String): T {
 }
 
 /**
- * 根据手机的分辨率从 px(像素) 的单位 转成为 dp
+ * px->dp
  */
 val Number.dp: Float
     get() = toFloat() / Resources.getSystem().displayMetrics.density + 0.5f
-
+/**
+ * dp->px
+ */
 val Number.px: Float
     get() = TypedValue.applyDimension(
         TypedValue.COMPLEX_UNIT_DIP,
@@ -37,6 +39,9 @@ val Number.px: Float
         Resources.getSystem().displayMetrics
     )
 
+/**
+ * sp->px
+ */
 val Number.sp: Float
     get() = toFloat() * Resources.getSystem().displayMetrics.scaledDensity + 0.5f
 
