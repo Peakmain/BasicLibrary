@@ -3,6 +3,7 @@ package com.peakmain.basiclibary
 import android.view.MenuItem
 import android.widget.FrameLayout
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentTransaction
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.peakmain.basiclibary.databinding.ActivityMainBinding
@@ -10,16 +11,19 @@ import com.peakmain.basiclibary.fragment.HomeFragment
 import com.peakmain.basiclibary.fragment.MineFragment
 import com.peakmain.basiclibary.viewModel.MainViewModel
 import com.peakmain.basiclibrary.base.activity.BaseActivity
+import com.peakmain.basiclibrary.utils.StatusBarUtils
 import com.peakmain.ui.utils.ToastUtils
 import com.peakmain.ui.utils.fps.FpsMonitorUtils
 import com.peakmain.ui.widget.SuspensionView
+
 /**
  * author ：Peakmain
  * createTime：2022/9/2
  * mail:2726449200@qq.com
  * describe：
  */
-class MainActivity(override val layoutId: Int=R.layout.activity_main) : BaseActivity<ActivityMainBinding,MainViewModel>() {
+class MainActivity(override val layoutId: Int = R.layout.activity_main) :
+    BaseActivity<ActivityMainBinding, MainViewModel>() {
     //View
     var mBottomNavigation: BottomNavigationView? = null
 
@@ -28,9 +32,14 @@ class MainActivity(override val layoutId: Int=R.layout.activity_main) : BaseActi
     private var mMineFragment: MineFragment? = null
 
     override fun initView() {
+        StatusBarUtils.setColor(this, ContextCompat.getColor(this, R.color.ui_color_01a8e3), 0)
         mBottomNavigation = findViewById(R.id.bottom_navigation)
         showFragment(FRAGMENT_HOME)
-        mBottomNavigation!!.setOnNavigationItemSelectedListener { item: MenuItem -> onOptionsItemSelected(item) }
+        mBottomNavigation!!.setOnNavigationItemSelectedListener { item: MenuItem ->
+            onOptionsItemSelected(
+                item
+            )
+        }
         mBottomNavigation!!.selectedItemId = R.id.menu_home
     }
 

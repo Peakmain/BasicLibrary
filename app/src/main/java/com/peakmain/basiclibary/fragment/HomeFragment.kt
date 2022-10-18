@@ -1,9 +1,9 @@
 package com.peakmain.basiclibary.fragment
 
+import android.Manifest
 import android.net.Uri
 import android.util.Log
 import android.view.View
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.peakmain.basiclibary.R
 import com.peakmain.basiclibary.adapter.TestAdapter
 import com.peakmain.basiclibary.databinding.FragmentHomeBinding
@@ -12,7 +12,6 @@ import com.peakmain.basiclibary.utils.PermissionUtils.requestSinglePermission
 import com.peakmain.basiclibary.viewModel.HomeFragmentViewModel
 import com.peakmain.basiclibrary.adapter.CommonRecyclerDataBindingAdapter
 import com.peakmain.basiclibrary.adapter.listener.OnItemClickListener
-import com.peakmain.basiclibrary.base.activity.BaseActivity
 import com.peakmain.basiclibrary.base.fragment.BaseFragment
 import com.peakmain.basiclibrary.constants.ImageSelectConstants
 import com.peakmain.basiclibrary.constants.PermissionConstants
@@ -22,23 +21,29 @@ import com.peakmain.basiclibrary.extend.ktxRunOnUiThreadDelay
 import com.peakmain.basiclibrary.image.PkImageSelector
 import com.peakmain.basiclibrary.image.SimpleImageSelectorCallback
 import com.peakmain.basiclibrary.utils.GlobalCoroutineExceptionHandler
+import com.peakmain.ui.recyclerview.itemdecoration.DividerGridItemDecoration
 
 class HomeFragment(override val layoutId: Int = R.layout.fragment_home) :
     BaseFragment<FragmentHomeBinding, HomeFragmentViewModel>() {
     override fun initView(fragmentView:View) {
-        val testAdapter = TestAdapter(getData(), LinearLayoutManager(context))
+        val testAdapter = TestAdapter(getData())
         testAdapter.bindToRecyclerView(mBinding.recyclerview)
-        mBinding.recyclerview.layoutManager = LinearLayoutManager(context)
-
+        context?.let {
+             mBinding.recyclerview.addItemDecoration(DividerGridItemDecoration(it))
+        }
+        val GROUP_LOCATION_BELOW_Q = arrayOf(
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.ACCESS_COARSE_LOCATION
+        )
         testAdapter.setOnItemClickListener(object : OnItemClickListener {
             override fun onItemClick(position: Int) {
                 when (position) {
                     0 -> requestSinglePermission(
                         this@HomeFragment,
-                        android.Manifest.permission.CAMERA
+                        Manifest.permission.CAMERA
                     )
                     1 -> requestPermission(this@HomeFragment, PermissionConstants.STORAGE)
-                    2 -> requestPermission(this@HomeFragment, PermissionConstants.LOCATION)
+                    2 -> requestPermission(this@HomeFragment, GROUP_LOCATION_BELOW_Q)
                     3 -> PkImageSelector.builder(this@HomeFragment).setSingle(true)
                         .setType(ImageSelectConstants.IMAGE_TYPE)
                         .forResult(object : SimpleImageSelectorCallback() {

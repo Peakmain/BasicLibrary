@@ -7,9 +7,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.peakmain.basiclibrary.base.viewmodel.BaseViewModel
 import com.peakmain.basiclibrary.constants.AndroidVersion
+import com.peakmain.basiclibrary.constants.PermissionConstants
 import com.peakmain.basiclibrary.extend.launchMulti
 import com.peakmain.basiclibrary.helper.PermissionHelper
 import com.peakmain.basiclibrary.interfaces.OnPermissionCallback
+import com.peakmain.basiclibrary.permission.PkPermission
 
 /**
  * author ：Peakmain
@@ -68,6 +70,16 @@ internal class PkPermissionViewModel : BaseViewModel() {
                 if (!AndroidVersion.isAndroid6() || deniedPermissions.isEmpty()) {
                     mOnPermissionCallback?.onGranted(permissions)
                 } else if (permissions.size == 1) {
+                    if (AndroidVersion.isAndroid12()
+                        &&deniedPermissions[0]==ACCESS_FINE_LOCATION &&
+                        !PkPermission.isGranted(ACCESS_COARSE_LOCATION)) {
+                        //Android 12必须添加ACCESS_COARSE_LOCATION
+                        //官方适配文档：https://developer.android.google.cn/about/versions/12/approximate-location
+                        throw IllegalArgumentException(
+                            "在android 12或更高的版本中，请勿单独请求ACCESS_FINE_LOCATION权限，" +
+                                    "而应在单个运行时请求中同时请求ACCESS_FINE_LOCATION和ACCESS_COARSE_LOCATION权限。"
+                        )
+                    }
                     singlePermissionLauncher.launch(deniedPermissions[0])
                 } else {
                     multiPermissionLauncher.launchMulti(deniedPermissions.toTypedArray(), block)
