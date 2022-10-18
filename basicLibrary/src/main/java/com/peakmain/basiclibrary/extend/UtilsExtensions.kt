@@ -12,6 +12,7 @@ import com.google.gson.Gson
 import com.peakmain.basiclibrary.config.ImageRequestConfig
 import com.peakmain.basiclibrary.constants.AndroidVersion
 import com.peakmain.basiclibrary.constants.ImageSelectConstants
+import com.peakmain.basiclibrary.permission.PkPermission
 
 /**
  * author ：Peakmain
@@ -24,11 +25,13 @@ inline fun <reified T> Gson.fromJson(json: String): T {
 }
 
 /**
- * 根据手机的分辨率从 px(像素) 的单位 转成为 dp
+ * px->dp
  */
 val Number.dp: Float
     get() = toFloat() / Resources.getSystem().displayMetrics.density + 0.5f
-
+/**
+ * dp->px
+ */
 val Number.px: Float
     get() = TypedValue.applyDimension(
         TypedValue.COMPLEX_UNIT_DIP,
@@ -36,6 +39,9 @@ val Number.px: Float
         Resources.getSystem().displayMetrics
     )
 
+/**
+ * sp->px
+ */
 val Number.sp: Float
     get() = toFloat() * Resources.getSystem().displayMetrics.scaledDensity + 0.5f
 
@@ -123,7 +129,9 @@ fun ActivityResultLauncher<Array<String>>.launchMulti(
     val permissionsSet = permissions.toMutableSet()
     if (AndroidVersion.isAndroid12()) {
         if (permissionsSet.contains(ACCESS_FINE_LOCATION) &&
-            !permissionsSet.contains(ACCESS_COARSE_LOCATION)
+            !permissionsSet.contains(ACCESS_COARSE_LOCATION) && !PkPermission.isGranted(
+                ACCESS_COARSE_LOCATION
+            )
         ) {
             //Android 12必须添加ACCESS_COARSE_LOCATION
             //官方适配文档：https://developer.android.google.cn/about/versions/12/approximate-location

@@ -13,11 +13,11 @@ import com.peakmain.basiclibrary.config.DefaultAdapterFooterConfig
  * mail:2726449200@qq.com
  * describe：
  */
-class TestAdapter(data: MutableList<String>, layoutManager: LinearLayoutManager) :
+class TestAdapter(data: MutableList<String>) :
     CommonRecyclerDataBindingAdapter<String, RecyclerAdpterTestBinding>(
         data,
         R.layout.recycler_adpter_test,
-        DefaultAdapterFooterConfig<String,RecyclerAdpterTestBinding>(layoutManager).item
+        null//DefaultAdapterFooterConfig<String,RecyclerAdpterTestBinding>(layoutManager).item
     ) {
     override fun convert(
         holder: BaseLibraryViewHolder<RecyclerAdpterTestBinding>,
