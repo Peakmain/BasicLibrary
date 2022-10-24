@@ -39,14 +39,14 @@ class BaseEntityDataRetrofitData<T>(val apiStatus: ApiBaseStatus<BaseEntity<T>>)
     ) {
         apiStatus.baseData(t)
         when (t.result) {
-            ErrorEnum.SUCCESS.code -> {
+            ErrorEnum.SUCCESS -> {
                 if (t.data != null) {
                     apiStatus.success(t)
                 } else {
                     apiStatus.isEmpty()
                 }
             }
-            ErrorEnum.TOKEN_ERROR.code -> {
+            ErrorEnum.TOKEN_ERROR -> {
                 //token失效
                 apiStatus.tokenError(observable, apiStatus)
             }
