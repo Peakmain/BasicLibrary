@@ -37,16 +37,19 @@ class PkPermission private constructor() {
         fun isGranted(permissions: Array<String>): Boolean {
             return PermissionHelper.instance.isGranted(permissions)
         }
+
         @JvmStatic
-        fun request(fragment: Fragment,permission: String,block: OnPermissionCallback){
+        fun request(fragment: Fragment, permission: String, block: OnPermissionCallback) {
             instance.with(fragment).requestPermission(arrayOf(permission))
                 .request(block)
         }
+
         @JvmStatic
         fun request(fragment: Fragment, permissions: Array<String>, block: OnPermissionCallback) {
             instance.with(fragment).requestPermission(permissions)
                 .request(block)
         }
+
         @JvmStatic
         fun request(
             activity: FragmentActivity,
@@ -56,6 +59,7 @@ class PkPermission private constructor() {
             instance.with(activity).requestPermission(permission)
                 .request(block)
         }
+
         @JvmStatic
         fun request(
             activity: FragmentActivity,
@@ -65,11 +69,16 @@ class PkPermission private constructor() {
             instance.with(activity).requestPermission(permissions)
                 .request(block)
         }
+
         @JvmStatic
         fun toAppSetting(context: Context) {
             PermissionSettingFactory.toAppSetting(context)
         }
 
+        @JvmStatic
+         fun toNotificationSetting(context: Context?){
+            PermissionSettingFactory.toAppSetting(context,true)
+         }
         @JvmStatic
         fun getAppSettingIntent(context: Context) {
             PermissionSettingFactory.getAppSettingIntent(context)
@@ -91,10 +100,12 @@ class PkPermission private constructor() {
     private fun request(block: OnPermissionCallback) {
         mPkPermissionFragment?.requestPermissions(mPermission, block)
     }
+
     private fun requestPermission(permission: String): PkPermission {
         this.mPermission = arrayOf(permission)
         return this
     }
+
     private fun requestPermission(permissions: Array<String>): PkPermission {
         this.mPermission = permissions
         return this

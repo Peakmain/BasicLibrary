@@ -86,6 +86,10 @@ object AndroidVersion {
         return Build.VERSION.SDK_INT >= ANDROID_7
     }
 
+    fun isAndroid7_1(): Boolean {
+        return Build.VERSION.SDK_INT >= ANDROID_7_1
+    }
+
     /**
      * 是否是 Android 6.0 及以上版本
      */
@@ -105,6 +109,10 @@ object AndroidVersion {
      */
     fun isAndroid5(): Boolean {
         return Build.VERSION.SDK_INT >= ANDROID_5
+    }
+
+    fun isAndroid4_1(): Boolean {
+        return Build.VERSION.SDK_INT >= ANDROID_4_1
     }
 
     /**

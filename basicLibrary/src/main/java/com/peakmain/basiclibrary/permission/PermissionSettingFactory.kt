@@ -2,7 +2,12 @@ package com.peakmain.basiclibrary.permission
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
+import androidx.core.content.ContextCompat.startActivity
+import com.peakmain.basiclibrary.constants.AndroidVersion
 import com.peakmain.basiclibrary.permission.setting.DefaultPermissionSetting
+import com.peakmain.basiclibrary.permission.setting.NotificationPermissionSetting
+
 
 /**
  * author ：Peakmain
@@ -28,21 +33,35 @@ internal object PermissionSettingFactory {
 
     private const val MANUFACTURER_VIVO = "vivo" //vivo
 
-    fun toAppSetting(context: Context) {
-        context.startActivity(getAppSettingIntent(context))
+    fun toAppSetting(context: Context?) {
+        toAppSetting(context, false)
+    }
+
+    /**
+     * @param isNotification 是否跳转系统的消息通知,true则表示想要跳转消息通知
+     */
+    fun toAppSetting(context: Context?, isNotification: Boolean) {
+        if (context == null) return
+        if (!isNotification) {
+            context.startActivity(getAppSettingIntent(context))
+            return
+        }
+        context.startActivity(NotificationPermissionSetting().getAppSetting(context))
     }
 
     fun getAppSettingIntent(context: Context): Intent {
-       /* return when (Build.MANUFACTURER) {
-            MANUFACTURER_HUAWEI -> HuaWeiPermissionSetting().getAppSetting(context)
-            MANUFACTURER_MEIZU -> MeiZuPermissionSetting().getAppSetting(context)
-            MANUFACTURER_XIAOMI -> XiaomiPermissionSetting().getAppSetting(context)
-            MANUFACTURER_SONY -> SonyPermissionSetting().getAppSetting(context)
-            MANUFACTURER_OPPO -> OPPOPermissionSetting().getAppSetting(context)
-            MANUFACTURER_VIVO -> VIVOPermissionSetting().getAppSetting(context)
-            MANUFACTURER_LG -> LGPermissionSetting().getAppSetting(context)
-            else -> DefaultPermissionSetting().getAppSetting(context)
-        }*/
+        /* return when (Build.MANUFACTURER) {
+             MANUFACTURER_HUAWEI -> HuaWeiPermissionSetting().getAppSetting(context)
+             MANUFACTURER_MEIZU -> MeiZuPermissionSetting().getAppSetting(context)
+             MANUFACTURER_XIAOMI -> XiaomiPermissionSetting().getAppSetting(context)
+             MANUFACTURER_SONY -> SonyPermissionSetting().getAppSetting(context)
+             MANUFACTURER_OPPO -> OPPOPermissionSetting().getAppSetting(context)
+             MANUFACTURER_VIVO -> VIVOPermissionSetting().getAppSetting(context)
+             MANUFACTURER_LG -> LGPermissionSetting().getAppSetting(context)
+             else -> DefaultPermissionSetting().getAppSetting(context)
+         }*/
         return DefaultPermissionSetting().getAppSetting(context)
     }
+
+
 }
