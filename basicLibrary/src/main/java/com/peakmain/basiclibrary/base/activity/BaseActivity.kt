@@ -17,7 +17,7 @@ import java.lang.reflect.ParameterizedType
  * mail:2726449200@qq.com
  * describe：
  */
-abstract class BaseActivity<T : ViewDataBinding, E : BaseViewModel>() :
+abstract class BaseActivity<T : ViewDataBinding, E : BaseViewModel> :
     AppCompatActivity() {
     abstract val layoutId: Int
     protected lateinit var mBinding: T

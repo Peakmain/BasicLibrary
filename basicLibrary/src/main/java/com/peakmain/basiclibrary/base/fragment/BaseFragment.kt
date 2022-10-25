@@ -21,7 +21,7 @@ import java.lang.reflect.ParameterizedType
  * mail:2726449200@qq.com
  * describe：
  */
-abstract class BaseFragment<T : ViewDataBinding, E : BaseViewModel>() :
+abstract class BaseFragment<T : ViewDataBinding, E : BaseViewModel> :
     Fragment() {
     companion object {
         private val TAG =

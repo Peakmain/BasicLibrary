@@ -17,7 +17,7 @@ import java.lang.ref.WeakReference
  * mail:2726449200@qq.com
  * describe：App管理帮组类
  */
-class AppManagerHelper private constructor(val reference: WeakReference<Context>) {
+class AppManagerHelper private constructor(private val reference: WeakReference<Context>) {
     private lateinit var mPackageManager: PackageManager
     private val mAllAppList = ArrayList<AppManagerBean>()
 

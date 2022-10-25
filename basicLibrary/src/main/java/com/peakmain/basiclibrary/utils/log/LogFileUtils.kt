@@ -1,8 +1,9 @@
 package com.peakmain.basiclibrary.utils.log
 
+import android.os.Build
 import android.util.Log
-import com.peakmain.basiclibrary.BuildConfig
 import com.peakmain.basiclibrary.config.BasicLibraryConfig
+import com.peakmain.basiclibrary.constants.AndroidVersion
 import com.peakmain.basiclibrary.constants.PermissionConstants
 import com.peakmain.basiclibrary.extend.isSpace
 import com.peakmain.basiclibrary.permission.PkPermission
@@ -48,9 +49,10 @@ object LogFileUtils {
     private const val LOGCAT_BASE_PATH = "Peakmain/Log"
     val application = BasicLibraryConfig.getInstance()?.getApp()?.getApplication()
     private fun getBasePath(children: String) =
-       application?.getExternalFilesDir(null)?.absolutePath + "/$children/"
+        application?.getExternalFilesDir(null)?.absolutePath + "/$children/"
 
     var basePath: String = getBasePath(LOGCAT_BASE_PATH)
+
     @JvmStatic
     fun setLogPath(path: String) {
         basePath = path
@@ -92,7 +94,7 @@ object LogFileUtils {
                 }
             }
         } else {
-            Log.e("TAG","请开启读写权限")
+            Log.e("TAG", "请开启读写权限")
         }
     }
 
@@ -134,7 +136,11 @@ object LogFileUtils {
         }
         return try {
             val d = Date(time)
-            val sf = SimpleDateFormat(pattern)
+            val sf = if (AndroidVersion.isAndroid7()) {
+                SimpleDateFormat(pattern, Locale.getDefault(Locale.Category.FORMAT))
+            } else {
+                SimpleDateFormat(pattern, Locale.CHINA)
+            }
             sf.format(d)
         } catch (e: Exception) {
             ""

@@ -35,9 +35,9 @@ object NotchScreenUtil {
         var ret = false
         try {
             val cl = context.classLoader
-            val HwNotchSizeUtil = cl.loadClass("com.huawei.android.util.HwNotchSizeUtil")
-            val get = HwNotchSizeUtil.getMethod("hasNotchInScreen")
-            ret = get.invoke(HwNotchSizeUtil) as Boolean
+            val hwNotchSizeUtil = cl.loadClass("com.huawei.android.util.HwNotchSizeUtil")
+            val get = hwNotchSizeUtil.getMethod("hasNotchInScreen")
+            ret = get.invoke(hwNotchSizeUtil) as Boolean
             Log.d("NotchScreenUtil", "this Huawei device has notch in screen？$ret")
         } catch (e: ClassNotFoundException) {
             Log.e("NotchScreenUtil", "hasNotchInScreen ClassNotFoundException", e)

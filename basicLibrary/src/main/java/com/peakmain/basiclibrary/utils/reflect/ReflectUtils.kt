@@ -1,10 +1,8 @@
+package com.peakmain.basiclibrary.utils.reflect
 
-package com.peakmain.basiclibrary.utils.reflect;
-
-import android.util.Log;
-
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
+import android.util.Log
+import java.lang.Exception
+import java.lang.reflect.Field
 
 /**
  * author ：Peakmain
@@ -12,82 +10,74 @@ import java.lang.reflect.Method;
  * mail:2726449200@qq.com
  * describe：
  */
-public class ReflectUtils {
-
-    private static final String TAG = "ReflectUtil";
-
-    public static Object invokeStaticMethod(String clzName, String methodName, Class<?>[] methodParamTypes, Object... methodParamValues) {
+object ReflectUtils {
+    private const val TAG = "ReflectUtil"
+    @JvmStatic
+    fun invokeStaticMethod(
+        clzName: String?,
+        methodName: String?,
+        methodParamTypes: Array<Class<*>?>,
+        vararg methodParamValues: Any?
+    ): Any? {
+        if(clzName==null||methodName==null)return null
         try {
-            Class clz = Class.forName(clzName);
-            if (clz != null) {
-                Method med = clz.getDeclaredMethod(methodName, methodParamTypes);
-                if (med != null) {
-                    med.setAccessible(true);
-                    Object retObj = med.invoke(null, methodParamValues);
-                    return retObj;
-                }
-            }
-        } catch (Exception e) {
-            Log.e(TAG, "invokeStaticMethod got Exception:", e);
+            val clz = Class.forName(clzName)
+            val med = clz.getDeclaredMethod(methodName, *methodParamTypes)
+            med.isAccessible = true
+            return med.invoke(null, *methodParamValues)
+        } catch (e: Exception) {
+            Log.e(TAG, "invokeStaticMethod got Exception:", e)
         }
-        return null;
+        return null
     }
 
-    public static Object invokeMethod(String clzName, String methodName, Object methodReceiver, Class<?>[] methodParamTypes, Object... methodParamValues) {
+    fun invokeMethod(
+        clzName: String?,
+        methodName: String?,
+        methodReceiver: Any?,
+        methodParamTypes: Array<Class<*>?>,
+        vararg methodParamValues: Any?
+    ): Any? {
         try {
-            if (methodReceiver == null) {
-                return null;
+            if (methodReceiver == null||clzName==null||methodName==null) {
+                return null
             }
-
-            Class clz = Class.forName(clzName);
-            if (clz != null) {
-                Method med = clz.getDeclaredMethod(methodName, methodParamTypes);
-                if (med != null) {
-                    med.setAccessible(true);
-                    Object retObj = med.invoke(methodReceiver, methodParamValues);
-                    return retObj;
-                }
-            }
-        } catch (Exception e) {
-            Log.e(TAG, "invokeStaticMethod got Exception:", e);
+            val clz = Class.forName(clzName)
+            val med = clz.getDeclaredMethod(methodName, *methodParamTypes)
+            med.isAccessible = true
+            return med.invoke(methodReceiver, *methodParamValues)
+        } catch (e: Exception) {
+            Log.e(TAG, "invokeStaticMethod got Exception:", e)
         }
-        return null;
+        return null
     }
 
-    public static final Object getStaticField(String clzName, String filedName) {
+    fun getStaticField(clzName: String?, filedName: String?): Any? {
+        if(clzName==null||filedName==null)return null
         try {
-            Field field = null;
-            Class<?> clz = Class.forName(clzName);
-            if (clz != null) {
-                field = clz.getField(filedName);
-                if (field != null) {
-                    return field.get("");
-                }
+            var field: Field? = null
+            val clz = Class.forName(clzName)
+            field = clz.getField(filedName)
+            if (field != null) {
+                return field[""]
             }
-        } catch (Exception e) {
-            Log.e(TAG, "getStaticField got Exception:", e);
+        } catch (e: Exception) {
+            Log.e(TAG, "getStaticField got Exception:", e)
         }
-
-        return null;
+        return null
     }
 
-    public static final Object getField(String clzName, Object obj, String filedName) {
+    fun getField(clzName: String?, obj: Any?, filedName: String?): Any? {
         try {
-            if (obj == null) {
-                return null;
+            if (obj == null||clzName==null||filedName==null) {
+                return null
             }
-
-            Class<?> clz = Class.forName(clzName);
-            if (clz != null) {
-                Field field = clz.getField(filedName);
-                if (field != null) {
-                    return field.get(obj);
-                }
-            }
-        } catch (Exception e) {
-            Log.e(TAG, "getStaticField got Exception:", e);
+            val clz = Class.forName(clzName)
+            val field = clz.getField(filedName)
+            return field[obj]
+        } catch (e: Exception) {
+            Log.e(TAG, "getStaticField got Exception:", e)
         }
-
-        return null;
+        return null
     }
 }

@@ -20,21 +20,21 @@ object SystemUtils {
      *
      * @return 如API 23 则返回 23
      */
-    fun getSdkVersion(): Int = android.os.Build.VERSION.SDK_INT
+    fun getSdkVersion(): Int = Build.VERSION.SDK_INT
 
     /**
      * 获取手机系统版本号
      *
      * @return 形如2.3.3
      */
-    fun getDeviceSystemVersion(): String = android.os.Build.VERSION.RELEASE
+    fun getDeviceSystemVersion(): String = Build.VERSION.RELEASE
 
     /**
      * 获取手机型号
      *
      * @return  手机型号
      */
-    fun getDeviceModel(): String = android.os.Build.MODEL
+    fun getDeviceModel(): String = Build.MODEL
 
     /**
      * 获取手机厂商
@@ -46,7 +46,7 @@ object SystemUtils {
     /**
      * 返回当前程序版本名
      */
-    fun getAppVersionName(context: Context): String? {
+    fun getAppVersionName(context: Context): String {
         var versionName = ""
         try {
             val pm = context.packageManager
@@ -65,9 +65,6 @@ object SystemUtils {
         return Pattern.matches(regex, mobile)
     }
 
-    /**
-     * 国际移动用户识别码
-     */
     /**
      * 获取SIM卡运营商
      *

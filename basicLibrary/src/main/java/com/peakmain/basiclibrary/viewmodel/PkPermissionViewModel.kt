@@ -7,7 +7,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.peakmain.basiclibrary.base.viewmodel.BaseViewModel
 import com.peakmain.basiclibrary.constants.AndroidVersion
-import com.peakmain.basiclibrary.constants.PermissionConstants
 import com.peakmain.basiclibrary.extend.launchMulti
 import com.peakmain.basiclibrary.helper.PermissionHelper
 import com.peakmain.basiclibrary.interfaces.OnPermissionCallback

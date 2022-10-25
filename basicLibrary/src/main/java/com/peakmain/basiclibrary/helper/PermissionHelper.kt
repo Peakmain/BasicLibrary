@@ -4,7 +4,6 @@ import android.content.pm.PackageManager
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import com.peakmain.basiclibrary.config.BasicLibraryConfig
 import com.peakmain.basiclibrary.constants.AndroidVersion
 import com.peakmain.basiclibrary.permission.PkPermission
 import com.peakmain.basiclibrary.permission.PkPermissionFragment

@@ -12,7 +12,6 @@ import android.view.Surface
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
-import androidx.annotation.RequiresApi
 import androidx.core.view.get
 import androidx.drawerlayout.widget.DrawerLayout
 import com.peakmain.basiclibrary.R
@@ -47,7 +46,7 @@ class WindowUtils private constructor() {
      * 获取actionBar的高度
      */
     fun getActionBarHeight(activity: Activity): Int {
-        var result: Int = 0
+        var result = 0
         val actionBar = activity.window.findViewById<View>(R.id.action_bar_container)
         if (actionBar != null) {
             result = actionBar.measuredHeight
@@ -73,7 +72,7 @@ class WindowUtils private constructor() {
     /**
      * 获取当前窗口的旋转角度
      *
-     * @param activity activity
+     * @param context activity
      * @return int
      */
     fun getDisplayRotation(context: Activity): Int {
