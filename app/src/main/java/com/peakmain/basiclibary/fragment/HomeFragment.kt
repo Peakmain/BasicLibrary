@@ -20,7 +20,9 @@ import com.peakmain.basiclibrary.extend.click
 import com.peakmain.basiclibrary.extend.ktxRunOnUiThreadDelay
 import com.peakmain.basiclibrary.image.PkImageSelector
 import com.peakmain.basiclibrary.image.SimpleImageSelectorCallback
+import com.peakmain.basiclibrary.permission.PkPermission
 import com.peakmain.basiclibrary.utils.GlobalCoroutineExceptionHandler
+import com.peakmain.ui.navigationbar.DefaultNavigationBar
 import com.peakmain.ui.recyclerview.itemdecoration.DividerGridItemDecoration
 
 class HomeFragment(override val layoutId: Int = R.layout.fragment_home) :
@@ -29,7 +31,7 @@ class HomeFragment(override val layoutId: Int = R.layout.fragment_home) :
         val testAdapter = TestAdapter(getData())
         testAdapter.bindToRecyclerView(mBinding.recyclerview)
         context?.let {
-             mBinding.recyclerview.addItemDecoration(DividerGridItemDecoration(it))
+            mBinding.recyclerview.addItemDecoration(DividerGridItemDecoration(it))
         }
         val GROUP_LOCATION_BELOW_Q = arrayOf(
             Manifest.permission.ACCESS_FINE_LOCATION,
@@ -53,7 +55,7 @@ class HomeFragment(override val layoutId: Int = R.layout.fragment_home) :
                                 }
                             }
                         })
-                    4-> {
+                    4 -> {
                         PkImageSelector.builder(this@HomeFragment).setSingle(false)
                             .setType(ImageSelectConstants.IMAGE_TYPE)
                             .setMaxNum(4)
@@ -67,11 +69,14 @@ class HomeFragment(override val layoutId: Int = R.layout.fragment_home) :
                     }
                     5 -> PkImageSelector.builder(this@HomeFragment)
                         .setType(ImageSelectConstants.TAKE_PHOTO_TYPE).forResult()
-                    6->{
+                    6 -> {
                         SubmitLoading.instance.show(this@HomeFragment)
                         ktxRunOnUiThreadDelay(2000) {
                             SubmitLoading.instance.success()
                         }
+                    }
+                    7 -> {
+                        PkPermission.toNotificationSetting(context)
                     }
 
                 }
@@ -96,6 +101,15 @@ class HomeFragment(override val layoutId: Int = R.layout.fragment_home) :
         }
     }
 
+    private fun initDefalutNavigationbar(fragmentView: View) {
+        DefaultNavigationBar.Builder(context, fragmentView.findViewById(R.id.view_root))
+            .hideLeftText()
+            .hideRightView()
+            .setTitleText("首页")
+            .setToolbarBackgroundColor(R.color.ui_color_01a8e3)
+            .create()
+    }
+
     val data = ArrayList<String>()
     private fun getData(): MutableList<String> {
         data.add("申请单个相机权限")
@@ -105,6 +119,7 @@ class HomeFragment(override val layoutId: Int = R.layout.fragment_home) :
         data.add("选择多个图片")
         data.add("拍照")
         data.add("加载loading")
+        data.add("跳转消息通知权限界面")
         return data
     }
 
