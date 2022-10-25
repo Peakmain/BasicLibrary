@@ -101,8 +101,16 @@ object PermissionConstants {
         permission.SEND_SMS, permission.RECEIVE_SMS, permission.READ_SMS,
         permission.RECEIVE_WAP_PUSH, permission.RECEIVE_MMS
     )
-    private val GROUP_STORAGE = arrayOf(
+    private val GROUP_STORAGE_BELOW_T = arrayOf(
         permission.READ_EXTERNAL_STORAGE, permission.WRITE_EXTERNAL_STORAGE
+    )
+
+    //android 13 已经申请了读的权限，那App同时也就有了写的权限,无需再额外声明 WRITE_EXTERNAL_STORAGE权限
+    @RequiresApi(33)
+    private val GROUP_STORAGE = arrayOf(
+        permission.READ_MEDIA_IMAGES,
+        permission.READ_MEDIA_VIDEO,
+        permission.READ_MEDIA_AUDIO
     )
 
     @RequiresApi(Build.VERSION_CODES.Q)
@@ -141,7 +149,11 @@ object PermissionConstants {
                 else
                     arrayOf(permission)
             SMS -> GROUP_SMS
-            STORAGE -> GROUP_STORAGE
+            STORAGE ->
+                if (AndroidVersion.isAndroid13())
+                    GROUP_STORAGE
+                else
+                    GROUP_STORAGE_BELOW_T
             ACTIVITY_RECOGNITION ->
                 if (AndroidVersion.isAndroid10())
                     GROUP_ACTIVITY_RECOGNITION

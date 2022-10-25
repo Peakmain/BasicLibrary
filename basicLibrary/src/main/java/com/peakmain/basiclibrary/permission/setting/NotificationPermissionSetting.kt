@@ -5,7 +5,6 @@ import android.content.Intent
 import android.provider.Settings
 import com.peakmain.basiclibrary.constants.AndroidVersion
 import com.peakmain.basiclibrary.interfaces.IPermissionSetting
-import com.peakmain.basiclibrary.permission.PermissionSettingFactory
 
 /**
  * author ：Peakmain

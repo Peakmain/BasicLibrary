@@ -15,18 +15,19 @@ import com.peakmain.basiclibrary.constants.AndroidVersion
  * mail:2726449200@qq.com
  * describe：
  */
-class SelectMultipleContract(var maxNum: Int=9) : ActivityResultContract<String, List<Uri?>>() {
-    @CallSuper
+class SelectMultipleContract(var maxNum: Int = 9) : ActivityResultContract<String, List<Uri?>>() {
     override fun createIntent(context: Context, input: String): Intent {
-        val intent = Intent(Intent.ACTION_GET_CONTENT)
-            .addCategory(Intent.CATEGORY_OPENABLE)
-            .setType(input)
+        val intent = if (AndroidVersion.isAndroid13()) {
+            Intent(MediaStore.ACTION_PICK_IMAGES)
+                .putExtra(MediaStore.EXTRA_PICK_IMAGES_MAX, maxNum)
+                .setType(input)
+        } else {
+            Intent(Intent.ACTION_GET_CONTENT)
+                .addCategory(Intent.CATEGORY_OPENABLE)
+                .setType(input)
+        }
         if (AndroidVersion.isAndroid4_3()) {
             intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
-        }
-        if (AndroidVersion.isAndroid13()) {
-            return intent
-                .putExtra(MediaStore.EXTRA_PICK_IMAGES_MAX, maxNum)
         }
         return intent
 
