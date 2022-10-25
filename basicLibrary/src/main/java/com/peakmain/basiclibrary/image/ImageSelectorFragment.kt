@@ -1,8 +1,10 @@
 package com.peakmain.basiclibrary.image
 
+import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import com.peakmain.basiclibrary.config.ImageRequestConfig
+import com.peakmain.basiclibrary.constants.AndroidVersion
 import com.peakmain.basiclibrary.constants.ImageSelectConstants
 import com.peakmain.basiclibrary.extend.launchImage
 import com.peakmain.basiclibrary.image.contract.SelectMultipleContract
@@ -32,7 +34,11 @@ internal class ImageSelectorFragment : Fragment() {
             mImageSelectViewModel.registerTakePicture(it)
         }
     private val mConfig by lazy {
-        arguments?.get(ImageSelectConstants.REQUEST_CONFIG) as ImageRequestConfig?
+        if (AndroidVersion.isAndroid13()) {
+            arguments?.getSerializable(ImageSelectConstants.REQUEST_CONFIG,ImageRequestConfig::class.java)
+        } else {
+            arguments?.get(ImageSelectConstants.REQUEST_CONFIG) as ImageRequestConfig?
+        }
     }
     private val mSelectMultiPhotoLauncher =
         registerForActivityResult(selectMultipleContract) { lists ->

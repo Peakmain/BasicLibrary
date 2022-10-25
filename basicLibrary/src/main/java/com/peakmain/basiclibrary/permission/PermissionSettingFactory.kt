@@ -2,9 +2,6 @@ package com.peakmain.basiclibrary.permission
 
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
-import androidx.core.content.ContextCompat.startActivity
-import com.peakmain.basiclibrary.constants.AndroidVersion
 import com.peakmain.basiclibrary.permission.setting.DefaultPermissionSetting
 import com.peakmain.basiclibrary.permission.setting.NotificationPermissionSetting
 

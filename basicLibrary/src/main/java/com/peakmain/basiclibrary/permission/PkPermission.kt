@@ -1,5 +1,6 @@
 package com.peakmain.basiclibrary.permission
 
+import android.app.NotificationManager
 import android.content.Context
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
@@ -29,7 +30,6 @@ class PkPermission private constructor() {
         fun isGranted(permissions: String): Boolean {
             return PermissionHelper.instance.isGranted(permissions)
         }
-
         /**
          * 是否授予某权限
          */
