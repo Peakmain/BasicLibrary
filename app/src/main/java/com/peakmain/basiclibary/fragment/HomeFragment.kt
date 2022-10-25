@@ -27,7 +27,8 @@ import com.peakmain.ui.recyclerview.itemdecoration.DividerGridItemDecoration
 
 class HomeFragment(override val layoutId: Int = R.layout.fragment_home) :
     BaseFragment<FragmentHomeBinding, HomeFragmentViewModel>() {
-    override fun initView(fragmentView:View) {
+    override fun initView(fragmentView: View) {
+        initDefalutNavigationbar(fragmentView)
         val testAdapter = TestAdapter(getData())
         testAdapter.bindToRecyclerView(mBinding.recyclerview)
         context?.let {
