@@ -2,6 +2,7 @@ package com.peakmain.basiclibrary.utils
 
 import android.annotation.SuppressLint
 import android.text.TextUtils
+import java.util.*
 
 /**
  * author ：Peakmain
@@ -34,7 +35,7 @@ object OSUtils {
         get() {
             val version = mIUIVersion
             val num: Int
-            return if (!version.isEmpty()) {
+            return if (version.isNotEmpty()) {
                 try {
                     num = Integer.valueOf(version.substring(1))
                     num >= 6
@@ -80,9 +81,7 @@ object OSUtils {
     val isEMUI3_1: Boolean
         get() {
             val property = eMUIVersion
-            return if ("EmotionUI 3" == property || property.contains("EmotionUI_3.1")) {
-                true
-            } else false
+            return "EmotionUI 3" == property || property.contains("EmotionUI_3.1")
         }
 
     /**
@@ -91,9 +90,7 @@ object OSUtils {
     val isEMUI3_0: Boolean
         get() {
             val property = eMUIVersion
-            return if (property.contains("EmotionUI_3.0")) {
-                true
-            } else false
+            return property.contains("EmotionUI_3.0")
         }
 
     /**
@@ -106,7 +103,7 @@ object OSUtils {
      * 判断是否为flymeOS
      */
     val isFlymeOS: Boolean
-        get() = flymeOSFlag.toLowerCase().contains("flyme")
+        get() = flymeOSFlag.toLowerCase(Locale.getDefault()).contains("flyme")
 
     /**
      * 判断flymeOS的版本是否大于等于4
@@ -115,9 +112,9 @@ object OSUtils {
         get() {
             val version = flymeOSVersion
             val num: Int
-            return if (!version.isEmpty()) {
+            return if (version.isNotEmpty()) {
                 try {
-                    num = if (version.toLowerCase().contains("os")) {
+                    num = if (version.toLowerCase(Locale.getDefault()).contains("os")) {
                         Integer.valueOf(version.substring(9, 10))
                     } else {
                         Integer.valueOf(version.substring(6, 7))
@@ -136,9 +133,9 @@ object OSUtils {
         get() {
             val version = flymeOSVersion
             val num: Int
-            return if (!version.isEmpty()) {
+            return if (version.isNotEmpty()) {
                 try {
-                    num = if (version.toLowerCase().contains("os")) {
+                    num = if (version.toLowerCase(Locale.getDefault()).contains("os")) {
                         Integer.valueOf(version.substring(9, 10))
                     } else {
                         Integer.valueOf(version.substring(6, 7))
@@ -157,7 +154,7 @@ object OSUtils {
         get() = if (isFlymeOS) getSystemProperty(KEY_DISPLAY, "") else ""
 
     private val flymeOSFlag: String
-        private get() = getSystemProperty(KEY_DISPLAY, "")
+        get() = getSystemProperty(KEY_DISPLAY, "")
 
     private fun getSystemProperty(key: String, defaultValue: String): String {
         try {

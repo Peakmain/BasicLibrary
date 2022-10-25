@@ -15,8 +15,6 @@ class ErrorEnum{
     }
     @IntDef(value=[SUCCESS,TOKEN_ERROR])
     @Retention(AnnotationRetention.SOURCE)
-    annotation class Error{
-
-    }
+    annotation class Error
 
 }

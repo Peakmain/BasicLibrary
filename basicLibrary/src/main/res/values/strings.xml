@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="meizu_flag_dark_status_bar_icon">MEIZU_FLAG_DARK_STATUS_BAR_ICON</string>
+    <string name="meizuFlags">meizuFlags</string>
+</resources>

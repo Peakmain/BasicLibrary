@@ -1,7 +1,6 @@
 package com.peakmain.basiclibrary.utils.mmkv
 
 import android.content.Context
-import com.peakmain.basiclibrary.utils.mmkv.BaseSharedPreferencesFactory
 
 /**
  * author ：Peakmain
@@ -10,6 +9,4 @@ import com.peakmain.basiclibrary.utils.mmkv.BaseSharedPreferencesFactory
  * describe：
  */
 class DefaultSharedPreferencesFactory(context: Context, override val key: String="basic_sp_key") :
-    BaseSharedPreferencesFactory(context){
-
-}
+    BaseSharedPreferencesFactory(context)

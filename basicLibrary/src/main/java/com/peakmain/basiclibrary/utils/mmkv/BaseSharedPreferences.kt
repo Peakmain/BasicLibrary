@@ -126,8 +126,7 @@ abstract class BaseSharedPreferencesFactory @JvmOverloads constructor(
         val bais = ByteArrayInputStream(base64)
         try {
             val bis = ObjectInputStream(bais)
-            val objects = bis.readObject()
-            return objects
+            return bis.readObject()
         } catch (e: java.lang.Exception) {
         }
         return null

@@ -11,24 +11,24 @@ import android.os.Build
 @SuppressWarnings("all")
 object AndroidVersion {
 
-    val ANDROID_13: Int = Build.VERSION_CODES.TIRAMISU
-    val ANDROID_12: Int = Build.VERSION_CODES.S
-    val ANDROID_11: Int = Build.VERSION_CODES.R
-    val ANDROID_10: Int = Build.VERSION_CODES.Q
-    val ANDROID_9: Int = Build.VERSION_CODES.P
-    val ANDROID_8_1: Int = Build.VERSION_CODES.O_MR1
-    val ANDROID_8: Int = Build.VERSION_CODES.O
-    val ANDROID_7_1: Int = Build.VERSION_CODES.N_MR1
-    val ANDROID_7: Int = Build.VERSION_CODES.N
-    val ANDROID_6: Int = Build.VERSION_CODES.M
-    val ANDROID_5_1: Int = Build.VERSION_CODES.LOLLIPOP_MR1
-    val ANDROID_5: Int = Build.VERSION_CODES.LOLLIPOP
-    val ANDROID_4_4_w: Int = Build.VERSION_CODES.KITKAT_WATCH
-    val ANDROID_4_4: Int = Build.VERSION_CODES.KITKAT
-    val ANDROID_4_3: Int = Build.VERSION_CODES.JELLY_BEAN_MR2
-    val ANDROID_4_2: Int = Build.VERSION_CODES.JELLY_BEAN_MR1
-    val ANDROID_4_1: Int = Build.VERSION_CODES.JELLY_BEAN
-    val ANDROID_4_0: Int = Build.VERSION_CODES.ICE_CREAM_SANDWICH
+    private const val ANDROID_13: Int = Build.VERSION_CODES.TIRAMISU
+    private const val ANDROID_12: Int = Build.VERSION_CODES.S
+    private const val ANDROID_11: Int = Build.VERSION_CODES.R
+    private const val ANDROID_10: Int = Build.VERSION_CODES.Q
+    private const val ANDROID_9: Int = Build.VERSION_CODES.P
+    private const val ANDROID_8_1: Int = Build.VERSION_CODES.O_MR1
+    private const val ANDROID_8: Int = Build.VERSION_CODES.O
+    private const val ANDROID_7_1: Int = Build.VERSION_CODES.N_MR1
+    private const val ANDROID_7: Int = Build.VERSION_CODES.N
+    private const val ANDROID_6: Int = Build.VERSION_CODES.M
+    private const val ANDROID_5_1: Int = Build.VERSION_CODES.LOLLIPOP_MR1
+    private const val ANDROID_5: Int = Build.VERSION_CODES.LOLLIPOP
+    private const val ANDROID_4_4_w: Int = Build.VERSION_CODES.KITKAT_WATCH
+    private const val ANDROID_4_4: Int = Build.VERSION_CODES.KITKAT
+    private const val ANDROID_4_3: Int = Build.VERSION_CODES.JELLY_BEAN_MR2
+    private const val ANDROID_4_2: Int = Build.VERSION_CODES.JELLY_BEAN_MR1
+    private const val ANDROID_4_1: Int = Build.VERSION_CODES.JELLY_BEAN
+    private const val ANDROID_4_0: Int = Build.VERSION_CODES.ICE_CREAM_SANDWICH
 
     /**
      * 是否是android13及以上版本

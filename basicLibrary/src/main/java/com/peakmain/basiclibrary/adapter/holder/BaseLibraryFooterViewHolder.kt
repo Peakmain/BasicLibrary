@@ -1,7 +1,6 @@
 package com.peakmain.basiclibrary.adapter.holder
 
 import androidx.databinding.ViewDataBinding
-import androidx.recyclerview.widget.RecyclerView
 
 /**
  * author ：Peakmain
@@ -10,5 +9,4 @@ import androidx.recyclerview.widget.RecyclerView
  * describe：
  */
 open class BaseLibraryFooterViewHolder<E : ViewDataBinding> constructor(itemDataBinding: E) :
-    BaseLibraryViewHolder<E>(itemDataBinding) {
-}
+    BaseLibraryViewHolder<E>(itemDataBinding)

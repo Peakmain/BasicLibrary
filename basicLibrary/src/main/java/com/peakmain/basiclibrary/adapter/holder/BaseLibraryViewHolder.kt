@@ -10,5 +10,4 @@ import androidx.recyclerview.widget.RecyclerView
  * describe：
  */
 open class BaseLibraryViewHolder<E : ViewDataBinding> constructor(var itemDataBinding: E) :
-    RecyclerView.ViewHolder(itemDataBinding.root) {
-}
+    RecyclerView.ViewHolder(itemDataBinding.root)

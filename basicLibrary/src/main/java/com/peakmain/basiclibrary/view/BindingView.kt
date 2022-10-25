@@ -2,7 +2,6 @@ package com.peakmain.basiclibrary.view
 
 import android.view.MotionEvent
 import android.view.View
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import com.peakmain.basiclibrary.extend.clickViewDelay

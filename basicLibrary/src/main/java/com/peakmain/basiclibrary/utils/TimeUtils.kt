@@ -1,5 +1,6 @@
 package com.peakmain.basiclibrary.utils
 
+import com.peakmain.basiclibrary.constants.AndroidVersion
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -15,7 +16,11 @@ object TimeUtils {
 
     fun getCurrentTime(pattern: String=yyyy_MM_dd_HH_mm_ss): String {
         val currentTime = Date()
-        val formatter = SimpleDateFormat(pattern)
+        val formatter = if (AndroidVersion.isAndroid7()) {
+            SimpleDateFormat(pattern,Locale.getDefault(Locale.Category.FORMAT))
+        } else {
+            SimpleDateFormat(pattern,Locale.CHINA)
+        }
         return formatter.format(currentTime)
     }
     /**
@@ -40,8 +45,12 @@ object TimeUtils {
     /**
      * 将指定以pattern参数自定义的格式的时间转换为毫秒值
      */
-    fun Date2Ms(_data: String, pattern: String): Long {
-        val format = SimpleDateFormat(pattern)
+    fun date2Ms(_data: String, pattern: String): Long {
+        val format = if(AndroidVersion.isAndroid7()){
+            SimpleDateFormat(pattern,Locale.getDefault(Locale.Category.FORMAT))
+        }else{
+            SimpleDateFormat(pattern,Locale.CHINA)
+        }
         return try {
             val date = format.parse(_data)
             date?.time ?: 0

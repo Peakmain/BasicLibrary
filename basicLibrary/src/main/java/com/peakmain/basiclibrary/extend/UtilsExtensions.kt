@@ -103,7 +103,7 @@ fun Int.numberToChina(): String? {
     return sd
 }
 
-private fun getChina(input: Int): String? {
+private fun getChina(input: Int): String{
     var sd = ""
     sd = when (input) {
         1 -> "一"

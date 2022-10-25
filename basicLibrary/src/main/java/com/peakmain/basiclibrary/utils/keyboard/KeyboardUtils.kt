@@ -27,8 +27,8 @@ import com.peakmain.basiclibrary.utils.WindowUtils
  */
 class KeyboardUtils(
     val activity: Activity,
-    val isSupportActionBar: Boolean = false,
-    val isFits: Boolean = true
+    private val isSupportActionBar: Boolean = false,
+    private val isFits: Boolean = true
 ) :
     ViewTreeObserver.OnGlobalLayoutListener {
     private var mDecorView: View = activity.window.decorView

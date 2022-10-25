@@ -2,8 +2,7 @@ package com.peakmain.basiclibrary.permission
 
 import android.content.Context
 import android.content.Intent
-import android.os.Build
-import com.peakmain.basiclibrary.permission.setting.*
+import com.peakmain.basiclibrary.permission.setting.DefaultPermissionSetting
 
 /**
  * author ：Peakmain

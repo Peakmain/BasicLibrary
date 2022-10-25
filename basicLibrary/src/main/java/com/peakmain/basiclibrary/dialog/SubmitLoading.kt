@@ -3,8 +3,6 @@ package com.peakmain.basiclibrary.dialog
 import android.app.Activity
 import android.content.Context
 import android.graphics.drawable.Drawable
-import android.os.Handler
-import android.os.Looper
 import android.view.View
 import android.view.animation.AlphaAnimation
 import android.view.animation.Animation
@@ -76,7 +74,7 @@ class SubmitLoading {
     }
 
     fun show(context: Activity, msg: String, cancelable: Boolean) {
-        val view = context.layoutInflater.inflate(R.layout.layout_submit_loading, null)
+        val view = View.inflate(context,R.layout.layout_submit_loading, null)
         setView(view, msg, context, cancelable)
     }
 
@@ -97,9 +95,9 @@ class SubmitLoading {
         }
     }
 
-    fun show(context: Fragment, msg: String, cancelable: Boolean) {
-        val view = context.layoutInflater.inflate(R.layout.layout_submit_loading, null)
-        setView(view, msg, context.context, cancelable)
+    fun show(fragment: Fragment, msg: String, cancelable: Boolean) {
+        val view = View.inflate(fragment.context,R.layout.layout_submit_loading, null)
+        setView(view, msg, fragment.context, cancelable)
     }
 
     fun success(end: () -> Unit = {}) {

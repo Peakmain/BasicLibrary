@@ -1,19 +1,13 @@
 package com.peakmain.basiclibrary.image.contract
 
+import android.app.Activity
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
+import android.provider.MediaStore
 import androidx.activity.result.contract.ActivityResultContract
 import androidx.annotation.CallSuper
-import android.content.Intent
-import android.app.Activity
-import com.peakmain.basiclibrary.image.contract.SelectMultipleContract
-import android.content.ClipData
-import android.content.Context
-import android.net.Uri
-import android.os.Build
-import android.provider.MediaStore
-import androidx.annotation.RequiresApi
 import com.peakmain.basiclibrary.constants.AndroidVersion
-import java.util.ArrayList
-import java.util.LinkedHashSet
 
 /**
  * author ：Peakmain
