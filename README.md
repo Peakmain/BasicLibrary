@@ -39,6 +39,10 @@ dependencyResolutionManagement {
 	        implementation 'com.github.Peakmain:BasicLibrary:1.1.3'
 	}
 ```
+#### Screenshot
+
+![demo](https://user-images.githubusercontent.com/26482737/197705839-b359236e-7e81-40f2-a8de-5d765fcbba22.gif)
+
 
 #### 关于我
 - 简书([https://www.jianshu.com/u/3ff32f5aea98](https://www.jianshu.com/u/3ff32f5aea98))
