@@ -12,7 +12,7 @@ import java.util.*
  */
 object TimeUtils {
     const val yyyy_MM_dd = "yyyy-MM-dd"
-    const val yyyy_MM_dd_HH_mm_ss = "yyyy-MM-dd HH:mm:ss"
+    private const val yyyy_MM_dd_HH_mm_ss = "yyyy-MM-dd HH:mm:ss"
 
     fun getCurrentTime(pattern: String=yyyy_MM_dd_HH_mm_ss): String {
         val currentTime = Date()

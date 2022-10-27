@@ -29,8 +29,8 @@ object ArithmeticUtils {
      * 相减
      */
     fun sub(d1: Double, d2: Double): Double {
-        val str1 = java.lang.Double.toString(d1)
-        val str2 = java.lang.Double.toString(d2)
+        val str1 = d1.toString()
+        val str2 = d2.toString()
         return sub(str1, str2)
     }
 
@@ -47,8 +47,8 @@ object ArithmeticUtils {
      * 相乘
      */
     fun mul(d1: Double, d2: Double): Double {
-        val str1 = java.lang.Double.toString(d1)
-        val str2 = java.lang.Double.toString(d2)
+        val str1 = d1.toString()
+        val str2 = d2.toString()
         return mul(str1, str2)
     }
 
@@ -70,8 +70,8 @@ object ArithmeticUtils {
 
     fun div(d1: Double, d2: Double, scale: Int): Double {
         require(scale >= 0) { "The scale must be a positive integer or zero" }
-        val b1 = BigDecimal(java.lang.Double.toString(d1))
-        val b2 = BigDecimal(java.lang.Double.toString(d2))
+        val b1 = BigDecimal(d1.toString())
+        val b2 = BigDecimal(d2.toString())
         return b1.divide(b2, scale, BigDecimal.ROUND_HALF_UP).toDouble()
     }
 
