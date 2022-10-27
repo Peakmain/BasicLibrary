@@ -1,6 +1,5 @@
 package com.peakmain.basiclibrary.utils.log
 
-import android.os.Build
 import android.util.Log
 import com.peakmain.basiclibrary.config.BasicLibraryConfig
 import com.peakmain.basiclibrary.constants.AndroidVersion
@@ -23,27 +22,27 @@ object LogFileUtils {
     /**
      * 秒
      */
-    private val SECOND: Long = 1000
+    private const val SECOND: Long = 1000
 
     /**
      * 分
      */
-    private val MINUTE = SECOND * 60
+    private const val MINUTE = SECOND * 60
 
     /**
      * 小时
      */
-    private val HOUR = MINUTE * 60
+    private const val HOUR = MINUTE * 60
 
     /**
      * 天
      */
-    private val DAY = HOUR * 24
+    private const val DAY = HOUR * 24
 
     /**
      * 周
      */
-    private val WEEK = DAY * 7
+    private const val WEEK = DAY * 7
     private const val YYYY_MM_DD_HH_MM_SS = "yyyy-MM-dd HH:mm:ss"
     private const val YYYY_MM_DD = "yyyy-MM-dd"
     private const val LOGCAT_BASE_PATH = "Peakmain/Log"
@@ -51,7 +50,7 @@ object LogFileUtils {
     private fun getBasePath(children: String) =
         application?.getExternalFilesDir(null)?.absolutePath + "/$children/"
 
-    var basePath: String = getBasePath(LOGCAT_BASE_PATH)
+    private var basePath: String = getBasePath(LOGCAT_BASE_PATH)
 
     @JvmStatic
     fun setLogPath(path: String) {

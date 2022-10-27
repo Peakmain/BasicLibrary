@@ -77,25 +77,24 @@ fun Int.numberToChina(): String? {
                     0,
                     1
                 ) == "1"
-            ) "十" else getChina(source / 10)
-                .toString() + "十"
+            ) "十" else getChina(source / 10) + "十"
             sd += (source % 10).numberToChina()
         }
         3 // 百
         -> {
-            sd += getChina(source / 100).toString() + "百"
+            sd += getChina(source / 100) + "百"
             if (java.lang.String.valueOf(source % 100).length < 2) sd += "零"
             sd += (source % 100).numberToChina()
         }
         4 // 千
         -> {
-            sd += getChina(source / 1000).toString() + "千"
+            sd += getChina(source / 1000) + "千"
             if (java.lang.String.valueOf(source % 1000).length < 3) sd += "零"
             sd += (source % 1000).numberToChina()
         }
         5 // 万
         -> {
-            sd += getChina(source / 10000).toString() + "万"
+            sd += getChina(source / 10000) + "万"
             if (java.lang.String.valueOf(source % 10000).length < 4) sd += "零"
             sd += (source % 10000).numberToChina()
         }

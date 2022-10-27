@@ -2,6 +2,7 @@ package com.peakmain.basiclibrary.viewpage
 
 import android.view.View
 import androidx.viewpager.widget.ViewPager
+import kotlin.math.abs
 
 /**
  * author ：Peakmain
@@ -39,7 +40,7 @@ class DepthPageTransformer : ViewPager.PageTransformer {
                     translationX = pageWidth * -position
 
                     // Scale the page down (between MIN_SCALE and 1)
-                    val scaleFactor = (MIN_SCALE + (1 - MIN_SCALE) * (1 - Math.abs(position)))
+                    val scaleFactor = (MIN_SCALE + (1 - MIN_SCALE) * (1 - abs(position)))
                     scaleX = scaleFactor
                     scaleY = scaleFactor
                     if(position==1f){

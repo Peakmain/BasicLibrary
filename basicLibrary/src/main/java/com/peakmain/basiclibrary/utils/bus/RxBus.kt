@@ -83,9 +83,9 @@ class RxBus {
      * sticky不等于true，只能接收到注册之后发送的消息，如果想接受先发送后注册的消息需要设置sticky为true
      */
     class StickyObserver<T>(
-        val stickyLiveData: StickyLiveData<T>,
-        val sticky: Boolean,
-        val observer: Observer<in T>
+        private val stickyLiveData: StickyLiveData<T>,
+        private val sticky: Boolean,
+        private val observer: Observer<in T>
     ) : Observer<T> {
         private var lastVersion = stickyLiveData.mVersion
         override fun onChanged(t: T) {
