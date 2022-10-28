@@ -24,6 +24,7 @@ import com.peakmain.basiclibrary.permission.PkPermission
 import com.peakmain.basiclibrary.utils.GlobalCoroutineExceptionHandler
 import com.peakmain.ui.navigationbar.DefaultNavigationBar
 import com.peakmain.ui.recyclerview.itemdecoration.DividerGridItemDecoration
+import com.peakmain.ui.utils.ToastUtils
 
 class HomeFragment(override val layoutId: Int = R.layout.fragment_home) :
     BaseFragment<FragmentHomeBinding, HomeFragmentViewModel>() {
@@ -68,8 +69,14 @@ class HomeFragment(override val layoutId: Int = R.layout.fragment_home) :
                                 }
                             })
                     }
-                    5 -> PkImageSelector.builder(this@HomeFragment)
-                        .setType(ImageSelectConstants.TAKE_PHOTO_TYPE).forResult()
+                    5 -> {
+                        if(PkPermission.isGranted(PermissionConstants.getPermissions(PermissionConstants.CAMERA))){
+                            PkImageSelector.builder(this@HomeFragment)
+                                .setType(ImageSelectConstants.TAKE_PHOTO_TYPE).forResult()
+                        }else{
+                           ToastUtils.showLong("请开启相机权限")
+                        }
+                    }
                     6 -> {
                         SubmitLoading.instance.show(this@HomeFragment)
                         ktxRunOnUiThreadDelay(2000) {
