@@ -33,11 +33,21 @@ internal class ImageSelectorHelper private constructor() {
             val bundle = Bundle()
             bundle.putSerializable(ImageSelectConstants.REQUEST_CONFIG, config)
             imageSelectorFragment.arguments = bundle
+
             fragmentManager?.beginTransaction()
                 ?.add(imageSelectorFragment, TAG)
                 ?.commitAllowingStateLoss()
         }
         return imageSelectorFragment
+    }
+
+    private fun initFragmentBundle(
+        config: ImageRequestConfig,
+        imageSelectorFragment: ImageSelectorFragment
+    ) {
+        val bundle = Bundle()
+        bundle.putSerializable(ImageSelectConstants.REQUEST_CONFIG, config)
+        imageSelectorFragment.arguments = bundle
     }
 
     private fun findPictureSelectFragment(fragmentManager: FragmentManager?): ImageSelectorFragment? {

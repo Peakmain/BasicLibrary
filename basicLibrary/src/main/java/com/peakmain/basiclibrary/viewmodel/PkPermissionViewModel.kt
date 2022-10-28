@@ -88,7 +88,7 @@ internal class PkPermissionViewModel : BaseViewModel() {
         }
 
     fun registerMultiForActivityResult(
-        it: MutableMap<String, Boolean>,
+        it: Map<String, Boolean>,
         block: ((String) -> Boolean),
         requestPermission: (() -> Unit)?
     ) {

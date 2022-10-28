@@ -6,8 +6,8 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import androidx.activity.result.contract.ActivityResultContract
 import androidx.activity.result.contract.ActivityResultContracts.RequestMultiplePermissions
-import androidx.activity.result.contract.ActivityResultContracts.RequestMultiplePermissions.ACTION_REQUEST_PERMISSIONS
-import androidx.activity.result.contract.ActivityResultContracts.RequestMultiplePermissions.EXTRA_PERMISSIONS
+import androidx.activity.result.contract.ActivityResultContracts.RequestMultiplePermissions.Companion.ACTION_REQUEST_PERMISSIONS
+import androidx.activity.result.contract.ActivityResultContracts.RequestMultiplePermissions.Companion.EXTRA_PERMISSIONS
 import com.peakmain.basiclibrary.helper.PermissionHelper
 
 /**
@@ -31,14 +31,12 @@ class RequestPermissionContract : ActivityResultContract<String, Pair<String, Bo
                 if (grantResults == null || grantResults.isEmpty()) false
                 else grantResults[0] == PackageManager.PERMISSION_GRANTED
     }
-
     override fun getSynchronousResult(
         context: Context,
-        input: String?
-    ): SynchronousResult<Pair<String, Boolean>>? =
-        when {
-            input == null -> SynchronousResult("" to false)
+        input: String
+    ): SynchronousResult<Pair<String, Boolean>>? = when {
             PermissionHelper.instance.isGranted(input) -> SynchronousResult(input to true)
             else -> null
         }
+
 }

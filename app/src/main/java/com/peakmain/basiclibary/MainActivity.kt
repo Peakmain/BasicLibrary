@@ -1,8 +1,6 @@
 package com.peakmain.basiclibary
 
 import android.view.MenuItem
-import android.widget.FrameLayout
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentTransaction
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -12,9 +10,6 @@ import com.peakmain.basiclibary.fragment.MineFragment
 import com.peakmain.basiclibary.viewModel.MainViewModel
 import com.peakmain.basiclibrary.base.activity.BaseActivity
 import com.peakmain.basiclibrary.utils.StatusBarUtils
-import com.peakmain.ui.utils.ToastUtils
-import com.peakmain.ui.utils.fps.FpsMonitorUtils
-import com.peakmain.ui.widget.SuspensionView
 
 /**
  * author ：Peakmain

@@ -15,14 +15,17 @@ import com.peakmain.basiclibrary.interfaces.OnImageSelectorCallback
  * describe：
  */
 internal class ImageSelectViewModel : BaseViewModel() {
-    var mStart = MutableLiveData<Boolean>(false)
+    var mStart = MutableLiveData(false)
     var mOnImageSelectorCallback: OnImageSelectorCallback? = null
+    var mConfig: ImageRequestConfig? = null
     override fun initModel() {
 
     }
 
     fun clear() {
+        mStart.value = null
         mOnImageSelectorCallback = null
+        mConfig = null
     }
 
     fun registerSingleLauncher(uri: Uri?) {
@@ -40,23 +43,23 @@ internal class ImageSelectViewModel : BaseViewModel() {
             val bitmap = pair.second
             mOnImageSelectorCallback?.onImageSelect(bitmap)
         }
+        mOnImageSelectorCallback = null
     }
 
     fun imageSelectorObserver(
-        config: ImageRequestConfig?,
         selectPhotoLauncher: ((ImageRequestConfig) -> Unit)? = null,
         selectMultiPhotoLauncher: ((ImageRequestConfig) -> Unit)? = null,
         takePictureLauncher: (() -> Unit)? = null
     )
             : Observer<Boolean> = Observer { start ->
-        config?.also {
+        mConfig?.also {
             if (!start) return@Observer
-            if (config.imageType != 0 && it.isSingle) {
+            if (it.imageType != 0 && it.isSingle) {
                 selectPhotoLauncher?.invoke(it)
-            } else if (config.imageType == 0) {
+            } else if (it.imageType == 0) {
                 takePictureLauncher?.invoke()
             } else {
-                selectMultiPhotoLauncher?.invoke(config)
+                selectMultiPhotoLauncher?.invoke(it)
             }
         }
     }
