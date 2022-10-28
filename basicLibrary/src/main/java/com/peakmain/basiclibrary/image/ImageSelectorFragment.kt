@@ -32,13 +32,7 @@ internal class ImageSelectorFragment : Fragment() {
         registerForActivityResult(TakePictureContract()) {
             mImageSelectViewModel.registerTakePicture(it)
         }
-    private val mConfig by lazy {
-        if (AndroidVersion.isAndroid13()) {
-            arguments?.getSerializable(ImageSelectConstants.REQUEST_CONFIG,ImageRequestConfig::class.java)
-        } else {
-            arguments?.get(ImageSelectConstants.REQUEST_CONFIG) as ImageRequestConfig?
-        }
-    }
+
     private val mSelectMultiPhotoLauncher =
         registerForActivityResult(selectMultipleContract) { lists ->
             mImageSelectViewModel.registerMultiLauncher(lists)
@@ -48,21 +42,33 @@ internal class ImageSelectorFragment : Fragment() {
         super.onCreate(savedInstanceState)
         mImageSelectViewModel.mStart.observe(
             this,
-            mImageSelectViewModel.imageSelectorObserver(mConfig, {
-                mSelectPhotoLauncher.launchImage(mConfig)
+            mImageSelectViewModel.imageSelectorObserver( {
+                mSelectPhotoLauncher.launchImage(mImageSelectViewModel.mConfig)
             }, {
-                mSelectMultiPhotoLauncher.launchImage(mConfig)
+                mSelectMultiPhotoLauncher.launchImage(mImageSelectViewModel.mConfig)
             }) {
                 takePictureLauncher.launch(null)
             }
         )
-        selectMultipleContract.maxNum = mConfig?.maxNum ?: 9
+        selectMultipleContract.maxNum = mImageSelectViewModel.mConfig?.maxNum ?: 9
     }
 
 
     fun start(onImageSelectorCallback: OnImageSelectorCallback?) {
+        getConfig()
         mImageSelectViewModel.mStart.value = true
         mImageSelectViewModel.mOnImageSelectorCallback = onImageSelectorCallback
+    }
+
+    private fun getConfig() {
+        mImageSelectViewModel.mConfig = if (AndroidVersion.isAndroid13()) {
+            arguments?.getSerializable(
+                ImageSelectConstants.REQUEST_CONFIG,
+                ImageRequestConfig::class.java
+            )
+        } else {
+            arguments?.get(ImageSelectConstants.REQUEST_CONFIG) as ImageRequestConfig?
+        }
     }
 
     override fun onDestroy() {

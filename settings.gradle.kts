@@ -1,4 +1,4 @@
 include (":app")
 include (":basicLibrary")
 rootProject.name = "BasicLibrary"
-rootProject.buildFileName="build.gradle.kts"
+rootProject.buildFileName="build.gradle"

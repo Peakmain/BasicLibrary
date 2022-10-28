@@ -24,3 +24,11 @@ fun <T : String?> T.isSpace(): Boolean {
 fun Number.formatToMoney(): String? {
     return DecimalFormat("#,###.00").format(this)
 }
+
+fun String?.replaceZero(): String? {
+    if (this == null) return this
+    var s = this
+    s.replace("0+?$".toRegex(), "").also { s = it }
+    s?.replace("[.]$".toRegex(), "").also { s = it }
+    return s
+}
