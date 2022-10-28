@@ -37,7 +37,9 @@ internal class ImageSelectorHelper private constructor() {
             fragmentManager?.beginTransaction()
                 ?.add(imageSelectorFragment, TAG)
                 ?.commitAllowingStateLoss()
-        }
+        } else
+            initFragmentBundle(config, imageSelectorFragment)
+
         return imageSelectorFragment
     }
 
