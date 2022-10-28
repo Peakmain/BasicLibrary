@@ -59,6 +59,6 @@ abstract class BaseActivity<T : ViewDataBinding, E : BaseViewModel> :
         if (app == null) {
             throw NullPointerException("app must not be null")
         }
-        return app!!.getViewModelProvider().get(modelClass)
+        return app!!.getViewModelProvider()[modelClass]
     }
 }
