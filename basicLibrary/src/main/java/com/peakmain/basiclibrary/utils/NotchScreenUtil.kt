@@ -5,6 +5,7 @@ import android.content.Context
 import android.os.Build
 import android.util.Log
 import java.lang.reflect.Method
+import java.util.*
 
 /**
  * author ：Peakmain
@@ -144,7 +145,7 @@ object NotchScreenUtil {
      */
     @SuppressLint("DefaultLocale")
     fun getDeviceBrand(): Int {
-        val brand = Build.BRAND.trim { it <= ' ' }.toUpperCase()
+        val brand = Build.BRAND.trim { it <= ' ' }.uppercase(Locale.getDefault())
         return when {
             brand.contains("HUAWEI") -> {
                 DEVICE_BRAND_HUAWEI

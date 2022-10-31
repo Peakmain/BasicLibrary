@@ -103,7 +103,7 @@ object OSUtils {
      * 判断是否为flymeOS
      */
     val isFlymeOS: Boolean
-        get() = flymeOSFlag.toLowerCase(Locale.getDefault()).contains("flyme")
+        get() = flymeOSFlag.lowercase(Locale.getDefault()).contains("flyme")
 
     /**
      * 判断flymeOS的版本是否大于等于4
@@ -114,7 +114,7 @@ object OSUtils {
             val num: Int
             return if (version.isNotEmpty()) {
                 try {
-                    num = if (version.toLowerCase(Locale.getDefault()).contains("os")) {
+                    num = if (version.lowercase(Locale.getDefault()).contains("os")) {
                         Integer.valueOf(version.substring(9, 10))
                     } else {
                         Integer.valueOf(version.substring(6, 7))
@@ -135,7 +135,7 @@ object OSUtils {
             val num: Int
             return if (version.isNotEmpty()) {
                 try {
-                    num = if (version.toLowerCase(Locale.getDefault()).contains("os")) {
+                    num = if (version.lowercase(Locale.getDefault()).contains("os")) {
                         Integer.valueOf(version.substring(9, 10))
                     } else {
                         Integer.valueOf(version.substring(6, 7))
