@@ -126,16 +126,7 @@ fun ActivityResultLauncher<Array<String>>.launchMulti(
     permissions: Array<String>,
     block: (() -> Unit)? = null
 ) {
-    val permissionList = permissions.toMutableList()
-    val permissionVersionList = ArrayList<IPermissionVersion>()
-    permissionVersionList.add(AndroidSPermissionVersion())
-    permissionVersionList.add(AndroidOtherPermissionVersion(this, permissions, block))
-    val permissionRequest = PermissionRequest(permissionList)
-    val realPermissionVersionChain = RealPermissionVersionChain(
-        permissionVersionList, 0,
-        permissionRequest
-    )
-    realPermissionVersionChain.proceed(permissionRequest)
+    RealPermissionVersionCall(permissions, this, block).call()
 }
 
 

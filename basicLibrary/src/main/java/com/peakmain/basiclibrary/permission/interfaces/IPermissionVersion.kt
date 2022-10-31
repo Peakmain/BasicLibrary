@@ -1,4 +1,6 @@
-package com.peakmain.basiclibrary.permission.version
+package com.peakmain.basiclibrary.permission.interfaces
+
+import com.peakmain.basiclibrary.permission.version.PermissionRequest
 
 /**
  * author ：Peakmain
@@ -7,7 +9,7 @@ package com.peakmain.basiclibrary.permission.version
  * describe：
  */
 interface IPermissionVersion {
-    fun permissionVersion(chain:Chain): IPermissionVersion?
+    fun permissionVersion(chain: Chain): IPermissionVersion?
     interface Chain {
         fun request(): PermissionRequest
         fun proceed(request: PermissionRequest): IPermissionVersion
