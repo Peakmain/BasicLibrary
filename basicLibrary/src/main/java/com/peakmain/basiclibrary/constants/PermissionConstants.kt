@@ -105,6 +105,13 @@ object PermissionConstants {
         permission.READ_EXTERNAL_STORAGE, permission.WRITE_EXTERNAL_STORAGE
     )
 
+    @RequiresApi(Build.VERSION_CODES.R)
+    private val GROUP_STORAGE_BELOW_R = arrayOf(
+        permission.READ_EXTERNAL_STORAGE,
+        permission.WRITE_EXTERNAL_STORAGE,
+        permission.MANAGE_EXTERNAL_STORAGE
+    )
+
     //android 13 已经申请了读的权限，那App同时也就有了写的权限,无需再额外声明 WRITE_EXTERNAL_STORAGE权限
     @RequiresApi(33)
     private val GROUP_STORAGE = arrayOf(
@@ -152,6 +159,8 @@ object PermissionConstants {
             STORAGE ->
                 if (AndroidVersion.isAndroid13())
                     GROUP_STORAGE
+                else if (AndroidVersion.isAndroid11())
+                    GROUP_STORAGE_BELOW_R
                 else
                     GROUP_STORAGE_BELOW_T
             ACTIVITY_RECOGNITION ->
