@@ -12,7 +12,7 @@ import com.google.gson.Gson
 import com.peakmain.basiclibrary.config.ImageRequestConfig
 import com.peakmain.basiclibrary.constants.AndroidVersion
 import com.peakmain.basiclibrary.constants.ImageSelectConstants
-import com.peakmain.basiclibrary.permission.PkPermission
+import com.peakmain.basiclibrary.permission.version.*
 
 /**
  * author ：Peakmain
@@ -29,6 +29,7 @@ inline fun <reified T> Gson.fromJson(json: String): T {
  */
 val Number.dp: Float
     get() = toFloat() / Resources.getSystem().displayMetrics.density + 0.5f
+
 /**
  * dp->px
  */
@@ -102,7 +103,7 @@ fun Int.numberToChina(): String? {
     return sd
 }
 
-private fun getChina(input: Int): String{
+private fun getChina(input: Int): String {
     var sd = ""
     sd = when (input) {
         1 -> "一"
@@ -125,45 +126,16 @@ fun ActivityResultLauncher<Array<String>>.launchMulti(
     permissions: Array<String>,
     block: (() -> Unit)? = null
 ) {
-    val permissionsSet = permissions.toMutableSet()
-    if (AndroidVersion.isAndroid12()) {
-        if (permissionsSet.contains(ACCESS_FINE_LOCATION) &&
-            !permissionsSet.contains(ACCESS_COARSE_LOCATION) && !PkPermission.isGranted(
-                ACCESS_COARSE_LOCATION
-            )
-        ) {
-            //Android 12必须添加ACCESS_COARSE_LOCATION
-            //官方适配文档：https://developer.android.google.cn/about/versions/12/approximate-location
-            throw IllegalArgumentException(
-                "在android 12或更高的版本中，请勿单独请求ACCESS_FINE_LOCATION权限，" +
-                        "而应在单个运行时请求中同时请求ACCESS_FINE_LOCATION和ACCESS_COARSE_LOCATION权限。"
-            )
-        }
-    }
-
-    if (!permissionsSet.contains(ACCESS_BACKGROUND_LOCATION)) {
-        launch(permissions)
-        return
-    }
-    if (permissionsSet.contains(ACCESS_COARSE_LOCATION)
-        && !permissionsSet.contains(ACCESS_FINE_LOCATION)
-    ) {
-        permissionsSet.add(ACCESS_FINE_LOCATION)
-    }
-    //后台定位权限不要和其他权限一起申请
-    for (permission in permissions) {
-        if (permission != ACCESS_FINE_LOCATION || permission != ACCESS_COARSE_LOCATION || permission == ACCESS_BACKGROUND_LOCATION) {
-            continue
-        }
-        throw  IllegalArgumentException("因为有background location 权限, 请不要申请与位置无关的权限!!")
-    }
-    if (AndroidVersion.isAndroid10() && permissionsSet.size >= 2) {
-        permissionsSet.remove(ACCESS_BACKGROUND_LOCATION)
-        launchMulti(permissionsSet.toTypedArray())
-        block?.invoke()
-        return
-    }
-    launch(permissions)
+    val permissionList = permissions.toMutableList()
+    val permissionVersionList = ArrayList<IPermissionVersion>()
+    permissionVersionList.add(AndroidSPermissionVersion())
+    permissionVersionList.add(AndroidOtherPermissionVersion(this, permissions, block))
+    val permissionRequest = PermissionRequest(permissionList)
+    val realPermissionVersionChain = RealPermissionVersionChain(
+        permissionVersionList, 0,
+        permissionRequest
+    )
+    realPermissionVersionChain.proceed(permissionRequest)
 }
 
 
