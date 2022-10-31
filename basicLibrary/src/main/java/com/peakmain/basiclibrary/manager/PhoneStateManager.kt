@@ -1,9 +1,14 @@
 package com.peakmain.basiclibrary.manager
 
 import android.content.Context
+import android.os.Build
 import android.telephony.PhoneStateListener
+import android.telephony.TelephonyCallback
 import android.telephony.TelephonyManager
+import androidx.annotation.RequiresApi
 import com.peakmain.basiclibrary.config.BasicLibraryConfig
+import com.peakmain.basiclibrary.constants.AndroidVersion
+import com.peakmain.basiclibrary.utils.ThreadUtils
 import java.util.concurrent.CopyOnWriteArrayList
 
 /**
@@ -19,6 +24,7 @@ class PhoneStateManager private constructor() {
         }
     }
 
+    private var mStateCallbacks: MutableList<OnPhoneStateCallback> = CopyOnWriteArrayList()
     private val phoneStateListener: PhoneStateListener = object : PhoneStateListener() {
         override fun onCallStateChanged(state: Int, incomingNumber: String) {
             super.onCallStateChanged(state, incomingNumber)
@@ -28,23 +34,44 @@ class PhoneStateManager private constructor() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.S)
+    private class PhoneStateCallBack(stateCallbacks: MutableList<OnPhoneStateCallback>) :
+        TelephonyCallback(), TelephonyCallback.CallStateListener {
+        private var mStateCallbacks: MutableList<OnPhoneStateCallback> = stateCallbacks
+        override fun onCallStateChanged(state: Int) {
+            for (callback in mStateCallbacks) {
+                callback.onPhoneStateCallback(state, "")
+            }
+        }
+
+    }
+
     interface OnPhoneStateCallback {
         fun onPhoneStateCallback(state: Int, incomingPhoneNumber: String)
     }
 
     private var telephonyManager: TelephonyManager? = null
-    private lateinit var mStateCallbacks: MutableList<OnPhoneStateCallback>
+
 
     init {
         val application = BasicLibraryConfig.getInstance()?.getApp()?.getApplication()
-        if (application != null) {
+        application?.let {
             telephonyManager =
-                application.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
-            if (telephonyManager != null) {
-                telephonyManager!!.listen(phoneStateListener, PhoneStateListener.LISTEN_CALL_STATE)
+                it.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager?
+            val mainExecutor = ThreadUtils.getMainExecutor() ?: return@let
+            if (AndroidVersion.isAndroid12()) {
+                telephonyManager?.registerTelephonyCallback(
+                    mainExecutor,
+                    PhoneStateCallBack(mStateCallbacks)
+                )
+            } else {
+                telephonyManager?.listen(
+                    phoneStateListener,
+                    PhoneStateListener.LISTEN_CALL_STATE
+                )
             }
         }
-        mStateCallbacks = CopyOnWriteArrayList()
+
     }
 
     fun addStateCallback(phoneStateCallback: OnPhoneStateCallback) {
@@ -62,8 +89,14 @@ class PhoneStateManager private constructor() {
 
     @Throws(Throwable::class)
     protected fun finalize() {
-        if (telephonyManager != null) {
-            telephonyManager!!.listen(phoneStateListener, PhoneStateListener.LISTEN_NONE)
+        telephonyManager?.let {
+            if (AndroidVersion.isAndroid12()) {
+                it.unregisterTelephonyCallback(
+                    PhoneStateCallBack(mStateCallbacks)
+                )
+            } else {
+                it.listen(phoneStateListener, PhoneStateListener.LISTEN_NONE)
+            }
         }
     }
 
