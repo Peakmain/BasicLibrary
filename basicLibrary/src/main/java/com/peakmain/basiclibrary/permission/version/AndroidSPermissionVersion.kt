@@ -3,6 +3,7 @@ package com.peakmain.basiclibrary.permission.version
 import android.Manifest
 import com.peakmain.basiclibrary.constants.AndroidVersion
 import com.peakmain.basiclibrary.permission.PkPermission
+import com.peakmain.basiclibrary.permission.interfaces.IPermissionVersion
 
 /**
  * author ：Peakmain

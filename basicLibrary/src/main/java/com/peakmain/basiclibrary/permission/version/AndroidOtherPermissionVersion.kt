@@ -4,6 +4,7 @@ import android.Manifest
 import androidx.activity.result.ActivityResultLauncher
 import com.peakmain.basiclibrary.constants.AndroidVersion
 import com.peakmain.basiclibrary.extend.launchMulti
+import com.peakmain.basiclibrary.permission.interfaces.IPermissionVersion
 
 /**
  * author ：Peakmain

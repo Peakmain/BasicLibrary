@@ -1,5 +1,7 @@
 package com.peakmain.basiclibrary.permission.version
 
+import com.peakmain.basiclibrary.permission.interfaces.IPermissionVersion
+
 /**
  * author ：Peakmain
  * createTime：2022/10/31
