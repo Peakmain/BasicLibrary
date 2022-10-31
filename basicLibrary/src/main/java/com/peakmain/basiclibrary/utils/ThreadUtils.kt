@@ -2,7 +2,6 @@ package com.peakmain.basiclibrary.utils
 
 import android.os.Handler
 import android.os.Looper
-import android.os.Message
 import com.peakmain.basiclibrary.config.BasicLibraryConfig
 import com.peakmain.basiclibrary.constants.AndroidVersion
 import java.util.concurrent.Executor
