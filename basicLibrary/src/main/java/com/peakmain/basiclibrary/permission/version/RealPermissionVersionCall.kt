@@ -17,11 +17,13 @@ class RealPermissionVersionCall(
 ) : ICall {
 
     override fun call() {
-        val permissionList = permissions.toMutableList()
         val permissionVersionList = ArrayList<IPermissionVersion>()
-        permissionVersionList.add(AndroidSPermissionVersion())
+        permissionVersionList.add(AndroidPermissionVersionImpl33(launcher, permissions))
+        permissionVersionList.add(AndroidPermissionVersionImpl31(launcher, permissions))
+        permissionVersionList.add(AndroidPermissionVersionImpl30(launcher, permissions))
+        permissionVersionList.add(AndroidPermissionVersionImpl29())
         permissionVersionList.add(AndroidOtherPermissionVersion(launcher, permissions, block))
-        val permissionRequest = PermissionRequest(permissionList)
+        val permissionRequest = PermissionRequest(permissions.toMutableList())
         val realPermissionVersionChain = RealPermissionVersionChain(
             permissionVersionList, 0,
             permissionRequest

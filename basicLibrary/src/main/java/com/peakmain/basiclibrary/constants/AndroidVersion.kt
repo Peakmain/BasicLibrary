@@ -13,6 +13,7 @@ import androidx.annotation.IntDef
 object AndroidVersion {
 
     const val ANDROID_13: Int = Build.VERSION_CODES.TIRAMISU
+    const val ANDROID_12L: Int = Build.VERSION_CODES.S_V2
     const val ANDROID_12: Int = Build.VERSION_CODES.S
     const val ANDROID_11: Int = Build.VERSION_CODES.R
     const val ANDROID_10: Int = Build.VERSION_CODES.Q
@@ -33,6 +34,7 @@ object AndroidVersion {
 
     @IntDef(
         ANDROID_13,
+        ANDROID_12L,
         ANDROID_12,
         ANDROID_11,
         ANDROID_10,
@@ -60,7 +62,12 @@ object AndroidVersion {
     fun isAndroid13(): Boolean {
         return Build.VERSION.SDK_INT >= ANDROID_13
     }
-
+    /**
+     * 是否是 Android 12 及以上版本
+     */
+    fun isAndroid12L(): Boolean {
+        return Build.VERSION.SDK_INT >= ANDROID_12L
+    }
     /**
      * 是否是 Android 12 及以上版本
      */

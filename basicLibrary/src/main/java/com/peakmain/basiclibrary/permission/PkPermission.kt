@@ -36,7 +36,6 @@ class PkPermission private constructor() {
         fun isGranted(permissions: Array<String>): Boolean {
             return PermissionHelper.instance.isGranted(permissions)
         }
-
         @JvmStatic
         fun request(fragment: Fragment, permission: String, block: OnPermissionCallback) {
             instance.with(fragment).requestPermission(arrayOf(permission))
@@ -78,10 +77,7 @@ class PkPermission private constructor() {
          fun toNotificationSetting(context: Context?){
             PermissionSettingFactory.toAppSetting(context,true)
          }
-        @JvmStatic
-        fun getAppSettingIntent(context: Context) {
-            PermissionSettingFactory.getAppSettingIntent(context)
-        }
+
     }
 
 
