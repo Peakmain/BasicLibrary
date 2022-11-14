@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <item type="id" name="library_status_fake_status_bar_view" />
-    <item type="id" name="library_status_translucent_view" />
+    <item name="library_status_fake_status_bar_view" type="id" />
+    <item name="library_status_translucent_view" type="id" />
+    <item name="basic_library_shadow" type="id" />
 </resources>

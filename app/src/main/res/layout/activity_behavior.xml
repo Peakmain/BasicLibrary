@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <FrameLayout
+        android:id="@+id/fl_root"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/dimen_10"
+            android:text="@string/peakmain"
+
+            android:textColor="@color/ui_color_4A4A4A"
+            android:textSize="@dimen/font_size_16" />
+    </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_root"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:background="@android:color/white"
+        android:paddingBottom="60dp"
+        app:layout_behavior="@string/bottom_sheet_behavior">
+
+        <com.peakmain.ui.widget.CircleImageView
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/dimen_50"
+            android:src="@drawable/logo" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/dimen_10"
+            android:text="@string/peakmain"
+
+            android:textColor="@color/ui_color_4A4A4A"
+            android:textSize="@dimen/font_size_16" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/dimen_10"
+            android:autoLink="web"
+            android:text="@string/github"
+            android:textColor="@color/ui_color_4A4A4A"
+            android:textSize="@dimen/font_size_16" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/dimen_10"
+            android:autoLink="web"
+            android:text="@string/jianshu"
+            android:textColor="@color/ui_color_4A4A4A"
+            android:textSize="@dimen/font_size_16" />
+    </LinearLayout>
+    <com.peakmain.ui.widget.ShapeTextView
+        android:id="@+id/stv_use_point"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="8dp"
+        android:paddingBottom="@dimen/dimen_4"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="16dp"
+
+        android:layout_marginRight="@dimen/dimen_34"
+        android:layout_marginLeft="@dimen/dimen_34"
+        android:text="提交"
+        android:textColor="@color/white"
+        android:textSize="@dimen/font_size_14"
+        app:shapeTvBackgroundColor="@color/ui_color_01a8e3"
+        app:shapeTvRadius="@dimen/dimen_4" />
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

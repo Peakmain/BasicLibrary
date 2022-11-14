@@ -1,10 +1,12 @@
 package com.peakmain.basiclibary.fragment
 
 import android.Manifest
+import android.content.Intent
 import android.net.Uri
 import android.util.Log
 import android.view.View
 import com.peakmain.basiclibary.R
+import com.peakmain.basiclibary.activity.BehaviorActivity
 import com.peakmain.basiclibary.adapter.TestAdapter
 import com.peakmain.basiclibary.databinding.FragmentHomeBinding
 import com.peakmain.basiclibary.utils.PermissionUtils.requestPermission
@@ -86,6 +88,9 @@ class HomeFragment(override val layoutId: Int = R.layout.fragment_home) :
                     7 -> {
                         PkPermission.toNotificationSetting(context)
                     }
+                    8->{
+                        startActivity(Intent(context,BehaviorActivity::class.java))
+                    }
 
                 }
             }
@@ -128,6 +133,7 @@ class HomeFragment(override val layoutId: Int = R.layout.fragment_home) :
         data.add("拍照")
         data.add("加载loading")
         data.add("跳转消息通知权限界面")
+        data.add("behavior封装")
         return data
     }
 
