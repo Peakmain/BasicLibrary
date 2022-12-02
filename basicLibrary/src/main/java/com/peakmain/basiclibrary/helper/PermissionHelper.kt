@@ -1,6 +1,10 @@
 package com.peakmain.basiclibrary.helper
 
 import android.content.pm.PackageManager
+import android.os.Handler
+import android.os.Looper
+import android.os.Message
+import android.util.Log
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -15,11 +19,16 @@ import com.peakmain.basiclibrary.utils.BasicLibraryUtils
  * mail:2726449200@qq.com
  * describe：
  */
-internal class PermissionHelper private constructor() {
+internal class PermissionHelper private constructor() : Handler.Callback {
+    private val pendingRequestManagerFragments: HashMap<FragmentManager, PkPermissionFragment> =
+        HashMap()
+    private val handler = Handler(Looper.getMainLooper(), this)
+
     companion object {
         val instance by lazy(LazyThreadSafetyMode.SYNCHRONIZED) {
             PermissionHelper()
         }
+        private const val REMOVE_FRAGMENT_MANAGER_ID = 1
         private val TAG = PkPermission::class.simpleName
     }
 
@@ -27,10 +36,17 @@ internal class PermissionHelper private constructor() {
     fun getFragment(fragmentManager: FragmentManager): PkPermissionFragment {
         var pkPermissionFragment = findFragment(fragmentManager)
         if (pkPermissionFragment == null) {
-            pkPermissionFragment = PkPermissionFragment()
-            fragmentManager.beginTransaction()
-                .add(pkPermissionFragment, TAG)
-                .commitAllowingStateLoss()
+            pkPermissionFragment = pendingRequestManagerFragments[fragmentManager]
+            if (pkPermissionFragment == null) {
+                Log.e(TAG, "创建了Fragment")
+                pkPermissionFragment = PkPermissionFragment()
+                pendingRequestManagerFragments[fragmentManager] = pkPermissionFragment
+                fragmentManager.beginTransaction()
+                    .add(pkPermissionFragment, TAG)
+                    .commitAllowingStateLoss()
+                handler.obtainMessage(REMOVE_FRAGMENT_MANAGER_ID, fragmentManager).sendToTarget()
+            }
+
         }
         return pkPermissionFragment
     }
@@ -111,5 +127,25 @@ internal class PermissionHelper private constructor() {
             }
         }
         return deniedPermissions
+    }
+
+    override fun handleMessage(msg: Message): Boolean {
+        var handler = true
+        var removed: Any? = null
+        var key: Any? = null
+        if (msg.what == REMOVE_FRAGMENT_MANAGER_ID) {
+            val fragmentManager = msg.obj as FragmentManager
+            key = fragmentManager
+            removed = pendingRequestManagerFragments.remove(fragmentManager)
+        } else {
+            handler = false
+        }
+        if (handler && removed == null && Log.isLoggable(TAG, Log.WARN)) {
+            Log.w(
+                TAG,
+                "Failed to remove expected request manager fragment, manager: $key"
+            )
+        }
+        return handler
     }
 }
