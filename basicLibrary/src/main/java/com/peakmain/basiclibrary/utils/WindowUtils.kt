@@ -4,6 +4,9 @@ import android.app.Activity
 import android.content.Context
 import android.content.res.Configuration
 import android.content.res.Resources
+import android.graphics.ColorMatrix
+import android.graphics.ColorMatrixColorFilter
+import android.graphics.Paint
 import android.os.Build
 import android.provider.Settings
 import android.util.DisplayMetrics
@@ -23,6 +26,15 @@ import com.peakmain.basiclibrary.constants.AndroidVersion
  * createTime：1/22/22
  * mail:2726449200@qq.com
  * describe：
+ *       @Function
+ *          1、getActionBarHeight        获取actionBar的高度
+ *          2、getStatusHeight           获取状态栏的高度
+ *          3、getDisplayRotation        获取当前窗口的旋转角度
+ *          4、isLandscape               是否是横屏
+ *          5、isPortrait                是否是竖屏
+ *          6、checkFitsSystemWindow     检查布局根节点是否使用了android:fitsSystemWindows="true"属性
+ *          7、fitsNotchScreen           适配刘海屏
+ *          8、setWindowsAboveLollipop   android 5.0以上解决状态栏和布局重叠问题
  */
 class WindowUtils private constructor() {
     private var mContentView: ViewGroup? = null
@@ -251,6 +263,19 @@ class WindowUtils private constructor() {
 
     fun getPaddingRight(): Int {
         return mPaddingRight
+    }
+
+
+    /**
+     * 设置全局灰色
+     * @param sat 1代表正常 0代表灰色
+     */
+    fun isGray(view: View?, sat: Float = 1f) {
+        val paint: Paint = Paint()
+        val cm = ColorMatrix()
+        cm.setSaturation(sat)
+        paint.colorFilter = ColorMatrixColorFilter(cm)
+        view?.setLayerType(View.LAYER_TYPE_HARDWARE, paint)
     }
 
     private fun getInternalDimensionSize(context: Context, key: String): Int {
