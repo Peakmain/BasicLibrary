@@ -13,7 +13,7 @@ import java.util.concurrent.ConcurrentHashMap
  * mail:2726449200@qq.com
  * describe：LiveData实现事件分发总线
  */
-class RxBus {
+class RxBus private constructor(){
 
     companion object {
         private val eventMap = ConcurrentHashMap<String, StickyLiveData<*>>()
