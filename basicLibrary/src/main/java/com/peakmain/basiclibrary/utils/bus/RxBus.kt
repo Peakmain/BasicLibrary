@@ -13,7 +13,7 @@ import java.util.concurrent.ConcurrentHashMap
  * mail:2726449200@qq.com
  * describe：LiveData实现事件分发总线
  */
-class RxBus private constructor(){
+class RxBus private constructor() {
 
     companion object {
         private val eventMap = ConcurrentHashMap<String, StickyLiveData<*>>()
@@ -21,6 +21,7 @@ class RxBus private constructor(){
             RxBus()
         }
     }
+
     /**
      * register bus
      */
@@ -39,6 +40,7 @@ class RxBus private constructor(){
     class StickyLiveData<T>(private val eventName: String) : LiveData<T>() {
         internal var mData: T? = null
         internal var mVersion = 0
+        private var mSticky: Boolean = false
         fun setData(data: T) {
             mData = data
             setValue(data)
@@ -46,7 +48,14 @@ class RxBus private constructor(){
 
         fun postData(data: T) {
             mData = data
-            postValue(data)
+            setValue(data)
+        }
+
+        /**
+         * @param sticky true表示是粘性事件,默认是false
+         */
+        fun isSticky(sticky: Boolean) {
+            mSticky = sticky
         }
 
         override fun setValue(value: T) {
@@ -55,8 +64,7 @@ class RxBus private constructor(){
         }
 
         override fun observe(owner: LifecycleOwner, observer: Observer<in T>) {
-            observerSticky(owner, false, observer)
-
+            observerSticky(owner, mSticky, observer)
         }
 
         private fun observerSticky(
@@ -64,12 +72,13 @@ class RxBus private constructor(){
             sticky: Boolean,
             observer: Observer<in T>
         ) {
-            owner.lifecycle.addObserver(LifecycleEventObserver { source, event ->
+            owner.lifecycle.addObserver(LifecycleEventObserver { _, event ->
                 if (event == Lifecycle.Event.ON_DESTROY) {
                     eventMap.remove(eventName)
                 }
             })
-            super.observe(owner,
+            super.observe(
+                owner,
                 StickyObserver(
                     this,
                     sticky,
@@ -90,12 +99,12 @@ class RxBus private constructor(){
         private var lastVersion = stickyLiveData.mVersion
         override fun onChanged(t: T) {
             if (lastVersion >= stickyLiveData.mVersion) {
-                if(sticky&&stickyLiveData.mData!=null){
+                if (sticky && stickyLiveData.mData != null) {
                     observer.onChanged(t)
                 }
                 return
             }
-            lastVersion=stickyLiveData.mVersion
+            lastVersion = stickyLiveData.mVersion
             observer.onChanged(t)
         }
 
