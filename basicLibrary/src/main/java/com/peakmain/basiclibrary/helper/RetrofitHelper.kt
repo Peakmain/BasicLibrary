@@ -59,7 +59,7 @@ object RetrofitHelper {
         success: T.() -> Unit,
         error: (Exception) -> Unit
     ): CommonRetrofitData<T> {
-        val tempRetrofitData = CommonRetrofitData(object : ApiStatus<T>() {
+        return CommonRetrofitData(object : ApiStatus<T>() {
             override fun before() {
                 super.before()
                 before()
@@ -74,7 +74,6 @@ object RetrofitHelper {
             }
 
         })
-        return tempRetrofitData
     }
 
 

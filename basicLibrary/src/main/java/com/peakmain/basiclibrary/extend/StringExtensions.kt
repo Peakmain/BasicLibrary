@@ -32,3 +32,23 @@ fun String?.replaceZero(): String? {
     s?.replace("[.]$".toRegex(), "").also { s = it }
     return s
 }
+/**
+ * 判断两个字符是否改变
+ */
+fun CharSequence?.haveContentsChanged(str:CharSequence?):Boolean{
+    if (this == null != (str == null)) {
+        return true
+    } else if (this == null) {
+        return false
+    }
+    val length: Int = this.length
+    if (length != str?.length) {
+        return true
+    }
+    for (i in 0 until length) {
+        if (this[i] != str[i]) {
+            return true
+        }
+    }
+    return false
+}

@@ -1,8 +1,10 @@
 package com.peakmain.basiclibrary.extend
 
+import android.text.Spanned
 import android.view.View
 import android.view.animation.CycleInterpolator
 import android.view.animation.TranslateAnimation
+import android.widget.TextView
 
 /**
  * author ：Peakmain
@@ -52,4 +54,19 @@ fun View.inVisible() {
 
 fun View.setPadding(left: Int, top: Int, right: Int, bottom: Int) {
     setPadding(left, top, right, bottom)
+}
+
+fun TextView.setText(text: CharSequence?) {
+    val oldText = this.text
+    if (text === oldText || text == null && oldText.isEmpty()) {
+        return
+    }
+    if (text is Spanned) {
+        if (text == oldText) {
+            return  // No change in the spans, so don't set anything.
+        }
+    } else if (!text.haveContentsChanged(oldText)) {
+        return  // No content changes, so don't set anything.
+    }
+    this.text = text
 }

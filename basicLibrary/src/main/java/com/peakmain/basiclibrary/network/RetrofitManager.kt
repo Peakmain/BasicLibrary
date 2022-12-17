@@ -1,5 +1,6 @@
 package com.peakmain.basiclibrary.network
 
+import android.text.TextUtils
 import com.peakmain.basiclibrary.network.status.AbstractRetrofitData
 import com.peakmain.basiclibrary.network.status.ApiStatus
 import com.peakmain.basiclibrary.network.status.CommonRetrofitData
@@ -8,6 +9,7 @@ import com.peakmain.basiclibrary.network.strategy.IRetrofitStrategy
 import com.peakmain.basiclibrary.helper.RetrofitHelper
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
+import java.lang.NullPointerException
 
 /**
  * author ：Peakmain
@@ -18,12 +20,26 @@ import io.reactivex.disposables.Disposable
 class RetrofitManager {
     companion object {
         private var mStrategy: IRetrofitStrategy = CommonRetrofitStrategy()
+        private var mBaseUrl: String? = null
+
+        fun setBaseUrl(baseUrl: String?): Companion {
+            this.mBaseUrl = baseUrl
+            return this
+        }
+
         fun executeStrategy(strategy: IRetrofitStrategy) {
             this.mStrategy = strategy
         }
 
         fun <T> createService(service: Class<T>, block: (service: Class<T>) -> T): T {
             return block(service)
+        }
+
+        fun <T> createService(service: Class<T>):T {
+            if(TextUtils.isEmpty(mBaseUrl)){
+                throw NullPointerException("baseurl must not be null")
+            }
+            return createService(service, mBaseUrl!!)
         }
 
         fun <T> createService(service: Class<T>, baseUrl: String): T {
