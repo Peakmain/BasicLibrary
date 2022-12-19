@@ -1,11 +1,10 @@
 package com.peakmain.basiclibrary.utils.bus
 
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleEventObserver
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.Observer
+import androidx.arch.core.executor.ArchTaskExecutor
+import androidx.lifecycle.*
+import com.peakmain.basiclibrary.utils.ThreadUtils
 import java.util.concurrent.ConcurrentHashMap
+import kotlin.collections.set
 
 /**
  * author ：Peakmain
@@ -42,13 +41,11 @@ class RxBus private constructor() {
         internal var mVersion = 0
         private var mSticky: Boolean = false
         fun setData(data: T) {
-            mData = data
             setValue(data)
         }
 
         fun postData(data: T) {
-            mData = data
-            setValue(data)
+            super.postValue(data)
         }
 
         /**
@@ -59,6 +56,8 @@ class RxBus private constructor() {
         }
 
         override fun setValue(value: T) {
+            ThreadUtils.assertMainThread("StickyLiveData setValue")
+            mData = value
             mVersion++
             super.setValue(value)
         }
@@ -109,4 +108,5 @@ class RxBus private constructor() {
         }
 
     }
+
 }
