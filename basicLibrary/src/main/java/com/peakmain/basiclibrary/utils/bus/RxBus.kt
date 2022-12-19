@@ -1,6 +1,5 @@
 package com.peakmain.basiclibrary.utils.bus
 
-import androidx.arch.core.executor.ArchTaskExecutor
 import androidx.lifecycle.*
 import com.peakmain.basiclibrary.utils.ThreadUtils
 import java.util.concurrent.ConcurrentHashMap

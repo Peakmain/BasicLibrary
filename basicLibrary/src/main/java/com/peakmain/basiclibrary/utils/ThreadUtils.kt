@@ -37,12 +37,14 @@ object ThreadUtils {
         }
 
     }
-        fun assertMainThread(methodName: String) {
+
+    fun assertMainThread(methodName: String) {
         check(!isMainThread()) {
             ("Cannot invoke " + methodName + " on a background"
                     + " thread")
         }
     }
+
     fun isMainThread(): Boolean {
         return Looper.getMainLooper().thread === Thread.currentThread()
     }
