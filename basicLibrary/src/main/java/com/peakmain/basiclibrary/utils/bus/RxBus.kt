@@ -55,7 +55,6 @@ class RxBus private constructor() {
         }
 
         override fun setValue(value: T) {
-            ThreadUtils.assertMainThread("StickyLiveData setValue")
             mData = value
             mVersion++
             super.setValue(value)
