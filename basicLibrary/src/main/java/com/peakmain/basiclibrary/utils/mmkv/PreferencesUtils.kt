@@ -10,7 +10,7 @@ import java.lang.ref.WeakReference
  * describe：
  */
 
-class PreferencesUtils private constructor(val contextRef: WeakReference<Context>) {
+class PreferencesUtils private constructor(private val contextRef: WeakReference<Context>) {
     companion object {
         @Volatile
         private var instance: PreferencesUtils? = null

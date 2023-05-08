@@ -9,8 +9,8 @@ import com.peakmain.basiclibrary.permission.interfaces.IPermissionVersion
  * describe：
  */
 class RealPermissionVersionChain(
-    val permissionVersionList: MutableList<IPermissionVersion>,
-    val index: Int,
+    private val permissionVersionList: MutableList<IPermissionVersion>,
+    private val index: Int,
     val request: PermissionRequest
 ) : IPermissionVersion.Chain {
 
@@ -21,13 +21,9 @@ class RealPermissionVersionChain(
     override fun proceed(request: PermissionRequest): IPermissionVersion {
         if (index >= permissionVersionList.size) throw AssertionError()
         val realPermissionVersionChain =
-            RealPermissionVersionChain(permissionVersionList,index + 1, request)
+            RealPermissionVersionChain(permissionVersionList, index + 1, request)
         val iPermissionVersion = permissionVersionList[index]
-        val permissionVersion = iPermissionVersion.permissionVersion(realPermissionVersionChain)
-
-        if (permissionVersion == null) {
-            throw NullPointerException("permissionVersion $permissionVersion returned null")
-        }
-        return permissionVersion
+        return iPermissionVersion.permissionVersion(realPermissionVersionChain)
+            ?: throw NullPointerException("permissionVersion returned null")
     }
 }
