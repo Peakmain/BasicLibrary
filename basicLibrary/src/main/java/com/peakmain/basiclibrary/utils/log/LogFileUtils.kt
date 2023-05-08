@@ -47,7 +47,7 @@ object LogFileUtils {
     private const val YYYY_MM_DD = "yyyy-MM-dd"
     private const val LOGCAT_BASE_PATH = "Peakmain/Log"
     val application = BasicLibraryConfig.getInstance()?.getApp()?.getApplication()
-    private fun getBasePath(children: String) =
+    fun getBasePath(children: String) =
         application?.getExternalFilesDir(null)?.absolutePath + "/$children/"
 
     private var basePath: String = getBasePath(LOGCAT_BASE_PATH)
