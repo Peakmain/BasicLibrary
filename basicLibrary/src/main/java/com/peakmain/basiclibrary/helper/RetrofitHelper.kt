@@ -28,6 +28,7 @@ object RetrofitHelper {
 
     //写入超时
     private const val WRITE_TIMEOUT = 10L
+    private const val DNS_TIMEOUT = 5L
 
     /**
      * @param prevBuildOkHttpClient 在构建okHttpClient之前可设置一些参数
@@ -35,7 +36,7 @@ object RetrofitHelper {
     fun buildOkHttpClient(prevBuildOkHttpClient: ((OkHttpClient.Builder) -> Unit)? = null): OkHttpClient {
         val builder = OkHttpClient.Builder()
             .connectTimeout(CONNECT_TIMEOUT, TimeUnit.SECONDS)//设置连接超时
-            .dns(HttpDns())
+            .dns(HttpDns(DNS_TIMEOUT, TimeUnit.MILLISECONDS))
             .readTimeout(READ_TIMEOUT, TimeUnit.SECONDS)//读取超时
             .writeTimeout(WRITE_TIMEOUT, TimeUnit.SECONDS)//写入超时
         builder.addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
