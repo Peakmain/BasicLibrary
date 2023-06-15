@@ -1,6 +1,7 @@
 package com.peakmain.basiclibrary.helper
 
 import android.os.Build
+import com.peakmain.basiclibrary.network.HttpDns
 import com.peakmain.basiclibrary.network.MyX509
 import com.peakmain.basiclibrary.network.status.ApiStatus
 import com.peakmain.basiclibrary.network.status.CommonRetrofitData
@@ -31,9 +32,10 @@ object RetrofitHelper {
     /**
      * @param prevBuildOkHttpClient 在构建okHttpClient之前可设置一些参数
      */
-    fun buildOkHttpClient(prevBuildOkHttpClient:((OkHttpClient.Builder)->Unit)?=null): OkHttpClient {
+    fun buildOkHttpClient(prevBuildOkHttpClient: ((OkHttpClient.Builder) -> Unit)? = null): OkHttpClient {
         val builder = OkHttpClient.Builder()
             .connectTimeout(CONNECT_TIMEOUT, TimeUnit.SECONDS)//设置连接超时
+            .dns(HttpDns())
             .readTimeout(READ_TIMEOUT, TimeUnit.SECONDS)//读取超时
             .writeTimeout(WRITE_TIMEOUT, TimeUnit.SECONDS)//写入超时
         builder.addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))

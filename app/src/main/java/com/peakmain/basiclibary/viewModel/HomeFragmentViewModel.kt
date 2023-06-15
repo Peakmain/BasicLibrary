@@ -41,7 +41,7 @@ class HomeFragmentViewModel : BaseViewModel() {
 
 
             })
-        RetrofitManager.createData(api.projectTree1, BaseEntityDataRetrofitData(object :
+       /* RetrofitManager.createData(api.projectTree1, BaseEntityDataRetrofitData(object :
             ApiBaseStatus<BaseEntity<ProjectTree>>(){
             override fun baseData(entity: BaseEntity<ProjectTree>) {
                 TODO("Not yet implemented")
@@ -74,7 +74,7 @@ class HomeFragmentViewModel : BaseViewModel() {
             //todo success(
         }, {
             //todo error()
-        })
+        })*/
     }
 
 

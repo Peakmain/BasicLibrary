@@ -62,4 +62,7 @@ dependencies {
     api 'androidx.recyclerview:recyclerview:1.2.1'
     api 'com.google.android.material:material:1.6.1'
     api 'com.github.Peakmain:Common:0.0.2'
+    api 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0'
+    implementation 'com.qiniu:happy-dns:0.2.13'
+
 }
