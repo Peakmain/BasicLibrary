@@ -1,5 +1,6 @@
 package com.peakmain.basiclibrary.permission
 
+import android.app.Activity
 import android.content.Context
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
@@ -29,12 +30,34 @@ class PkPermission private constructor() {
         fun isGranted(permissions: String): Boolean {
             return PermissionHelper.instance.isGranted(permissions)
         }
+
         /**
          * 是否授予某权限
          */
         @JvmStatic
         fun isGranted(permissions: Array<String>): Boolean {
             return PermissionHelper.instance.isGranted(permissions)
+        }
+
+        @JvmStatic
+        fun shouldShowRequestPermissionRationale(
+            fragment: Fragment?,
+            permissions: Array<String>?
+        ): Boolean {
+            return PermissionHelper.instance.shouldShowRequestPermissionRationale(
+                fragment,
+                permissions
+            )
+        }
+        @JvmStatic
+        fun shouldShowRequestPermissionRationale(
+            activity: Activity?,
+            permissions: Array<String>?
+        ): Boolean {
+            return PermissionHelper.instance.shouldShowRequestPermissionRationale(
+                activity,
+                permissions
+            )
         }
         @JvmStatic
         fun request(fragment: Fragment, permission: String, block: OnPermissionCallback) {
@@ -74,9 +97,9 @@ class PkPermission private constructor() {
         }
 
         @JvmStatic
-         fun toNotificationSetting(context: Context?){
-            PermissionSettingFactory.toAppSetting(context,true)
-         }
+        fun toNotificationSetting(context: Context?) {
+            PermissionSettingFactory.toAppSetting(context, true)
+        }
 
     }
 

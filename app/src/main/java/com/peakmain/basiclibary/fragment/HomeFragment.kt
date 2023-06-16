@@ -31,7 +31,7 @@ import com.peakmain.ui.utils.ToastUtils
 class HomeFragment(override val layoutId: Int = R.layout.fragment_home) :
     BaseFragment<FragmentHomeBinding, HomeFragmentViewModel>() {
     override fun initView(fragmentView: View) {
-        initDefalutNavigationbar(fragmentView)
+        initDefaultNavigationBar(fragmentView)
         val testAdapter = TestAdapter(getData())
         testAdapter.bindToRecyclerView(mBinding.recyclerview)
         context?.let {
@@ -114,7 +114,7 @@ class HomeFragment(override val layoutId: Int = R.layout.fragment_home) :
         }
     }
 
-    private fun initDefalutNavigationbar(fragmentView: View) {
+    private fun initDefaultNavigationBar(fragmentView: View) {
         DefaultNavigationBar.Builder(context, fragmentView.findViewById(R.id.view_root))
             .hideLeftText()
             .hideRightView()
