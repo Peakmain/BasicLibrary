@@ -93,7 +93,7 @@ object SystemUtils {
 
     fun getProcessName(context: Context): String? {
         val manager = context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
-        for (it in manager.runningAppProcesses) {
+        manager.runningAppProcesses.forEach {
             if (it.pid == android.os.Process.myPid()) {
                 return it.processName
             }
