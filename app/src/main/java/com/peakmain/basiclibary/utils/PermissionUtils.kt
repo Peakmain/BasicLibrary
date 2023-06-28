@@ -59,14 +59,15 @@ object PermissionUtils {
                 //拒绝了权限，但是没有选择"Never ask again"
                 requestSinglePkPermission(fragment, permission)
             } else {
-                //两种情况：1、从来没有申请过此权限 2、申请过权限并且选择"Never ask again"选项
-                if (isFirstTimeAsking(arrayOf(permission))) {
+                //两种情况：1、从来没有申请过此权限 2、没有申请过权限并且选择"Never ask again"选项
+               /* if (isFirstTimeAsking(arrayOf(permission))) {
                     ToastUtils.showLong("第一次申请权限")
                     firstTimeAsking(arrayOf(permission), false)
                     requestSinglePkPermission(fragment, permission)
                 }else{
                     ToastUtils.showLong("权限之前被拒绝，并且用户选择不再提示")
-                }
+                }*/
+                requestSinglePkPermission(fragment, permission)
             }
         }
     }
