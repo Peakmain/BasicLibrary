@@ -5,8 +5,8 @@ import android.app.ActivityManager
 import android.content.Context
 import android.os.Build
 import android.telephony.TelephonyManager
-import android.util.Log
 import androidx.annotation.RequiresPermission
+import java.lang.reflect.InvocationTargetException
 import java.util.regex.Pattern
 
 
@@ -117,4 +117,31 @@ object SystemUtils {
         Build.BRAND.equals("samsung", true) && Build.DEVICE.equals("Galaxy Z Fold2", true)
 
     fun isVivoFoldDevice(): Boolean=Build.BRAND.equals("vivo", true) && Build.DEVICE.equals("PD2178", true)
+
+
+    fun isXiaomiFoldDevice():Boolean{
+        if(!Build.BRAND.equals("xiaomi",true))return  false;
+        try {
+            // 通过反射获取systemProperties类
+            val systemProperties = Class.forName("android.os.SystemProperties")
+            //获取SystemProperties 的getInt方法
+            val method = systemProperties.getMethod(
+                "getInt",
+                String::class.java,
+                Int::class.javaPrimitiveType
+            )
+            // 调用 getInt方法对persist.sys.muiltdisplay_type 属性值来进行判断
+            return method.invoke(null, "persist.sys.muiltdisplay_type", 0) as Int == 2
+        } catch (e: ClassNotFoundException) {
+            e.printStackTrace()
+        } catch (e: InvocationTargetException) {
+            e.printStackTrace()
+        } catch (e: IllegalAccessException) {
+            e.printStackTrace()
+        } catch (e: NoSuchMethodException) {
+            e.printStackTrace()
+        }
+        return false
+    }
+
 }

@@ -1,5 +1,6 @@
 package com.peakmain.basiclibrary.utils
 
+
 /**
  * author ：Peakmain
  * createTime：2023/9/12
@@ -18,13 +19,10 @@ object FoldableDeviceUtils {
         if (SystemUtils.isSamsungFold()) {
             return screenWidth != 1768
         }
-        if (SystemUtils.isHuaWeiFoldDevice()) {
+        if (SystemUtils.isHuaWeiFoldDevice()||SystemUtils.isGoogleFoldDevice()) {
             return screenWidth != 2200
         }
-        if (SystemUtils.isGoogleFoldDevice()) {
-            return screenWidth != 2200
-        }
-        if (SystemUtils.isVivoFoldDevice()) {
+        if (SystemUtils.isVivoFoldDevice()||SystemUtils.isXiaomiFoldDevice()) {
             return screenWidth != 1916
         }
         return true
