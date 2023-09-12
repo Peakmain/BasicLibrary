@@ -116,11 +116,21 @@ object SystemUtils {
     fun isSamsungFold() =
         Build.BRAND.equals("samsung", true) && Build.DEVICE.equals("Galaxy Z Fold2", true)
 
-    fun isVivoFoldDevice(): Boolean=Build.BRAND.equals("vivo", true) && Build.DEVICE.equals("PD2178", true)
+    fun isVivoFoldDevice(): Boolean = Build.BRAND.equals("vivo", true) && isVivoFoldableDevice()
+    private fun isVivoFoldableDevice(): Boolean {
+        try {
+            val c = Class.forName("android.util.FtDeviceInfo")
+            val m = c.getMethod("getDeviceType")
+            val dType = m.invoke(c)
+            return "foldable" == dType
+        } catch (e: java.lang.Exception) {
+            e.printStackTrace()
+        }
+        return false
+    }
 
-
-    fun isXiaomiFoldDevice():Boolean{
-        if(!Build.BRAND.equals("xiaomi",true))return  false;
+    fun isXiaomiFoldDevice(): Boolean {
+        if (!Build.BRAND.equals("xiaomi", true)) return false;
         try {
             // 通过反射获取systemProperties类
             val systemProperties = Class.forName("android.os.SystemProperties")
