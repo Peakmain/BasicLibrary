@@ -5,8 +5,10 @@ import android.app.ActivityManager
 import android.content.Context
 import android.os.Build
 import android.telephony.TelephonyManager
+import android.util.Log
 import androidx.annotation.RequiresPermission
 import java.util.regex.Pattern
+
 
 /**
  * author ：Peakmain
@@ -100,4 +102,19 @@ object SystemUtils {
         }
         return null
     }
+
+    fun isGoogleFoldDevice() =
+        Build.BRAND.equals("google", true) && Build.DEVICE.equals("generic_x86", true)
+
+
+    fun isHuaWeiFoldDevice() =
+        Build.BRAND.equals("huawei", true) && (Build.DEVICE.equals(
+            "MateX",
+            true
+        ) || Build.DEVICE.equals("HWPAL", true))
+
+    fun isSamsungFold() =
+        Build.BRAND.equals("samsung", true) && Build.DEVICE.equals("Galaxy Z Fold2", true)
+
+    fun isVivoFoldDevice(): Boolean=Build.BRAND.equals("vivo", true) && Build.DEVICE.equals("PD2178", true)
 }

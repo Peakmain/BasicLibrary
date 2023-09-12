@@ -9,7 +9,10 @@ import com.peakmain.basiclibary.fragment.HomeFragment
 import com.peakmain.basiclibary.fragment.MineFragment
 import com.peakmain.basiclibary.viewModel.MainViewModel
 import com.peakmain.basiclibrary.base.activity.BaseActivity
+import com.peakmain.basiclibrary.utils.FoldableDeviceUtils
 import com.peakmain.basiclibrary.utils.StatusBarUtils
+import com.peakmain.basiclibrary.utils.TimeUtils
+import com.peakmain.ui.utils.HandlerUtils
 
 /**
  * author ：Peakmain
@@ -36,6 +39,7 @@ class MainActivity(override val layoutId: Int = R.layout.activity_main) :
             )
         }
         mBottomNavigation!!.selectedItemId = R.id.menu_home
+
     }
 
 
@@ -100,5 +104,12 @@ class MainActivity(override val layoutId: Int = R.layout.activity_main) :
         //底部切换的tab常量
         private const val FRAGMENT_HOME = 0
         private const val FRAGMENT_ME = 1
+    }
+
+    override fun onResume() {
+        super.onResume()
+        HandlerUtils.runOnUiThreadDelay({
+            FoldableDeviceUtils.isFold()
+        },3000)
     }
 }

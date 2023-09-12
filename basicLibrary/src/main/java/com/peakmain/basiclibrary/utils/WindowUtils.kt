@@ -271,7 +271,7 @@ class WindowUtils private constructor() {
      * @param sat 1代表正常 0代表灰色
      */
     fun isGray(view: View?, sat: Float = 1f) {
-        val paint: Paint = Paint()
+        val paint = Paint()
         val cm = ColorMatrix()
         cm.setSaturation(sat)
         paint.colorFilter = ColorMatrixColorFilter(cm)
