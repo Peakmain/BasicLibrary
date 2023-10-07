@@ -2,6 +2,7 @@ package com.peakmain.basiclibrary.utils
 
 import android.annotation.SuppressLint
 import android.text.TextUtils
+import java.io.File
 import java.util.*
 
 /**
@@ -168,4 +169,25 @@ object OSUtils {
         }
         return defaultValue
     }
+
+    /**
+     *是否是模拟器
+     */
+    fun isEmulator(): Boolean {
+        return checkEmulatorFiles()
+    }
+
+    private val known_files = arrayOf(
+        "/system/lib/lib_malloc_debug_qemu.so", "/sys/qemu_trace", "/system/bin/qemu-props"
+    )
+
+    private fun checkEmulatorFiles(): Boolean {
+        for (knownFile in known_files) {
+            if (File(knownFile).exists()) {
+                return true
+            }
+        }
+        return false
+    }
+
 }

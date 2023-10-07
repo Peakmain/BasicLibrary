@@ -1,5 +1,6 @@
 package com.peakmain.basiclibary
 
+import android.content.res.Configuration
 import android.view.MenuItem
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentTransaction
@@ -11,7 +12,6 @@ import com.peakmain.basiclibary.viewModel.MainViewModel
 import com.peakmain.basiclibrary.base.activity.BaseActivity
 import com.peakmain.basiclibrary.utils.FoldableDeviceUtils
 import com.peakmain.basiclibrary.utils.StatusBarUtils
-import com.peakmain.basiclibrary.utils.TimeUtils
 import com.peakmain.ui.utils.HandlerUtils
 
 /**
@@ -111,5 +111,19 @@ class MainActivity(override val layoutId: Int = R.layout.activity_main) :
         HandlerUtils.runOnUiThreadDelay({
             FoldableDeviceUtils.isFold()
         },3000)
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        when(newConfig.uiMode and Configuration.UI_MODE_NIGHT_MASK){
+            Configuration.UI_MODE_NIGHT_YES->{
+                //暗黑模式开启
+            }
+            Configuration.UI_MODE_NIGHT_NO->{
+                //暗黑模式已关闭
+            }
+
+        }
+
     }
 }

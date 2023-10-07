@@ -278,6 +278,20 @@ class WindowUtils private constructor() {
         view?.setLayerType(View.LAYER_TYPE_HARDWARE, paint)
     }
 
+    /**
+     * 是否是深色 模式
+     * @return true 是深色模式 false是浅色模式
+     */
+    fun isDarkMode() =
+        getNightMode() == Configuration.UI_MODE_NIGHT_YES
+
+    private fun getNightMode(): Int {
+        return getConfiguration()?.uiMode?.and(Configuration.UI_MODE_NIGHT_MASK) ?: Configuration.UI_MODE_TYPE_NORMAL
+    }
+    private fun getConfiguration(): Configuration? {
+        return BasicLibraryUtils.application?.resources?.configuration
+    }
+
     private fun getInternalDimensionSize(context: Context, key: String): Int {
         val resourceId =
             Resources.getSystem().getIdentifier(key, "dimen", "android")
