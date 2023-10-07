@@ -1,6 +1,7 @@
 package com.peakmain.basiclibary
 
 import android.content.res.Configuration
+import android.util.Log
 import android.view.MenuItem
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentTransaction
@@ -28,7 +29,9 @@ class MainActivity(override val layoutId: Int = R.layout.activity_main) :
     //fragments
     private var mHomeFragment: HomeFragment? = null
     private var mMineFragment: MineFragment? = null
-
+    init{
+        Log.e("TAG","进入Activity......")
+    }
     override fun initView() {
         StatusBarUtils.setColor(this, ContextCompat.getColor(this, R.color.ui_color_01a8e3), 0)
         mBottomNavigation = findViewById(R.id.bottom_navigation)

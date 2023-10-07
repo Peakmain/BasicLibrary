@@ -22,7 +22,7 @@ internal class ImageSelectViewModel : BaseViewModel() {
 
     }
 
-    fun clear() {
+    fun clearImage() {
         mStart.value = null
         mOnImageSelectorCallback = null
         mConfig = null

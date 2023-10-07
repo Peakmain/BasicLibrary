@@ -73,6 +73,6 @@ internal class ImageSelectorFragment : Fragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-        mImageSelectViewModel.clear()
+        mImageSelectViewModel.clearImage()
     }
 }
