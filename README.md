@@ -39,6 +39,17 @@ dependencyResolutionManagement {
 	        implementation 'com.github.Peakmain:BasicLibrary:+'
 	}
 ```
+#### 混淆
+```
+-keep class com.peakmain.basiclibrary.permission.PkPermissionFragment {
+    *;
+}
+
+-keep class com.peakmain.basiclibrary.image.ImageSelectorFragment {
+    *;
+}
+```
+
 #### Screenshot
 
 ![demo](https://user-images.githubusercontent.com/26482737/197705839-b359236e-7e81-40f2-a8de-5d765fcbba22.gif)
