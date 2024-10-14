@@ -40,6 +40,6 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.5.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation project(path: ':basicLibrary')
-    implementation 'com.github.Peakmain:BasicUI:1.2.1'
+    implementation 'com.github.Peakmain:BasicUI:1.2.9'
     //implementation 'com.github.Peakmain:BasicLibrary:1.1.7'
 }

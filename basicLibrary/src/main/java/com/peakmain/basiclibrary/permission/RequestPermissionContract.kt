@@ -17,7 +17,7 @@ import com.peakmain.basiclibrary.helper.PermissionHelper
  * describe：
  */
 class RequestPermissionContract : ActivityResultContract<String, Pair<String, Boolean>>() {
-    private lateinit var mPermission: String
+    private var mPermission: String = ""
     override fun createIntent(context: Context, input: String): Intent {
         mPermission = input
         return Intent(ACTION_REQUEST_PERMISSIONS).putExtra(EXTRA_PERMISSIONS, arrayOf(input))
@@ -31,12 +31,13 @@ class RequestPermissionContract : ActivityResultContract<String, Pair<String, Bo
                 if (grantResults == null || grantResults.isEmpty()) false
                 else grantResults[0] == PackageManager.PERMISSION_GRANTED
     }
+
     override fun getSynchronousResult(
         context: Context,
         input: String
     ): SynchronousResult<Pair<String, Boolean>>? = when {
-            PermissionHelper.instance.isGranted(input) -> SynchronousResult(input to true)
-            else -> null
-        }
+        PermissionHelper.instance.isGranted(input) -> SynchronousResult(input to true)
+        else -> null
+    }
 
 }
