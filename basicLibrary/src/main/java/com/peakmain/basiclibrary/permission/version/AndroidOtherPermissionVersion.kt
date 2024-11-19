@@ -4,6 +4,7 @@ import android.Manifest
 import androidx.activity.result.ActivityResultLauncher
 import com.peakmain.basiclibrary.constants.AndroidVersion
 import com.peakmain.basiclibrary.extend.launchMulti
+import com.peakmain.basiclibrary.manager.PermissionHandlerManager
 import com.peakmain.basiclibrary.permission.interfaces.IPermissionVersion
 
 /**
@@ -39,10 +40,12 @@ class AndroidOtherPermissionVersion(
         }
         if (AndroidVersion.isAndroid10() && permissionList.size >= 2) {
             permissionList.remove(Manifest.permission.ACCESS_BACKGROUND_LOCATION)
+            PermissionHandlerManager.instance.sendMessage()
             launcher.launchMulti(permissionList.toTypedArray())
             block?.invoke()
             return this
         }
+        PermissionHandlerManager.instance.sendMessage()
         launcher.launch(permissions)
         return this
     }

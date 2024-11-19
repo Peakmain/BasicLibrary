@@ -3,6 +3,7 @@ package com.peakmain.basiclibrary.permission.version
 import android.Manifest
 import androidx.activity.result.ActivityResultLauncher
 import com.peakmain.basiclibrary.constants.AndroidVersion
+import com.peakmain.basiclibrary.manager.PermissionHandlerManager
 import com.peakmain.basiclibrary.permission.interfaces.IPermissionVersion
 
 /**
@@ -26,6 +27,7 @@ class AndroidPermissionVersionImpl33(
                 || permissionList.contains(Manifest.permission.READ_MEDIA_VIDEO)
                 || permissionList.contains(Manifest.permission.NEARBY_WIFI_DEVICES)
             ) {
+                PermissionHandlerManager.instance.sendMessage()
                 launcher.launch(permissions)
                 return this
             }

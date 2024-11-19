@@ -2,10 +2,12 @@ package com.peakmain.basiclibary.fragment
 
 import android.Manifest
 import android.app.ProgressDialog.show
+import android.content.Intent
 import android.net.Uri
 import android.util.Log
 import android.view.View
 import com.peakmain.basiclibary.R
+import com.peakmain.basiclibary.activity.BehaviorActivity
 import com.peakmain.basiclibary.adapter.TestAdapter
 import com.peakmain.basiclibary.databinding.FragmentHomeBinding
 import com.peakmain.basiclibary.utils.PermissionUtils.requestPermission
@@ -21,6 +23,8 @@ import com.peakmain.basiclibrary.extend.click
 import com.peakmain.basiclibrary.extend.ktxRunOnUiThreadDelay
 import com.peakmain.basiclibrary.image.PkImageSelector
 import com.peakmain.basiclibrary.image.SimpleImageSelectorCallback
+import com.peakmain.basiclibrary.interfaces.IPermissionPopupListener
+import com.peakmain.basiclibrary.manager.PermissionHandlerManager
 import com.peakmain.basiclibrary.permission.PkPermission
 import com.peakmain.basiclibrary.utils.GlobalCoroutineExceptionHandler
 import com.peakmain.basiclibrary.utils.toast.PkToastUtils
@@ -30,10 +34,24 @@ import com.peakmain.ui.utils.ToastUtils
 
 class HomeFragment(override val layoutId: Int = R.layout.fragment_home) :
     BaseFragment<FragmentHomeBinding, HomeFragmentViewModel>() {
+
     override fun initView(fragmentView: View) {
         initDefaultNavigationBar(fragmentView)
         val testAdapter = TestAdapter(getData())
         testAdapter.bindToRecyclerView(mBinding.recyclerview)
+        PermissionHandlerManager.instance.registerListener(object : IPermissionPopupListener {
+            var utils = PkToastUtils.build(activity)
+            override fun onShowPermissionPopup() {
+                utils.setTitle("亚朵需要申请权限")
+                    .setMessage("为了您能正常使用分享功能，我们将申请启动第三方APP，您可以选择取消或者同意，取消请求不影响使用其他服务")
+                    .show()
+            }
+
+            override fun onHidePermissionPopup() {
+                utils.dismiss()
+            }
+
+        })
         context?.let {
             mBinding.recyclerview.addItemDecoration(DividerGridItemDecoration(it))
         }
@@ -48,6 +66,7 @@ class HomeFragment(override val layoutId: Int = R.layout.fragment_home) :
                         this@HomeFragment,
                         Manifest.permission.CAMERA
                     )
+
                     1 -> requestPermission(this@HomeFragment, PermissionConstants.STORAGE)
                     2 -> requestPermission(this@HomeFragment, GROUP_LOCATION_BELOW_Q)
                     3 -> PkImageSelector.builder(this@HomeFragment).setSingle(true)
@@ -59,6 +78,7 @@ class HomeFragment(override val layoutId: Int = R.layout.fragment_home) :
                                 }
                             }
                         })
+
                     4 -> {
                         PkImageSelector.builder(this@HomeFragment).setSingle(false)
                             .setType(ImageSelectConstants.IMAGE_TYPE)
@@ -71,29 +91,38 @@ class HomeFragment(override val layoutId: Int = R.layout.fragment_home) :
                                 }
                             })
                     }
+
                     5 -> {
-                        if(PkPermission.isGranted(PermissionConstants.getPermissions(PermissionConstants.CAMERA))){
+                        if (PkPermission.isGranted(
+                                PermissionConstants.getPermissions(
+                                    PermissionConstants.CAMERA
+                                )
+                            )
+                        ) {
                             PkImageSelector.builder(this@HomeFragment)
                                 .setType(ImageSelectConstants.TAKE_PHOTO_TYPE).forResult()
-                        }else{
-                           ToastUtils.showLong("请开启相机权限")
+                        } else {
+                            ToastUtils.showLong("请开启相机权限")
                         }
                     }
+
                     6 -> {
                         SubmitLoading.instance.show(this@HomeFragment)
                         ktxRunOnUiThreadDelay(2000) {
                             SubmitLoading.instance.success()
                         }
                     }
+
                     7 -> {
                         PkPermission.toNotificationSetting(context)
                     }
-                    8->{
+
+                    8 -> {
                         PkToastUtils.build(activity)
                             .setTitle("亚朵需要申请权限")
                             .setMessage("为了您能正常使用分享功能，我们将申请启动第三方APP，您可以选择取消或者同意，取消请求不影响使用其他服务")
                             .show()
-                       // startActivity(Intent(context,BehaviorActivity::class.java))
+                        startActivity(Intent(context, BehaviorActivity::class.java))
                     }
 
                 }

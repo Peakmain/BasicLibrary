@@ -10,6 +10,7 @@ import com.peakmain.basiclibrary.constants.AndroidVersion
 import com.peakmain.basiclibrary.extend.launchMulti
 import com.peakmain.basiclibrary.helper.PermissionHelper
 import com.peakmain.basiclibrary.interfaces.OnPermissionCallback
+import com.peakmain.basiclibrary.manager.PermissionHandlerManager
 import com.peakmain.basiclibrary.permission.PkPermission
 
 /**
@@ -38,21 +39,6 @@ internal class PkPermissionViewModel : BaseViewModel() {
         sBackgroundLocationPermission = false
     }
 
-    fun registerSingleForActivityResult(
-        it: Pair<String, Boolean>,
-        isShouldShowRequestPermissionRationale: Boolean
-    ) {
-        val permission = it.first
-        when {
-            it.second -> mOnPermissionCallback?.onGranted(arrayOf(permission))
-            permission.isNotEmpty() && isShouldShowRequestPermissionRationale ->
-                mOnPermissionCallback?.onDenied(
-                    arrayOf(permission),
-                    false
-                )
-            else -> mOnPermissionCallback?.onDenied(arrayOf(permission), true)
-        }
-    }
 
     fun requestPermissionObserver(
         singlePermissionLauncher: ActivityResultLauncher<String>,
@@ -70,8 +56,9 @@ internal class PkPermissionViewModel : BaseViewModel() {
                     mOnPermissionCallback?.onGranted(permissions)
                 } else if (permissions.size == 1) {
                     if (AndroidVersion.isAndroid12()
-                        &&deniedPermissions[0]==ACCESS_FINE_LOCATION &&
-                        !PkPermission.isGranted(ACCESS_COARSE_LOCATION)) {
+                        && deniedPermissions[0] == ACCESS_FINE_LOCATION &&
+                        !PkPermission.isGranted(ACCESS_COARSE_LOCATION)
+                    ) {
                         //Android 12必须添加ACCESS_COARSE_LOCATION
                         //官方适配文档：https://developer.android.google.cn/about/versions/12/approximate-location
                         throw IllegalArgumentException(
@@ -79,6 +66,7 @@ internal class PkPermissionViewModel : BaseViewModel() {
                                     "而应在单个运行时请求中同时请求ACCESS_FINE_LOCATION和ACCESS_COARSE_LOCATION权限。"
                         )
                     }
+                    PermissionHandlerManager.instance.sendMessage()
                     singlePermissionLauncher.launch(deniedPermissions[0])
                 } else {
                     multiPermissionLauncher.launchMulti(deniedPermissions.toTypedArray(), block)
@@ -86,12 +74,31 @@ internal class PkPermissionViewModel : BaseViewModel() {
                 }
             }
         }
+    fun registerSingleForActivityResult(
+        it: Pair<String, Boolean>,
+        isShouldShowRequestPermissionRationale: Boolean
+    ) {
+        PermissionHandlerManager.instance.removeAllMessages()
+
+        val permission = it.first
+        when {
+            it.second -> mOnPermissionCallback?.onGranted(arrayOf(permission))
+            permission.isNotEmpty() && isShouldShowRequestPermissionRationale ->
+                mOnPermissionCallback?.onDenied(
+                    arrayOf(permission),
+                    false
+                )
+
+            else -> mOnPermissionCallback?.onDenied(arrayOf(permission), true)
+        }
+    }
 
     fun registerMultiForActivityResult(
         it: Map<String, Boolean>,
         block: ((String) -> Boolean),
         requestPermission: (() -> Unit)?
     ) {
+        PermissionHandlerManager.instance.removeAllMessages()
         if (it.containsValue(false)) {
             val deniedList = mutableListOf<String>()
             for (entry in it.entries) if (!entry.value) deniedList.add(entry.key)

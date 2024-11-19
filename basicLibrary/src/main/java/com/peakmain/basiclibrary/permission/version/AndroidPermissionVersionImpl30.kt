@@ -1,9 +1,14 @@
 package com.peakmain.basiclibrary.permission.version
 
 import android.Manifest
+import android.util.Log
 import androidx.activity.result.ActivityResultLauncher
 import com.peakmain.basiclibrary.constants.AndroidVersion
+import com.peakmain.basiclibrary.manager.PermissionHandlerManager
 import com.peakmain.basiclibrary.permission.interfaces.IPermissionVersion
+import com.peakmain.basiclibrary.utils.toast.PkToastUtils
+import com.peakmain.ui.utils.HandlerUtils
+import com.peakmain.ui.utils.LogUtils
 
 /**
  * author ：Peakmain
@@ -20,6 +25,7 @@ class AndroidPermissionVersionImpl30(
         if (AndroidVersion.isAndroid11()) {
             val permissionList = request.permissionList
             if (permissionList.contains(Manifest.permission.MANAGE_EXTERNAL_STORAGE)) {
+                PermissionHandlerManager.instance.sendMessage()
                 launcher.launch(permissions)
                 return this
             }

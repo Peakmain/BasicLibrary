@@ -3,6 +3,7 @@ package com.peakmain.basiclibrary.permission.version
 import android.Manifest
 import androidx.activity.result.ActivityResultLauncher
 import com.peakmain.basiclibrary.constants.AndroidVersion
+import com.peakmain.basiclibrary.manager.PermissionHandlerManager
 import com.peakmain.basiclibrary.permission.PkPermission
 import com.peakmain.basiclibrary.permission.interfaces.IPermissionVersion
 
@@ -37,6 +38,7 @@ class AndroidPermissionVersionImpl31(
                 || permissionList.contains(Manifest.permission.BLUETOOTH_CONNECT)
                 || permissionList.contains(Manifest.permission.BLUETOOTH_ADVERTISE)
             ) {
+                PermissionHandlerManager.instance.sendMessage()
                 launcher.launch(permissions)
                 return this
             }

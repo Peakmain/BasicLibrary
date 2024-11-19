@@ -14,21 +14,23 @@ import java.lang.ref.WeakReference
  * describe：
  */
 class PkToastUtils private constructor(private val context: Activity?, params: Params?) {
-    private val topToastLinearLayoutView: TopToastLinearLayout?
+    private var topToastLinearLayoutView: TopToastLinearLayout?=null
 
     init {
         if (params == null) {
             dismiss()
         }
-        topToastLinearLayoutView = TopToastLinearLayout(context)
-        topToastLinearLayoutView.setParams(params!!)
+        if(context!=null){
+            topToastLinearLayoutView = TopToastLinearLayout(context)
+            topToastLinearLayoutView?.setParams(params!!)
+        }
     }
 
     private fun show() {
-        if (topToastLinearLayoutView != null) {
+        topToastLinearLayoutView?.let {
             val decorView = context?.window?.decorView as ViewGroup?
-            if (topToastLinearLayoutView.parent == null && decorView != null) {
-                addCookie(decorView, topToastLinearLayoutView)
+            if (it.parent == null && decorView != null) {
+                addCookie(decorView, it)
             }
         }
     }
