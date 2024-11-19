@@ -1,12 +1,10 @@
 package com.peakmain.basiclibary.fragment
 
 import android.Manifest
-import android.content.Intent
 import android.net.Uri
 import android.util.Log
 import android.view.View
 import com.peakmain.basiclibary.R
-import com.peakmain.basiclibary.activity.BehaviorActivity
 import com.peakmain.basiclibary.adapter.TestAdapter
 import com.peakmain.basiclibary.databinding.FragmentHomeBinding
 import com.peakmain.basiclibary.utils.PermissionUtils.requestPermission
@@ -24,6 +22,7 @@ import com.peakmain.basiclibrary.image.PkImageSelector
 import com.peakmain.basiclibrary.image.SimpleImageSelectorCallback
 import com.peakmain.basiclibrary.permission.PkPermission
 import com.peakmain.basiclibrary.utils.GlobalCoroutineExceptionHandler
+import com.peakmain.basiclibrary.utils.PkToastUtils
 import com.peakmain.ui.navigationbar.DefaultNavigationBar
 import com.peakmain.ui.recyclerview.itemdecoration.DividerGridItemDecoration
 import com.peakmain.ui.utils.ToastUtils
@@ -89,7 +88,8 @@ class HomeFragment(override val layoutId: Int = R.layout.fragment_home) :
                         PkPermission.toNotificationSetting(context)
                     }
                     8->{
-                        startActivity(Intent(context,BehaviorActivity::class.java))
+                        PkToastUtils.showTipsToast(activity,"亚朵需要申请权限","为了您能正常使用分享功能，我们将申请启动第三方APP，您可以选择取消或者同意，取消请求不影响使用其他服务")
+                       // startActivity(Intent(context,BehaviorActivity::class.java))
                     }
 
                 }

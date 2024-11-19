@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.peakmain.ui.widget.ShapeLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cookie"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="@dimen/dimen_8"
+    android:layout_marginRight="@dimen/dimen_8"
+    android:orientation="vertical"
+    android:padding="@dimen/dimen_16"
+    app:shapeLlBackgroundColor="@color/white"
+    app:shapeLlRadius="@dimen/dimen_12">
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/ui_color_272A2B"
+        android:textSize="@dimen/font_size_14"
+        android:textStyle="bold"
+        android:layout_gravity="start"
+        tools:text="标题" />
+
+    <TextView
+        android:id="@+id/tv_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimen_8"
+        android:layout_gravity="start"
+        android:textColor="@color/ui_color_272A2B"
+        android:textSize="11sp"
+        tools:text="message" />
+
+
+</com.peakmain.ui.widget.ShapeLinearLayout>

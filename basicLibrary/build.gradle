@@ -28,6 +28,10 @@ android {
     packagingOptions {
         exclude 'AndroidManifest.xml'
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
@@ -61,7 +65,7 @@ dependencies {
     kapt "com.android.databinding:compiler:3.1.4"
     api 'androidx.recyclerview:recyclerview:1.2.1'
     api 'com.google.android.material:material:1.6.1'
-    api 'com.github.Peakmain:Common:0.0.2'
+    implementation 'com.github.Peakmain:BasicUI:1.2.11'
     api 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0'
     implementation 'com.qiniu:happy-dns:0.2.13'
 

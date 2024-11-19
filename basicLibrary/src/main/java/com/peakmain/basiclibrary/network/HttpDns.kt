@@ -66,7 +66,7 @@ class HttpDns constructor(val timeout: Long, val unit: TimeUnit) : Dns {
         return try {
             future.get(timeout, unit).toMutableList()
         } catch (e: Exception) {
-            Dns.SYSTEM.lookup(hostname)
+            Dns.SYSTEM.lookup(hostname).toMutableList()
         }
 
     }
