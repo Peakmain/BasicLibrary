@@ -21,7 +21,7 @@ import com.peakmain.ui.widget.ShapeLinearLayout
  * describe：
  */
 internal class TopToastLinearLayout @JvmOverloads constructor(
-    context: Context, attrs: AttributeSet? = null,
+    context: Context?, attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
 ) : LinearLayout(context, attrs, defStyleAttr) {
     private var slideOutAnimation: Animation? = null
@@ -49,7 +49,7 @@ internal class TopToastLinearLayout @JvmOverloads constructor(
     }
 
 
-    fun setParams(params: TopToastController.Params) {
+    fun setParams(params: PkToastUtils.Params) {
         initViews()
         animationInTop = params.animationInTop
         animationOutTop = params.animationOutTop

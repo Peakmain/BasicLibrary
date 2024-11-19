@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.annotation.ColorRes
 import androidx.annotation.StringRes
 import com.peakmain.basiclibrary.R
+import java.lang.ref.WeakReference
 
 /**
  * author ：Peakmain
@@ -12,30 +13,31 @@ import com.peakmain.basiclibrary.R
  * mail:2726449200@qq.com
  * describe：
  */
-class TopToastController private constructor(private val context: Activity, params: Params?) {
+class PkToastUtils private constructor(private val context: Activity?, params: Params?) {
     private val topToastLinearLayoutView: TopToastLinearLayout?
 
     init {
         if (params == null) {
             dismiss()
         }
-
         topToastLinearLayoutView = TopToastLinearLayout(context)
         topToastLinearLayoutView.setParams(params!!)
     }
 
     private fun show() {
         if (topToastLinearLayoutView != null) {
-            val decorView = context.window.decorView as ViewGroup
-            if (topToastLinearLayoutView.parent == null) {
+            val decorView = context?.window?.decorView as ViewGroup?
+            if (topToastLinearLayoutView.parent == null && decorView != null) {
                 addCookie(decorView, topToastLinearLayoutView)
             }
         }
     }
 
-    fun dismiss() {
-        val decorView = context.window.decorView as ViewGroup
-        removeFromParent(decorView)
+    private fun dismiss() {
+        val decorView = context?.window?.decorView as ViewGroup?
+        decorView?.let {
+            removeFromParent(it)
+        }
     }
 
     private fun removeFromParent(parent: ViewGroup) {
@@ -66,8 +68,9 @@ class TopToastController private constructor(private val context: Activity, para
         parent.addView(topToastLinearLayout)
     }
 
-    class Builder internal constructor(private val context: Activity) {
+    class Builder internal constructor(private val context: WeakReference<Activity>?) {
         private val params = Params()
+        private var cookie: PkToastUtils? = null
 
         /**
          * 设置标题
@@ -76,13 +79,15 @@ class TopToastController private constructor(private val context: Activity, para
             params.title = title
             return this
         }
+
         /**
          * 设置标题
          */
         fun setTitle(@StringRes resId: Int): Builder {
-            params.title = context.getString(resId)
+            params.title = context?.get()?.getString(resId)
             return this
         }
+
         /**
          * 设置标题字体颜色
          */
@@ -106,13 +111,15 @@ class TopToastController private constructor(private val context: Activity, para
             params.message = message
             return this
         }
+
         /**
          * 设置消息内容
          */
         fun setMessage(@StringRes resId: Int): Builder {
-            params.message = context.getString(resId)
+            params.message = context?.get()?.getString(resId)
             return this
         }
+
         /**
          * 设置消息内容字体大小
          */
@@ -120,6 +127,7 @@ class TopToastController private constructor(private val context: Activity, para
             params.messageSize = size.toFloat()
             return this
         }
+
         /**
          * 设置消息内容字体颜色
          */
@@ -136,14 +144,18 @@ class TopToastController private constructor(private val context: Activity, para
             return this
         }
 
-        private fun create(): TopToastController {
-            return TopToastController(context, params)
+        private fun create(): PkToastUtils {
+            return PkToastUtils(context?.get(), params)
         }
 
-        fun show(): TopToastController {
-            val cookie = create()
-            cookie.show()
+        fun show(): PkToastUtils? {
+            this.cookie = create()
+            this.cookie?.show()
             return cookie
+        }
+
+        fun dismiss() {
+            this.cookie?.dismiss()
         }
     }
 
@@ -163,8 +175,8 @@ class TopToastController private constructor(private val context: Activity, para
     companion object {
 
         @JvmStatic
-        fun build(activity: Activity): Builder {
-            return Builder(activity)
+        fun build(activity: Activity?): Builder {
+            return Builder(WeakReference(activity))
         }
     }
 }
