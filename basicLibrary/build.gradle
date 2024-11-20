@@ -28,16 +28,6 @@ android {
     packagingOptions {
         exclude 'AndroidManifest.xml'
     }
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
-    kapt {
-        javacOptions {
-            option("-source", "1.8")
-            option("-target", "1.8")
-        }
-    }
 }
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
