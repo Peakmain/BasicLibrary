@@ -21,7 +21,7 @@ class PermissionHandlerManager private constructor() {
 
     // 使用弱引用的静态内部 Handler 类，防止内存泄漏
     private val mHandler = object : Handler(Looper.getMainLooper()) {}
-    private val listeners = mutableSetOf<IPermissionPopupListener>()
+    private val listeners = mutableListOf<IPermissionPopupListener>()
     fun registerListener(listener: IPermissionPopupListener) {
         listeners.add(listener)
     }
