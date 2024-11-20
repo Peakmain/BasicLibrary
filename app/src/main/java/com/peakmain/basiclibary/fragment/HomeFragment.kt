@@ -37,6 +37,7 @@ class HomeFragment(override val layoutId: Int = R.layout.fragment_home) :
     val listener = object : IPermissionPopupListener {
         var utils = PkToastUtils.build(activity)
         override fun onShowPermissionPopup() {
+            utils = PkToastUtils.build(activity)
             utils.setTitle("亚朵需要申请权限")
                 .setMessage("为了您能正常使用分享功能，我们将申请启动第三方APP，您可以选择取消或者同意，取消请求不影响使用其他服务")
                 .show()
@@ -119,10 +120,10 @@ class HomeFragment(override val layoutId: Int = R.layout.fragment_home) :
                     }
 
                     8 -> {
-                        PkToastUtils.build(activity)
+                       /* PkToastUtils.build(activity)
                             .setTitle("亚朵需要申请权限")
                             .setMessage("为了您能正常使用分享功能，我们将申请启动第三方APP，您可以选择取消或者同意，取消请求不影响使用其他服务")
-                            .show()
+                            .show()*/
                         startActivity(Intent(context, BehaviorActivity::class.java))
                     }
 
