@@ -19,10 +19,11 @@ class AndroidOtherPermissionVersion(
     private val block: (() -> Unit)? = null
 ) :
     IPermissionVersion {
-    override fun permissionVersion(chain: IPermissionVersion.Chain): IPermissionVersion? {
+    override fun permissionVersion(chain: IPermissionVersion.Chain): IPermissionVersion {
         val request = chain.request()
         val permissionList = request.permissionList
         if (!permissionList.contains(Manifest.permission.ACCESS_BACKGROUND_LOCATION)) {
+            PermissionHandlerManager.instance.sendMessage()
             launcher.launch(permissions)
             return this
         }

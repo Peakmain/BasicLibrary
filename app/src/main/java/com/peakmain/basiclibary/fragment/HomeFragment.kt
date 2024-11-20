@@ -34,24 +34,25 @@ import com.peakmain.ui.utils.ToastUtils
 
 class HomeFragment(override val layoutId: Int = R.layout.fragment_home) :
     BaseFragment<FragmentHomeBinding, HomeFragmentViewModel>() {
+    val listener = object : IPermissionPopupListener {
+        var utils = PkToastUtils.build(activity)
+        override fun onShowPermissionPopup() {
+            utils.setTitle("亚朵需要申请权限")
+                .setMessage("为了您能正常使用分享功能，我们将申请启动第三方APP，您可以选择取消或者同意，取消请求不影响使用其他服务")
+                .show()
+        }
+
+        override fun onHidePermissionPopup() {
+            utils.dismiss()
+        }
+
+    }
 
     override fun initView(fragmentView: View) {
         initDefaultNavigationBar(fragmentView)
         val testAdapter = TestAdapter(getData())
         testAdapter.bindToRecyclerView(mBinding.recyclerview)
-        PermissionHandlerManager.instance.registerListener(object : IPermissionPopupListener {
-            var utils = PkToastUtils.build(activity)
-            override fun onShowPermissionPopup() {
-                utils.setTitle("亚朵需要申请权限")
-                    .setMessage("为了您能正常使用分享功能，我们将申请启动第三方APP，您可以选择取消或者同意，取消请求不影响使用其他服务")
-                    .show()
-            }
-
-            override fun onHidePermissionPopup() {
-                utils.dismiss()
-            }
-
-        })
+        PermissionHandlerManager.instance.registerListener(listener)
         context?.let {
             mBinding.recyclerview.addItemDecoration(DividerGridItemDecoration(it))
         }
@@ -170,5 +171,8 @@ class HomeFragment(override val layoutId: Int = R.layout.fragment_home) :
         return data
     }
 
-
+    override fun onDestroy() {
+        super.onDestroy()
+        PermissionHandlerManager.instance.unregisterListener(listener)
+    }
 }
