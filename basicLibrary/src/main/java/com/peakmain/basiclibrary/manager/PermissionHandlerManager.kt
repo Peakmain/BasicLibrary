@@ -35,12 +35,12 @@ class PermissionHandlerManager private constructor() {
      */
     private fun notifyShowListeners() {
         if (listeners.isEmpty()) return
-        listeners[0].onShowPermissionPopup()
+        listeners[listeners.size-1].onShowPermissionPopup()
     }
 
     private fun notifyHideListeners() {
         if (listeners.isEmpty()) return
-        listeners[0].onHidePermissionPopup()
+        listeners[listeners.size-1].onHidePermissionPopup()
     }
 
     /**
