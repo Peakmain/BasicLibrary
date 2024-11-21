@@ -51,7 +51,11 @@ object PermissionMapConstants {
 
         // 存储权限
         Manifest.permission.READ_EXTERNAL_STORAGE to "storage",
-        Manifest.permission.WRITE_EXTERNAL_STORAGE to "storage"
+        Manifest.permission.WRITE_EXTERNAL_STORAGE to "storage",
+
+        //蓝牙
+        Manifest.permission.BLUETOOTH_CONNECT to "blue",
+        Manifest.permission.BLUETOOTH_SCAN to "blue",
     )
 
     @StringDef(
@@ -63,7 +67,8 @@ object PermissionMapConstants {
         PermissionTag.PHONE,
         PermissionTag.SENSORS,
         PermissionTag.SMS,
-        PermissionTag.STORAGE
+        PermissionTag.STORAGE,
+        PermissionTag.BLUE,
     )
     @Retention(AnnotationRetention.SOURCE)
     annotation class PermissionTag {
@@ -77,6 +82,7 @@ object PermissionMapConstants {
             const val SENSORS = "sensors"
             const val SMS = "sms"
             const val STORAGE = "storage"
+            const val BLUE = "blue"
         }
     }
 
