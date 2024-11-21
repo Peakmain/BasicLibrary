@@ -23,7 +23,7 @@ class AndroidOtherPermissionVersion(
         val request = chain.request()
         val permissionList = request.permissionList
         if (!permissionList.contains(Manifest.permission.ACCESS_BACKGROUND_LOCATION)) {
-            PermissionHandlerManager.instance.sendMessage()
+            PermissionHandlerManager.instance.sendMessage(permissionList.toTypedArray())
             launcher.launch(permissions)
             return this
         }
@@ -41,12 +41,12 @@ class AndroidOtherPermissionVersion(
         }
         if (AndroidVersion.isAndroid10() && permissionList.size >= 2) {
             permissionList.remove(Manifest.permission.ACCESS_BACKGROUND_LOCATION)
-            PermissionHandlerManager.instance.sendMessage()
+            PermissionHandlerManager.instance.sendMessage(permissionList.toTypedArray())
             launcher.launchMulti(permissionList.toTypedArray())
             block?.invoke()
             return this
         }
-        PermissionHandlerManager.instance.sendMessage()
+        PermissionHandlerManager.instance.sendMessage(permissionList.toTypedArray())
         launcher.launch(permissions)
         return this
     }

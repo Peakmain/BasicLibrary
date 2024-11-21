@@ -60,13 +60,13 @@ object PermissionUtils {
                 requestSinglePkPermission(fragment, permission)
             } else {
                 //两种情况：1、从来没有申请过此权限 2、没有申请过权限并且选择"Never ask again"选项
-               /* if (isFirstTimeAsking(arrayOf(permission))) {
-                    ToastUtils.showLong("第一次申请权限")
-                    firstTimeAsking(arrayOf(permission), false)
-                    requestSinglePkPermission(fragment, permission)
-                }else{
-                    ToastUtils.showLong("权限之前被拒绝，并且用户选择不再提示")
-                }*/
+                /* if (isFirstTimeAsking(arrayOf(permission))) {
+                     ToastUtils.showLong("第一次申请权限")
+                     firstTimeAsking(arrayOf(permission), false)
+                     requestSinglePkPermission(fragment, permission)
+                 }else{
+                     ToastUtils.showLong("权限之前被拒绝，并且用户选择不再提示")
+                 }*/
                 requestSinglePkPermission(fragment, permission)
             }
         }
@@ -99,45 +99,36 @@ object PermissionUtils {
         PreferencesUtil.instance.saveParam(sb.toString(), isFirstOnce)
     }
 
-    fun isFirstTimeAsking(permissions: Array<String>): Boolean {
-        val sb = java.lang.StringBuilder()
-        permissions.forEach {
-            sb.append(it)
-        }
-        return PreferencesUtil.instance.getParam(sb.toString(), true) as Boolean
-    }
 
     fun requestPermission(fragment: HomeFragment, permissions: Array<String>) {
         if (PkPermission.isGranted(permissions = permissions)) {
             Log.e("TAG", "授予了权限:${permissions}")
         } else {
-            for (i in 0..100) {
-                PkPermission.request(fragment, permissions, object : OnPermissionCallback {
-                    override fun onGranted(permissions: Array<String>) {
+            PkPermission.request(fragment, permissions, object : OnPermissionCallback {
+                override fun onGranted(permissions: Array<String>) {
+                    for (s in permissions) {
+                        Log.e("TAG", "授予了权限:$s")
+                    }
+
+                }
+
+                override fun onDenied(permissions: Array<String>, never: Boolean) {
+                    if (never) {
                         for (s in permissions) {
-                            Log.e("TAG", "授予了权限:$s")
+                            Log.e("TAG", "拒绝了权限:$s")
                         }
-
+                        fragment.context?.let {
+                            PkPermission.toAppSetting(it)
+                        }
+                    } else {
+                        for (s in permissions) {
+                            Log.e("TAG", "临时授予了权限:$s")
+                        }
                     }
 
-                    override fun onDenied(permissions: Array<String>, never: Boolean) {
-                        if (never) {
-                            for (s in permissions) {
-                                Log.e("TAG", "拒绝了权限:$s")
-                            }
-                            fragment.context?.let {
-                                PkPermission.toAppSetting(it)
-                            }
-                        } else {
-                            for (s in permissions) {
-                                Log.e("TAG", "临时授予了权限:$s")
-                            }
-                        }
+                }
 
-                    }
-
-                })
-            }
+            })
         }
     }
 }

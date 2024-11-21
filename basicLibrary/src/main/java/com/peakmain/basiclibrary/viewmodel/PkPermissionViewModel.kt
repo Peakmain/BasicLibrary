@@ -66,7 +66,7 @@ internal class PkPermissionViewModel : BaseViewModel() {
                                     "而应在单个运行时请求中同时请求ACCESS_FINE_LOCATION和ACCESS_COARSE_LOCATION权限。"
                         )
                     }
-                    PermissionHandlerManager.instance.sendMessage()
+                    PermissionHandlerManager.instance.sendMessage(permissions)
                     singlePermissionLauncher.launch(deniedPermissions[0])
                 } else {
                     multiPermissionLauncher.launchMulti(deniedPermissions.toTypedArray(), block)
@@ -98,8 +98,9 @@ internal class PkPermissionViewModel : BaseViewModel() {
         block: ((String) -> Boolean),
         requestPermission: (() -> Unit)?
     ) {
-        PermissionHandlerManager.instance.removeAllMessages()
+
         if (it.containsValue(false)) {
+            PermissionHandlerManager.instance.removeAllMessages()
             val deniedList = mutableListOf<String>()
             for (entry in it.entries) if (!entry.value) deniedList.add(entry.key)
             val shouldPermissionList = deniedList.filter { permission ->
@@ -125,7 +126,9 @@ internal class PkPermissionViewModel : BaseViewModel() {
             ) {
                 requestPermission?.invoke()
             } else {
-                if (sBackgroundLocationPermission) sBackgroundLocationPermission = false
+                if (sBackgroundLocationPermission){
+                    sBackgroundLocationPermission = false
+                }
                 mOnPermissionCallback?.onGranted(permissionSet.toTypedArray())
             }
 

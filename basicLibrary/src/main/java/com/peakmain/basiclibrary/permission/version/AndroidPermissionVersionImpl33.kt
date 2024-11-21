@@ -27,7 +27,7 @@ class AndroidPermissionVersionImpl33(
                 || permissionList.contains(Manifest.permission.READ_MEDIA_VIDEO)
                 || permissionList.contains(Manifest.permission.NEARBY_WIFI_DEVICES)
             ) {
-                PermissionHandlerManager.instance.sendMessage()
+                PermissionHandlerManager.instance.sendMessage(permissionList.toTypedArray())
                 launcher.launch(permissions)
                 return this
             }

@@ -38,7 +38,7 @@ class AndroidPermissionVersionImpl31(
                 || permissionList.contains(Manifest.permission.BLUETOOTH_CONNECT)
                 || permissionList.contains(Manifest.permission.BLUETOOTH_ADVERTISE)
             ) {
-                PermissionHandlerManager.instance.sendMessage()
+                PermissionHandlerManager.instance.sendMessage(permissionList.toTypedArray())
                 launcher.launch(permissions)
                 return this
             }

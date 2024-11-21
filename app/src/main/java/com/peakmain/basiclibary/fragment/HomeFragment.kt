@@ -1,11 +1,11 @@
 package com.peakmain.basiclibary.fragment
 
 import android.Manifest
-import android.app.ProgressDialog.show
 import android.content.Intent
 import android.net.Uri
 import android.util.Log
 import android.view.View
+import com.peakmain.basiclibary.utils.AtPermissionUtils
 import com.peakmain.basiclibary.R
 import com.peakmain.basiclibary.activity.BehaviorActivity
 import com.peakmain.basiclibary.adapter.TestAdapter
@@ -18,6 +18,7 @@ import com.peakmain.basiclibrary.adapter.listener.OnItemClickListener
 import com.peakmain.basiclibrary.base.fragment.BaseFragment
 import com.peakmain.basiclibrary.constants.ImageSelectConstants
 import com.peakmain.basiclibrary.constants.PermissionConstants
+import com.peakmain.basiclibrary.constants.PermissionMapConstants
 import com.peakmain.basiclibrary.dialog.SubmitLoading
 import com.peakmain.basiclibrary.extend.click
 import com.peakmain.basiclibrary.extend.ktxRunOnUiThreadDelay
@@ -27,33 +28,26 @@ import com.peakmain.basiclibrary.interfaces.IPermissionPopupListener
 import com.peakmain.basiclibrary.manager.PermissionHandlerManager
 import com.peakmain.basiclibrary.permission.PkPermission
 import com.peakmain.basiclibrary.utils.GlobalCoroutineExceptionHandler
-import com.peakmain.basiclibrary.utils.toast.PkToastUtils
 import com.peakmain.ui.navigationbar.DefaultNavigationBar
 import com.peakmain.ui.recyclerview.itemdecoration.DividerGridItemDecoration
 import com.peakmain.ui.utils.ToastUtils
 
 class HomeFragment(override val layoutId: Int = R.layout.fragment_home) :
     BaseFragment<FragmentHomeBinding, HomeFragmentViewModel>() {
-    val listener = object : IPermissionPopupListener {
-        var utils = PkToastUtils.build(activity)
-        override fun onShowPermissionPopup() {
-            utils = PkToastUtils.build(activity)
-            utils.setTitle("亚朵需要申请权限")
-                .setMessage("为了您能正常使用分享功能，我们将申请启动第三方APP，您可以选择取消或者同意，取消请求不影响使用其他服务")
-                .show()
-        }
 
-        override fun onHidePermissionPopup() {
-            utils.dismiss()
-        }
-
-    }
-
+    var locationListener: IPermissionPopupListener? = null
+    var photoListener: IPermissionPopupListener? = null
+    var cameraListener: IPermissionPopupListener? = null
     override fun initView(fragmentView: View) {
         initDefaultNavigationBar(fragmentView)
         val testAdapter = TestAdapter(getData())
         testAdapter.bindToRecyclerView(mBinding.recyclerview)
-        PermissionHandlerManager.instance.registerListener(listener)
+        locationListener = AtPermissionUtils(activity).locationListener
+        photoListener = AtPermissionUtils(activity).photoListener
+        cameraListener = AtPermissionUtils(activity).cameraListener
+        PermissionHandlerManager.instance.registerListener(PermissionMapConstants.PermissionTag.CAMERA,cameraListener!!)
+        PermissionHandlerManager.instance.registerListener(PermissionMapConstants.PermissionTag.STORAGE,photoListener!!)
+        PermissionHandlerManager.instance.registerListener(PermissionMapConstants.PermissionTag.LOCATION,locationListener!!)
         context?.let {
             mBinding.recyclerview.addItemDecoration(DividerGridItemDecoration(it))
         }
@@ -120,10 +114,10 @@ class HomeFragment(override val layoutId: Int = R.layout.fragment_home) :
                     }
 
                     8 -> {
-                       /* PkToastUtils.build(activity)
-                            .setTitle("亚朵需要申请权限")
-                            .setMessage("为了您能正常使用分享功能，我们将申请启动第三方APP，您可以选择取消或者同意，取消请求不影响使用其他服务")
-                            .show()*/
+                        /* PkToastUtils.build(activity)
+                             .setTitle("亚朵需要申请权限")
+                             .setMessage("为了您能正常使用分享功能，我们将申请启动第三方APP，您可以选择取消或者同意，取消请求不影响使用其他服务")
+                             .show()*/
                         startActivity(Intent(context, BehaviorActivity::class.java))
                     }
 
@@ -174,6 +168,6 @@ class HomeFragment(override val layoutId: Int = R.layout.fragment_home) :
 
     override fun onDestroy() {
         super.onDestroy()
-        PermissionHandlerManager.instance.unregisterListener(listener)
+        //PermissionHandlerManager.instance.unregisterListener()
     }
 }
