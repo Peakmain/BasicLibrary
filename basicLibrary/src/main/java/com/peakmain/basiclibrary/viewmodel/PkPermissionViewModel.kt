@@ -98,9 +98,8 @@ internal class PkPermissionViewModel : BaseViewModel() {
         block: ((String) -> Boolean),
         requestPermission: (() -> Unit)?
     ) {
-
+        PermissionHandlerManager.instance.removeAllMessages()
         if (it.containsValue(false)) {
-            PermissionHandlerManager.instance.removeAllMessages()
             val deniedList = mutableListOf<String>()
             for (entry in it.entries) if (!entry.value) deniedList.add(entry.key)
             val shouldPermissionList = deniedList.filter { permission ->

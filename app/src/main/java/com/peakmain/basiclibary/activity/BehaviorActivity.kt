@@ -26,7 +26,7 @@ import com.peakmain.ui.widget.ShapeTextView
  * describe：
  */
 class BehaviorActivity : AppCompatActivity() {
-    var locationListener: IPermissionPopupListener = AtPermissionUtils(this).cameraListener
+    var locationListener: IPermissionPopupListener = AtPermissionUtils(this).locationListener
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_behavior)
@@ -42,22 +42,26 @@ class BehaviorActivity : AppCompatActivity() {
             }
 
         })
-        PermissionHandlerManager.instance.registerListener(PermissionMapConstants.PermissionTag.CAMERA,locationListener)
+        val GROUP_LOCATION_BELOW_Q = arrayOf(
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.ACCESS_COARSE_LOCATION
+        )
+        PermissionHandlerManager.instance.registerListener(PermissionMapConstants.PermissionTag.LOCATION,locationListener)
         findViewById<ShapeTextView>(R.id.stv_use_point).setOnClickListener {
             //behaviorHelper.toggle()
 
-            if (PkPermission.isGranted(Manifest.permission.CAMERA)) {
+            if (PkPermission.isGranted(GROUP_LOCATION_BELOW_Q)) {
                 Log.e("TAG", "授予了权限:${Manifest.permission.CAMERA}")
             } else {
                 if (PkPermission.shouldShowRequestPermissionRationale(
                         this,
-                        arrayOf(Manifest.permission.CAMERA)
+                        GROUP_LOCATION_BELOW_Q
                     )
                 ) {
                     //拒绝了权限，但是没有选择"Never ask again"
                     PkPermission.request(
                         this,
-                        Manifest.permission.CAMERA,
+                        GROUP_LOCATION_BELOW_Q,
                         object : OnPermissionCallback {
                             override fun onGranted(permissions: Array<String>) {
                                 Log.e("TAG", "授予了权限:Manifest.permission.CAMERA")
@@ -82,7 +86,7 @@ class BehaviorActivity : AppCompatActivity() {
                      }*/
                     PkPermission.request(
                         this,
-                        Manifest.permission.CAMERA,
+                        GROUP_LOCATION_BELOW_Q,
                         object : OnPermissionCallback {
                             override fun onGranted(permissions: Array<String>) {
                                 Log.e("TAG", "授予了权限:Manifest.permission.CAMERA")
