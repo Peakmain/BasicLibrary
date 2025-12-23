@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import com.peakmain.basiclibrary.helper.PermissionHelper
 import com.peakmain.basiclibrary.interfaces.OnPermissionCallback
+import java.lang.ref.WeakReference
 
 /**
  * author ：Peakmain
@@ -15,7 +16,7 @@ import com.peakmain.basiclibrary.interfaces.OnPermissionCallback
  */
 class PkPermission private constructor() {
     private lateinit var mPermission: Array<String>
-    private var mPkPermissionFragment: PkPermissionFragment? = null
+    private var mPkPermissionFragment: WeakReference<PkPermissionFragment>? = null
 
     companion object {
         @JvmStatic
@@ -49,6 +50,7 @@ class PkPermission private constructor() {
                 permissions
             )
         }
+
         @JvmStatic
         fun shouldShowRequestPermissionRationale(
             activity: Activity?,
@@ -59,6 +61,7 @@ class PkPermission private constructor() {
                 permissions
             )
         }
+
         @JvmStatic
         fun request(fragment: Fragment, permission: String, block: OnPermissionCallback) {
             instance.with(fragment).requestPermission(arrayOf(permission))
@@ -105,18 +108,20 @@ class PkPermission private constructor() {
 
 
     private fun with(fragment: Fragment): PkPermission {
-        mPkPermissionFragment = PermissionHelper.instance.getFragment(fragment.childFragmentManager)
+        mPkPermissionFragment =
+            WeakReference(PermissionHelper.instance.getFragment(fragment.childFragmentManager))
         return this
     }
 
     private fun with(activity: FragmentActivity): PkPermission {
         mPkPermissionFragment =
-            PermissionHelper.instance.getFragment(activity.supportFragmentManager)
+            WeakReference(PermissionHelper.instance.getFragment(activity.supportFragmentManager))
         return this
     }
 
     private fun request(block: OnPermissionCallback) {
-        mPkPermissionFragment?.requestPermissions(mPermission, block)
+        val fragment = mPkPermissionFragment?.get() ?: return
+        fragment.requestPermissions(mPermission, block)
     }
 
     private fun requestPermission(permission: String): PkPermission {

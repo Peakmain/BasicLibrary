@@ -38,6 +38,7 @@ class HomeFragment(override val layoutId: Int = R.layout.fragment_home) :
     var locationListener: IPermissionPopupListener? = null
     var photoListener: IPermissionPopupListener? = null
     var cameraListener: IPermissionPopupListener? = null
+    private var blueListener: IPermissionPopupListener? = null
     override fun initView(fragmentView: View) {
         initDefaultNavigationBar(fragmentView)
         val testAdapter = TestAdapter(getData())
@@ -45,9 +46,23 @@ class HomeFragment(override val layoutId: Int = R.layout.fragment_home) :
         locationListener = AtPermissionUtils(activity).locationListener
         photoListener = AtPermissionUtils(activity).photoListener
         cameraListener = AtPermissionUtils(activity).cameraListener
-        PermissionHandlerManager.instance.registerListener(PermissionMapConstants.PermissionTag.CAMERA,cameraListener!!)
-        PermissionHandlerManager.instance.registerListener(PermissionMapConstants.PermissionTag.STORAGE,photoListener!!)
-        PermissionHandlerManager.instance.registerListener(PermissionMapConstants.PermissionTag.LOCATION,locationListener!!)
+        blueListener = AtPermissionUtils(activity).blueListener
+        PermissionHandlerManager.instance.registerListener(
+            PermissionMapConstants.PermissionTag.CAMERA,
+            cameraListener!!
+        )
+        PermissionHandlerManager.instance.registerListener(
+            PermissionMapConstants.PermissionTag.STORAGE,
+            photoListener!!
+        )
+        PermissionHandlerManager.instance.registerListener(
+            PermissionMapConstants.PermissionTag.LOCATION,
+            locationListener!!
+        )
+        PermissionHandlerManager.instance.registerListener(
+            PermissionMapConstants.PermissionTag.BLUE,
+            blueListener!!
+        )
         context?.let {
             mBinding.recyclerview.addItemDecoration(DividerGridItemDecoration(it))
         }
@@ -63,7 +78,11 @@ class HomeFragment(override val layoutId: Int = R.layout.fragment_home) :
                         Manifest.permission.CAMERA
                     )
 
-                    1 -> requestPermission(this@HomeFragment, PermissionConstants.STORAGE)
+                    1 -> requestPermission(
+                        this@HomeFragment,
+                        arrayOf("android.permission.BLUETOOTH_CONNECT")
+                    )
+
                     2 -> requestPermission(this@HomeFragment, GROUP_LOCATION_BELOW_Q)
                     3 -> PkImageSelector.builder(this@HomeFragment).setSingle(true)
                         .setType(ImageSelectConstants.IMAGE_TYPE)
